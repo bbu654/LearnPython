@@ -72,3 +72,54 @@ And you do{(' NOT' if not iscriminal else '')} have a criminal record.
 {('Your Down Payment is $' if hasgoodcredit and not iscriminal else '')}{(downpayment if hasgoodcredit and not iscriminal else '')}
 """)
 
+i=1
+while i <= 5:
+    k=i
+    popp=''
+    while k<=5:
+        popp=popp + ' ' 
+        k+=1
+    #pooo='@' * i
+    print(f"{popp}{'@' * i}{'@' * i}")
+#    print(pop)
+    i+=1
+else:
+    print("     @@")
+#    print("     @@")
+#from termcolor import colored
+#print(colored('hello', 'red'), colored('world', 'green'))
+
+#TGREEN =  '\033[32m' # Green Text
+#ENDC = '\033[m' # reset to the defaults
+
+#print (TGREEN + "Das ist es!" , ENDC)
+#print (TGREEN + "This is some green text!")
+
+class secretgame:
+    def __init__(self3, secretnumber=9, guesslimit=3):
+        self3.secretnumber=secretnumber
+        self3.guesslimit=guesslimit        
+        
+    def secretguess(self3, listguess=[0]):
+        self3.listguess=list(listguess)
+        guesscount=1
+#        while guesscount < self3.guesslimit:
+        for x in self3.listguess:
+            if self3.listguess == 0:
+                self3.listguess1 = int(input("Guess(1,2,3): "))
+#            guesscount += 1
+            if x==self3.secretnumber:
+                print("You won!")
+                break
+        else:
+            print("Sorry you didnt guess correctly")
+guesslist=[6,8,9]
+sg=secretgame(9,3)
+sg.secretguess(guesslist)
+guesslist2=[6,8,5]
+sg.secretguess(guesslist2)
+#sg.secretquess(1,9,8,7)
+
+
+
+    
