@@ -142,15 +142,15 @@ class mspy:
         #self5.args = args
         self5.fargo = fargo
 
-    def returnpop(self5):
+    #    def returnpop(self5):
+    def chant(self5):#Diana is {diana}!    WONDER WOMAN 1984
          # Associate the variable diana with the value "WONDER WOMAN 1984"
-         diana = "WW84"
+         diana = "WONDER WOMAN 1984"
          # Print a message with the true identity of Diana
-         self5.fargo += (f"Diana is {diana}!    ")
-         self5.fargo += (f"Diana is {diana}!    ")
-         self5.fargo += (f"Diana is {diana}!    ")
+         self5.fargo += (f"Diana is {diana}! ")
+         fargo2=self5.fargo.replace("WONDER WOMAN 1984","WW84")
          # This is a comment that won't be interpreted as a command.
-         return(f"Hello, Themyscira! {self5.fargo}")          
+         return(f"Hello, Themyscira! Chant = {fargo2} {fargo2} {fargo2}")          
 
     def lassoWord(self5, word, shiftAmount ):
         decodedWord = ""    
@@ -176,8 +176,159 @@ class mspy:
         # Send the decoded letter back
         return decodedLetter
 
-    def chant(self5):#Diana is {diana}!    Wonder Women 1984
-        return("Chant= "+self5.fargo + self5.fargo + self5.fargo)
-
+    
     def uselasso(self5):
-        print("ok")
+        return("ok")
+
+    def question_activity(self5, likes, questions, is_console_input, activity):
+
+        shorty3=[]
+        if is_console_input:
+            activity= input("{questions[0]}")
+        else:
+            print(f"{questions[0]}")            #job='A'            #value='B'            #decade='A'            #travel='B'
+            
+        shorty3.append(f"You chose: {activity}")
+        if activity=='A':                   # update scoring variables based on the activity choice
+            print("Reading? Nice choice!")
+            likes[0] = likes[0] + 1
+            likes[1] = likes[1] + 1
+        elif activity=='B':
+            print("Partying? Sounds Fun!")
+            likes[2] = likes[2] + 1
+            likes[3] = likes[3] + 1        
+        else:
+            print('You should have entered "A" or "B" Lets just say you like to read')
+            activity="A"
+            likes[0] = likes[0] + 1
+            likes[1] = likes[1] + 1        
+        return likes                        #likes=[diana_like, barbara_like, steve_like, max_like]
+    def question_job(self5, likes, questions, is_console_input, job):         
+        if is_console_input:
+            job = input(f"{questions[1]}")
+        else:
+            print(f"{questions[1]}")
+        if job == "A":                      # update scoring variables based on the job choice
+            print( "Curator, Nice choice!" )
+            likes[0] = likes[0] + 2
+            likes[1] = likes[1] + 2
+            likes[2] = likes[2] + 1            
+        elif job =="B":
+            print( "Running a business? Sounds fun!" )
+            likes[3] = likes[3] + 2
+        else:
+            print("You must type A or B, let's just say you want to be a curator at the Smithsonian")
+            job = "A"
+            likes[0] = likes[0] + 2
+            likes[1] = likes[1] + 2
+            likes[2] = likes[2] + 1            
+        return likes                        #likes=[diana_like, barbara_like, steve_like, max_like]
+    def question_value(self5, likes, questions, is_console_input, value): # ask the candidate a third question
+        if is_console_input:
+            value = input(f"{questions[2]}")
+        else:
+            print(f"{questions[2]}")
+        if value == "A":                # update scoring variables based on the value choice
+            print( "Money, Nice choice!" )
+            likes[0] = likes[0] - 1
+            likes[3] = likes[3] + 2
+        elif value =="B":
+            print( "Love? Sounds fun!" )
+            likes[0] = likes[0] + 1
+            likes[2] = likes[2] + 2
+            likes[1] = likes[1] + 1
+        else:
+            print("You must type A or B, let's just say money is more important to you.")
+            value = "A"
+            likes[0] = likes[0] - 1
+            likes[3] = likes[3] + 2
+        return likes                        #likes=[diana_like, barbara_like, steve_like, max_like]
+    def question_decade(self5, likes, questions, is_console_input, decade):       
+        if is_console_input:                # ask the candidate a fourth question
+            decade = input(f"{questions[3]}")
+        else:
+            print(f"{questions[3]}")
+        
+        if decade == "A":                   # update scoring variables based on the decade choice
+            print( "1910s, Nice choice!" )
+            likes[2] = likes[2] + 2
+            likes[0] = likes[0] + 1
+        elif decade =="B":
+            print( "1980s? Sounds fun!" )
+            likes[3] = likes[3] + 1
+            likes[1] = likes[1] + 2
+        else:
+            print("You must type A or B, let's just say the 1910s is your favorite decade.")
+            decade = "A"
+            likes[2] = likes[2] + 2
+            likes[0] = likes[0] + 1
+        return likes                            #likes=[diana_like, barbara_like, steve_like, max_like]
+    def question_travel(self5, likes, questions, is_console_input, travel):         # ask the candidate a fifth question
+        if is_console_input:
+            travel = input(f"{questions[4]}")
+        else:
+            print(f"{questions[4]}")
+        if travel == "A":                       # update scoring variables based on the travel choice
+            print( "Driving, Nice choice!" )
+            likes[3] = likes[3] + 2             # Max
+            likes[1] = likes[1] - 1             # Barbara
+        elif travel =="B":
+            print( "Flying? Sound fun!" )
+            likes[0] = likes[0] + 1             # Diana Prince WW84
+            likes[2] = likes[2] + 1             # Steve Trevor
+        else:
+            print("You must type A or B, let's just say your favorite way to travel is by driving")
+            travel = "A"
+            likes[3] = likes[3] + 2             # Max
+            likes[1] = likes[1] - 1             # Barbara
+        return likes                            #likes=[diana_like, barbara_like, steve_like, max_like]
+    def LikeWW(self5):                          # create some variables for scoring
+        #diana2_likes = steve2_likes = max2_likes = barbara2_likes = 0    #        diana_like = 0        steve_like = 0        max_like = 0        barbara_like = 0        max2_likes += 1
+        is_console_input = False
+        year=1984
+        shorty2 = []
+        shorty2.append(f"the year is {year}")
+        year = year + 36
+        shorty2.append(f"the year is now {year}")
+        if year==1984:
+            shorty2.append("answering machine msg")
+        if year == 2020:
+            shorty2.append("voice mail")
+
+        questions=["Which activity?           (A) Reading                       (B) Party! "]
+        questions.append("What's your dream job?    (A) Curator at the Smithsonian    (B) Running a business")
+        questions.append("What's more important?    (A) Money                         (B) Love")
+        questions.append("What's your best decade?  (A) 1910s                         (B) 1980s")
+        questions.append("How do you travel best    (A) Driving                       (B) Flying")
+            
+        if not is_console_input:    #shorty2.append(f"{questions[0]}")       #        likes=[diana_like, barbara_like, steve_like, max_like]
+            activity='A'
+            job='A'
+            value='B'
+            decade='A'
+            travel='B'
+        likes=[0,0,0,0]
+        likes=mspy.question_activity(self5, likes, questions, is_console_input, activity)
+        likes=mspy.question_job(     self5, likes, questions, is_console_input, job)
+        likes=mspy.question_value(   self5, likes, questions, is_console_input, value)
+        likes=mspy.question_decade(  self5, likes, questions, is_console_input, decade)
+        likes=mspy.question_travel(  self5, likes, questions, is_console_input, travel)
+
+        # print out their choices
+        shorty2.append( f"You chose {activity}, then {job}, then {value}, then {decade}, then {travel}.")   
+        
+        # print the results depending on the score
+        if likes[0] >= 6:
+            shorty2.append( f"You're most like Wonder Woman! {likes[0]} " )
+        if likes[2] >= 6:
+            shorty2.append( f"You're most like Steve Trevor! {likes[2]} " )
+        if likes[1] >= 6:
+            shorty2.append( f"You're most like Barbara Minerva! {likes[1]} ")
+        if likes[3] >= 6:
+            shorty2.append( f"You're most like Max Lord! {likes[3]} ")
+        if likes[0] < 6 and likes[1] < 6 and likes[2] < 6 and likes[3] < 6:
+            shorty2.append("You are not like anyone. ")
+        return shorty2
+
+            
+
