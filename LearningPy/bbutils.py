@@ -330,5 +330,54 @@ class mspy:
             shorty2.append("You are not like anyone. ")
         return shorty2
 
-            
+class whileforloops:            
+    def __init__(self6, is_console_input):        #self5.args = args
+        self6.is_console_input = is_console_input
 
+    def autohelp(self6, commands):
+        command_index=0
+        shorty4=[]
+        if self6.is_console_input:
+            command = input("> ").lower()
+        else:
+            command = commands[command_index]
+        car_started=False            #car_started=False
+        while True:
+            if self6.is_console_input:
+                command = input("> ").lower()
+            else:
+                command = commands[command_index]
+            command_index+=1
+
+            if command == "start":
+                if car_started:
+                    shorty4.append(f"Car already started")
+                else:
+                    shorty4.append(f"Car Started")
+                    car_started=True                    #car_stopped=False
+            elif command == "stop":
+                if not car_started:
+                    shorty4.append(f"Car already Stopped")
+                else:
+                    shorty4.append(f"Car Stopped")
+                    car_started = False                    #car_stopped = True
+            elif command == "quit":
+                break
+            elif command == "help":
+                shorty4.append(f"""
+                        start - to start the car
+                        stop  - to stop  the car
+                        quit  - to quit  the program
+                        
+                        """)
+            else:
+                shorty4.append("Sorry I didnt understand that")
+        return shorty4
+    def userange(self6, xin, yin):
+        shorty5=[]
+        aascii=ord('a')
+        for x in range(xin):
+            for y in range(yin):
+                shorty5.append(f"{chr(x+aascii)},{y}    ")
+            shorty5.append('                                                                 ')
+        return shorty5

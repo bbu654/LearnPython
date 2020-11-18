@@ -63,6 +63,10 @@ shorty.append(chucky.lassoWord("WHY",13).title())
 shorty.append(chucky.lassoWord("oskza",-18).title() + chucky.lassoWord("ohupo",-1) )
 shorty.append(chucky.lassoWord("ED",25).upper() )
 shorty.append(chucky.lassoWord("terra",13))
+whiley=bb.whileforloops(False)
+commands=["start","start","stop","stop","quit"]
+shorty.append(whiley.autohelp(commands))
+shorty.append(whiley.userange(4,3))
 pp2.pprint(shorty)
 
 
