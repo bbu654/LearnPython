@@ -29,22 +29,9 @@ if not iscriminal:
 elgibilty = bb.LoanEligibility( loan_amount=loanamount, has_high_income=hashighincome, has_good_credit=hasgoodcredit, is_criminal=iscriminal)
 shorty.append(elgibilty.return_eligible())
 #for x in [shorty]:    #    print(x)bimnames[str]=sys.builtin_module_names    #print('Count built-in modules: %d' %len(sys.builtin_module_names)); 
-line2=""
-index2=0
-lotsofstr="y="
-modlst=["x="]
-#pop=int(sys.builtin_module_names.count())
-pop6=len(sys.builtin_module_names)
-mlindex=0
-while mlindex < pop6:
-    shorty.append(f"    {str(sys.builtin_module_names[mlindex])}    ")
-    #print(sys.builtin_module_names[mlindex])
-    modlst.append(f"    {str(sys.builtin_module_names[mlindex])}    ")
-    mlindex += 1
-for x in [modlst]:
-    shorty.append(f"x={x}")
-shorty.append(f"str00={modlst[0]},\t{modlst[1]},\t{modlst[2]},\t{modlst[3]},\t{modlst[4]}.")
-shorty.append(f"str05={modlst[5]},\t{modlst[6]},\t{modlst[7]},\t{modlst[8]},\t{modlst[9]}.")#print(str01)
+shorty.append(bb.listmodules())
+#shorty.append(f"str00={modlst[0]},\t{modlst[1]},\t{modlst[2]},\t{modlst[3]},\t{modlst[4]}.")
+#shorty.append(f"str05={modlst[5]},\t{modlst[6]},\t{modlst[7]},\t{modlst[8]},\t{modlst[9]}.")#print(str01)
 #for x in [sys.builtin_module_names]:            #sys.builtin_module_names A tuple of strings print for loop each
 #    print(f"tuple{index2}={x}\t")               #    index2 += 1    #index3 = 0    #for y in [x]:    #    print(f"string{index3}={y}")
     #    index3 += 1    #line2 += x.__name__     #if index2 % 6 == 0:    #    line2+="\n"    #index2+=1
@@ -67,6 +54,26 @@ whiley=bb.whileforloops(False)
 commands=["start","start","stop","stop","quit"]
 shorty.append(whiley.autohelp(commands))
 shorty.append(whiley.userange(4,3))
+shorty.append(r'print raw   \t\n\t\'\t')
+firststr = 'Conrad'
+secondstr = 'Grant'
+thirdstr = 'Bob'
+print(firststr, secondstr,end='\t')
+print(firststr, secondstr, thirdstr,end='\t')
+print(firststr, secondstr, thirdstr, sep='-',end='\t')
+print(firststr, secondstr, thirdstr, sep='-', end='.')
+recap=("""\nRecap
+    In this exercise, you learned some important details about working with strings:
+
+  You can define a literal string by using either a set of single-quote or double-quote symbols.
+  You can add an escape sequence to use a special character inside your string, 
+      such as a single-quote escape sequence (\'), double-quote escape sequence (\"), a new line escape sequence (\n      ), or a tab escape sequence (\t).
+  You can print the raw output of a string by prefixing it with the r character.
+  You can define a multi-line verbatim string by using either a set of three single-quote characters (''') 
+      or a set of three double-quote characters (\"\"\").
+  The print() function can concatenate a variable number of strings sent as arguments into the function. 
+  You can specify the character you want to separate each argument, as well as the ending character.""")
+print(recap)
 pp2.pprint(shorty)
 
 

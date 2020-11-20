@@ -112,10 +112,25 @@ def show_acceptable_modules():# modules = {         module        for _, module,
 import sys
 
 def listmodules():
+    line2=""
+    index2=0
+    strs=[]
+    modlst=[]    #pop=int(sys.builtin_module_names.count())
+    pop6=len(sys.builtin_module_names)
+    mlindex=0
+    modlen=13
+    while mlindex < pop6:    #shorty.append(f"    {str(sys.builtin_module_names[mlindex])}    ")        #print(sys.builtin_module_names[mlindex])
+        #if len(sys.builtin_module_names[mlindex]) > modlen:
+        sbmn = str(sys.builtin_module_names[mlindex])[0:13].ljust(modlen,' ')
+        modlst.append( f"{str(mlindex).zfill(2)}={sbmn}")
+        mlindex += 1
+    #for x in modlst:
+    #    strs.append(f"{x}")
     modulelists=list(sys.builtin_module_names)
-    for y in [modulelists]:
-        print(y)
-
+    if not True:
+        for y in modulelists:
+             modlst.append(f"    {y}    ")
+    return modlst
 
 #Example 2 Project: autocomplete-python Source File: imports.py View license
 
@@ -186,7 +201,7 @@ class mspy:
         if is_console_input:
             activity= input("{questions[0]}")
         else:
-            print(f"{questions[0]}")            #job='A'            #value='B'            #decade='A'            #travel='B'
+            print(f"{questions[0]}", end='\t')            #job='A'            #value='B'            #decade='A'            #travel='B'
             
         shorty3.append(f"You chose: {activity}")
         if activity=='A':                   # update scoring variables based on the activity choice
@@ -207,14 +222,14 @@ class mspy:
         if is_console_input:
             job = input(f"{questions[1]}")
         else:
-            print(f"{questions[1]}")
+            print(f"{questions[1]}", end='\t')
         if job == "A":                      # update scoring variables based on the job choice
-            print( "Curator, Nice choice!" )
+            print( "Curator? Nice choice!" )
             likes[0] = likes[0] + 2
             likes[1] = likes[1] + 2
             likes[2] = likes[2] + 1            
         elif job =="B":
-            print( "Running a business? Sounds fun!" )
+            print( "Biz Runner? Sounds fun!" )
             likes[3] = likes[3] + 2
         else:
             print("You must type A or B, let's just say you want to be a curator at the Smithsonian")
@@ -227,13 +242,13 @@ class mspy:
         if is_console_input:
             value = input(f"{questions[2]}")
         else:
-            print(f"{questions[2]}")
+            print(f"{questions[2]}", end='\t')
         if value == "A":                # update scoring variables based on the value choice
             print( "Money, Nice choice!" )
             likes[0] = likes[0] - 1
             likes[3] = likes[3] + 2
         elif value =="B":
-            print( "Love? Sounds fun!" )
+            print( "Love?    Sounds fun!" )
             likes[0] = likes[0] + 1
             likes[2] = likes[2] + 2
             likes[1] = likes[1] + 1
@@ -247,10 +262,10 @@ class mspy:
         if is_console_input:                # ask the candidate a fourth question
             decade = input(f"{questions[3]}")
         else:
-            print(f"{questions[3]}")
+            print(f"{questions[3]}", end='\t')
         
         if decade == "A":                   # update scoring variables based on the decade choice
-            print( "1910s, Nice choice!" )
+            print( "1910s,   Nice choice!" )
             likes[2] = likes[2] + 2
             likes[0] = likes[0] + 1
         elif decade =="B":
@@ -267,13 +282,13 @@ class mspy:
         if is_console_input:
             travel = input(f"{questions[4]}")
         else:
-            print(f"{questions[4]}")
+            print(f"{questions[4]}", end='\t')
         if travel == "A":                       # update scoring variables based on the travel choice
             print( "Driving, Nice choice!" )
             likes[3] = likes[3] + 2             # Max
             likes[1] = likes[1] - 1             # Barbara
         elif travel =="B":
-            print( "Flying? Sound fun!" )
+            print( "Flying?  Sound fun!" )
             likes[0] = likes[0] + 1             # Diana Prince WW84
             likes[2] = likes[2] + 1             # Steve Trevor
         else:
@@ -295,10 +310,10 @@ class mspy:
         if year == 2020:
             shorty2.append("voice mail")
 
-        questions=["Which activity?           (A) Reading                       (B) Party! "]
-        questions.append("What's your dream job?    (A) Curator at the Smithsonian    (B) Running a business")
-        questions.append("What's more important?    (A) Money                         (B) Love")
-        questions.append("What's your best decade?  (A) 1910s                         (B) 1980s")
+        questions=["Which activity?           (A) Reading                       (B) Party!"]
+        questions.append("What's your dream job?    (A) Curator at the Smithsonian    (B) BizRun")
+        questions.append("What's more important?    (A) Money                         (B) Love  ")
+        questions.append("What's your best decade?  (A) 1910s                         (B) 1980s ")
         questions.append("How do you travel best    (A) Driving                       (B) Flying")
             
         if not is_console_input:    #shorty2.append(f"{questions[0]}")       #        likes=[diana_like, barbara_like, steve_like, max_like]
@@ -380,4 +395,28 @@ class whileforloops:
             for y in range(yin):
                 shorty5.append(f"{chr(x+aascii)},{y}    ")
             shorty5.append('                                                                 ')
+        matrix = [   [1,2,3],[4,5,6],[7,8,9]]
+        for row in matrix:
+            for item in row:
+                shorty5.append(f"{item}    ")
+            shorty5.append(f"                                                                       ")
+        numbersz=[5,2,1,9,3,5]
+        shorty5.append(f"before pop={numbersz}")
+        numbersz.pop()
+        shorty5.append(f"after  pop={numbersz}")
+        #shorty5.append(f"max={max(numbersz)}")
+        maxofnums=numbersz[0]
+        for z in numbersz:
+            if z > maxofnums:
+                maxofnums=z
+        shorty5.append(f"max of numbers={maxofnums}")
         return shorty5
+    
+#  Message='>' not supported between instances of 'list' and 'int'
+#  Source=C:\Users\bbbu6\Source\repos\LearningPy\LearningPy\LearningPy.py
+#  StackTrace:
+#  File "C:\Users\bbbu6\Source\repos\LearningPy\LearningPy\LearningPy.py", line 69, in <module>
+#    shorty.append(whiley.userange(4,3))
+
+
+ 
