@@ -55,16 +55,28 @@ commands=["start","start","stop","stop","quit"]
 shorty.append(whiley.autohelp(commands))
 shorty.append(whiley.userange(4,3))
 shorty.append(r'print raw   \t\n\t\'\t')
-firststr = 'Conrad'
-secondstr = 'Grant'
-thirdstr = 'Bob'
-print(firststr, secondstr,end='\t')
-print(firststr, secondstr, thirdstr,end='\t')
+firststr = str.capitalize('conrad')
+secondstr = 'grant'.capitalize()
+thirdstr = 'bob'
+print(firststr, secondstr, end='\t')
+print(firststr, secondstr, thirdstr.capitalize(),end='\t')
 print(firststr, secondstr, thirdstr, sep='-',end='\t')
-print(firststr, secondstr, thirdstr, sep='-', end='.')
+print(firststr, secondstr, thirdstr, sep='-', end='.\t')
+print("Mississippi".count("s"), end='.  ')
+print(len("Mississippi"), end='.  ')
+messagez = 'The quick brown fox jumps over the lazy dog'
+print(messagez.find('q'), end='.  ')
+print(messagez.find('t'), end='.  ')
+print(messagez.find('T'), end='.  \n')
+valuez = 'hi'
+
+print(f'{valuez:<5}', end='.\t')
+print(f'{valuez:>5}', end='.\t')
+print(f'{valuez:^5}', end='.\t')
+print(f'{valuez:-^5}.')
 recap=("""\nRecap
     In this exercise, you learned some important details about working with strings:
-
+  Strip = Trim in C#
   You can define a literal string by using either a set of single-quote or double-quote symbols.
   You can add an escape sequence to use a special character inside your string, 
       such as a single-quote escape sequence (\'), double-quote escape sequence (\"), a new line escape sequence (\n      ), or a tab escape sequence (\t).
@@ -72,7 +84,14 @@ recap=("""\nRecap
   You can define a multi-line verbatim string by using either a set of three single-quote characters (''') 
       or a set of three double-quote characters (\"\"\").
   The print() function can concatenate a variable number of strings sent as arguments into the function. 
-  You can specify the character you want to separate each argument, as well as the ending character.""")
+  You can specify the character you want to separate each argument, as well as the ending character.
+  The format() function allows you to define a format string (essentially, a template). 
+  The string contains a series of replacement fields that are replaced with arguments you pass into the function.
+  The new format string literal, or f-string, reduces the keystrokes of the format() method. 
+  This allows you to use variables or expressions in the replacement fields.
+  Format specifiers are a compact syntax that allows you to format numbers, dates, and percentages, 
+      as well as alignment and spacing.
+  """)
 print(recap)
 pp2.pprint(shorty)
 
