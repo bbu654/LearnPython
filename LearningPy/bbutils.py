@@ -451,5 +451,75 @@ def print_format_table():
 		print('\n') 
 
 #print_format_table() 
-
- 
+def StringChallenge():
+    first_value = '  FIRST challenge         '
+    second_value = '-  second challenge  -'
+    third_value = 'tH IR D-C HALLE NGE'
+    
+    fourth_value = 'fourth'
+    fifth_value = 'fifth'
+    sixth_value = 'sixth'
+    
+    # First challenge
+    first_value = first_value.strip()
+    first_value = first_value.lower()
+    first_value = first_value.title()
+    first_value = f'{first_value:^30}'
+    
+    # Second challenge
+    second_value = second_value.replace('-', '')
+    second_value = second_value.strip()
+    second_value = second_value.capitalize()
+    
+    # Third challenge
+    third_value = third_value.replace(' ', '')
+    third_value = third_value.replace('-', ' ')
+    third_value = third_value.swapcase()
+    third_value = f'{third_value:>30}'
+    
+    print(first_value)
+    print(second_value)
+    print(third_value)
+    
+    # Fourth challenge - use only the print() function (no f-strings)
+    print(fourth_value, fifth_value, sixth_value, sep='#', end='!')
+    
+    # Fifth challenge - use only a single print() function.  Create tabs and new lines using f-strings.
+    print(f'\n\t{fourth_value}\n\t{fifth_value}\n\t{sixth_value}', end='    ')
+    sum=0    
+    mixtup=['7']
+    mixtup.append(7)
+    mixtup.append(7.1)
+    for x in mixtup:
+        boolint=str(isinstance(x, int))[0]
+        typeofx=str(type(x)).split()
+        testtype=typeofx[1].replace('>','')
+        if str(x).isnumeric():
+            sum += int(x)
+        elif str(x).isdecimal():
+            sum += float(x)
+        else:
+            print("problem Houston!", end='    ')
+        print(f"type({x})={testtype},isinstance={boolint}", end='    ')
+    else:
+        print(f"sum={sum}")
+def Calculator(self7, commands=[0], is_console_read=True):
+    commandindex = 0
+    if len(commands) > 0 and is_console_read:
+        exit(6969)
+    first_nums = getNum(self7, commandindex, commands, False)
+    first_numeric= first_nums[0]
+    commandindex = first_nums[1]
+    operatorsxyz = getOperator(self7, commandindex, commands, False)
+    secondnums = getNum(self7, commandindex, commands, False)
+def getNum(self7, commandindex, commands=[0], is_console_read=True):
+    while True:
+        if not is_console_read:
+            first_operand = input("please enter a valid number: ",end="   ")
+        else:
+            first_operand=commands[commandindex]
+            commandindex += 1
+        if first_operand.isnumeric():
+            break
+        first_numeric=[int(first_operand), commandindex] 
+    return first_numeric

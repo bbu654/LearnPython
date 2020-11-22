@@ -74,8 +74,9 @@ print(f'{valuez:<5}', end='.\t')
 print(f'{valuez:>5}', end='.\t')
 print(f'{valuez:^5}', end='.\t')
 print(f'{valuez:-^5}.')
+
 recap=("""\nRecap
-    In this exercise, you learned some important details about working with strings:
+  Strings:
   Strip = Trim in C#
   You can define a literal string by using either a set of single-quote or double-quote symbols.
   You can add an escape sequence to use a special character inside your string, 
@@ -91,9 +92,17 @@ recap=("""\nRecap
   This allows you to use variables or expressions in the replacement fields.
   Format specifiers are a compact syntax that allows you to format numbers, dates, and percentages, 
       as well as alignment and spacing.
+  Types:
+  The type() function returns the data type of a specified value.
+  The isinstance() function allows you to check to see whether a value is an instance of a specified data type.
+  The float data type is for numeric values containing fractional values that are represented as numbers after the decimal point.
+  Values have data types, and variables do not. A variable is merely pointed to a value, and it can point to any value of any data type.
   """)
-print(recap)
-pp2.pprint(shorty)
+
+bb.StringChallenge()
+if False:
+    print(recap)
+    pp2.pprint(shorty)
 
 
 #bbutils.show_acceptable_modules()import pickle, pickletools#serialize/deserialize objects/streams pickle. +=
