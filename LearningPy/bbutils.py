@@ -496,30 +496,69 @@ def StringChallenge():
         testtype=typeofx[1].replace('>','')
         if str(x).isnumeric():
             sum += int(x)
-        elif str(x).isdecimal():
+        elif str(x).isdecimal() or testtype.count('float')> 0:
             sum += float(x)
         else:
             print("problem Houston!", end='    ')
         print(f"type({x})={testtype},isinstance={boolint}", end='    ')
     else:
-        print(f"sum={sum}")
-def Calculator(self7, commands=[0], is_console_read=True):
+        print(f"sum={sum}", end='    ')
+def Calculator(commands=[0], is_console_read=True):
     commandindex = 0
     if len(commands) > 0 and is_console_read:
         exit(6969)
-    first_nums = getNum(self7, commandindex, commands, False)
+    first_nums = getNum(commandindex, commands, is_console_read)
     first_numeric= first_nums[0]
     commandindex = first_nums[1]
-    operatorsxyz = getOperator(self7, commandindex, commands, False)
-    secondnums = getNum(self7, commandindex, commands, False)
-def getNum(self7, commandindex, commands=[0], is_console_read=True):
+    operatorsxyz = getOperator(commandindex, commands, is_console_read)
+    operator     = operatorsxyz[0]
+    commandindex = operatorsxyz[1]
+    secondnums = getNum(commandindex, commands, is_console_read)
+    secondnumeric= secondnums[0]
+    commandindex = secondnums[1]
+    return getanswer(first_numeric, secondnumeric, operator)
+def getNum(commandindex, commands=[0], is_console_read=True):
     while True:
-        if not is_console_read:
-            first_operand = input("please enter a valid number: ",end="   ")
+        if is_console_read:
+            first_operand = input("please enter a valid number: ")
         else:
             first_operand=commands[commandindex]
             commandindex += 1
-        if first_operand.isnumeric():
+        if str(first_operand).isnumeric():
             break
-        first_numeric=[int(first_operand), commandindex] 
-    return first_numeric
+        else:
+            print(f"Err#{first_operand}",end='!   ')
+    numericx=[int(first_operand), commandindex] 
+    return numericx
+def getOperator(commandindex, commands=[0], is_console_read=True):
+    opers=['+','-','*','/','%','**']
+    lasto=''
+    while True:
+        if is_console_read:
+            first_operand = input("please enter a Operator(+,-,*,/,%,**): ")
+        else:
+            first_operand=commands[commandindex]
+            commandindex += 1
+        fox=opers.count(first_operand)
+        if fox > 0:
+            lasto=first_operand
+            break
+        else:
+            print(f"ErrO{first_operand}",end='!   ')
+    numericy=[lasto, commandindex] 
+    return numericy
+
+def getanswer(first_operand, second_operand, operation):
+    if operation == '+':
+        return first_operand + second_operand
+    if operation == '-':
+        return first_operand - second_operand
+    if operation == '*':
+        return first_operand * second_operand
+    if operation == '/':
+        return first_operand / second_operand
+    if operation == '%':
+        return first_operand % second_operand
+    if operation == '**':
+        return first_operand ** second_operand
+    
