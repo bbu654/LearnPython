@@ -4,7 +4,9 @@ import bbutils as bb
 import distutils
 import distutils.util as dutil 
 import pprint
-
+import random as roll
+import emoji
+import termcolor
 iname = "Brice"         #input("Name: ")
 iage = 42               #int(input("Age: "))
 some_string = "false"   #input("True or False: RUANewPatient? ")
@@ -100,6 +102,9 @@ recap=("""\nRecap
   """)
 
 bb.StringChallenge()
+dice = roll.randint(1,10)
+commandscalc=['c','2','bob','*','4']
+print(f"roll={dice},    {commandscalc}={bb.Calculator(commandscalc,False)}{emoji.emojize('    Howdy :sun_with_face:')}")
 if False:
     print(recap)
     pp2.pprint(shorty)
