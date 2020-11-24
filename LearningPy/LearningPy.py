@@ -6,7 +6,7 @@ import distutils.util as dutil
 import pprint
 import random as roll
 import emoji
-import termcolor
+
 iname = "Brice"         #input("Name: ")
 iage = 42               #int(input("Age: "))
 some_string = "false"   #input("True or False: RUANewPatient? ")
@@ -56,26 +56,6 @@ whiley=bb.whileforloops(False)
 commands=["start","start","stop","stop","quit"]
 shorty.append(whiley.autohelp(commands))
 shorty.append(whiley.userange(4,3))
-shorty.append(r'print raw   \t\n\t\'\t')
-firststr = str.capitalize('conrad')
-secondstr = 'grant'.capitalize()
-thirdstr = 'bob'
-print(firststr, secondstr, end='\t')
-print(firststr, secondstr, thirdstr.capitalize(),end='\t')
-print(firststr, secondstr, thirdstr, sep='-',end='\t')
-print(firststr, secondstr, thirdstr, sep='-', end='.\t')
-print("Mississippi".count("s"), end='.  ')
-print(len("Mississippi"), end='.  ')
-messagez = 'The quick brown fox jumps over the lazy dog'
-print(messagez.find('q'), end='.  ')
-print(messagez.find('t'), end='.  ')
-print(messagez.find('T'), end='.  \n')
-valuez = 'hi'
-
-print(f'{valuez:<5}', end='.\t')
-print(f'{valuez:>5}', end='.\t')
-print(f'{valuez:^5}', end='.\t')
-print(f'{valuez:-^5}.')
 
 recap=("""\nRecap
   Strings:
@@ -105,9 +85,15 @@ bb.StringChallenge()
 dice = roll.randint(1,10)
 commandscalc=['c','2','bob','*','4']
 print(f"roll={dice},    {commandscalc}={bb.Calculator(commandscalc,False)}{emoji.emojize('    Howdy :sun_with_face:')}")
+comman=['Frank','Bob','q']
+bb.gocurrent(comman,False)
+bb.dicerollMS(comman,False)
+bb.threadsafePrint()
 if False:
     print(recap)
     pp2.pprint(shorty)
-
-
+    bb.colortest()
+    bb.mothodlog()
+    bb.print_format_table()
+    #bb.newguess()
 #bbutils.show_acceptable_modules()import pickle, pickletools#serialize/deserialize objects/streams pickle. +=
