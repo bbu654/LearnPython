@@ -400,9 +400,9 @@ class whileforloops:
                 shorty5.append(f"{item}    ")
             shorty5.append(f"                                                                       ")
         numbersz=[5,2,1,9,3,5]
-        shorty5.append(f"before pop={numbersz}")
-        numbersz.pop()
-        shorty5.append(f"after  pop={numbersz}")
+        shorty5.append(f"b4 pop(2)={numbersz}")
+        shorty5.append(numbersz.pop(2))
+        shorty5.append(f"after pop={numbersz}")
         #shorty5.append(f"max={max(numbersz)}")
         maxofnums=numbersz[0]
         for z in numbersz:
@@ -450,6 +450,7 @@ def print_format_table():
 
 #print_format_table() 
 def StringChallenge():
+    shorty6=[]
     first_value = '  FIRST challenge         '
     second_value = '-  second challenge  -'
     third_value = 'tH IR D-C HALLE NGE'
@@ -457,7 +458,7 @@ def StringChallenge():
     fourth_value = 'fourth'
     fifth_value = 'fifth'
     sixth_value = 'sixth'
-    
+    shorty6.append(f"b4={first_value}, {second_value}, {third_value}, {fourth_value}, {fifth_value}, {sixth_value}  ")
     # First challenge
     first_value = first_value.strip()
     first_value = first_value.lower()
@@ -475,15 +476,18 @@ def StringChallenge():
     third_value = third_value.swapcase()
     third_value = f'{third_value:>30}'
     
-    print(first_value)
-    print(second_value)
-    print(third_value)
+    shorty6.append(first_value)
+    shorty6.append(second_value)
+    shorty6.append(third_value)
     
     # Fourth challenge - use only the print() function (no f-strings)
-    print(fourth_value, fifth_value, sixth_value, sep='#', end='!')
+    shorty6.append(f"{fourth_value}#{fifth_value}#{sixth_value}!")
     
     # Fifth challenge - use only a single print() function.  Create tabs and new lines using f-strings.
-    print(f'\n\t{fourth_value}\n\t{fifth_value}\n\t{sixth_value}', end='    ')
+    #shorty6.append(f'\n\t{fourth_value}\n\t{fifth_value}\n\t{sixth_value}', end='    ')
+    shorty6.append(f"    {fourth_value}    ")
+    shorty6.append(f"{fifth_value}    ")
+    shorty6.append(f"{sixth_value}    ")
     sum=0    
     mixtup=['7']
     mixtup.append(7)
@@ -505,44 +509,46 @@ def StringChallenge():
         # print(f'0-based indexing into the list ... second item: {colors[1]}')
         # print(f'Last item of the list: {colors[-1]}')
         # print(f'Next to last item in the list: {colors[-2]}')
+    shorty6.append(f"{colors}")
+    shorty6.append(f'\nPrint a SLICE, colors[2:5], starting at index 2 and excluding 5: ')
+    shorty6.append(f"{colors[2:5]}    ")
+    
+    shorty6.append(f'A slice, colors[:3], starting at index 0 to 3: ')
+    shorty6.append(f'{colors[:3]}    ')
 
-    print('\nPrint a SLICE, colors[2:5], starting at index 2 and excluding index 5:', end='    ')
-    print(colors[2:5], end='    ')
-    print(type(colors[2:5]), end='    ')
+    shorty6.append('\nA slice, colors[4:], starting a index 4 to end: ')
+    shorty6.append(f'{colors[4:]}    ')
 
-    print('Print a slice, colors[:3], starting at index 0 to index 3:', end='    ')
-    print(colors[:3], end='    ')
-
-    print('\nPrint a slice, colors[4:], starting a index 4 to the end of the list:', end='    ')
-    print(colors[4:], end='    ')
-
-    print('Print a slice, colors[-4:-1], from the 4th from the end (but not the last item):', end='    ')
-    print(colors[-4:-1])
-       
-    print(colors.reverse())
-    print(colors.sort())
-
-    print(r'r"print raw   \t\n\t\'\t', end='    ')
+    shorty6.append(f'A slice, colors[-4:-1], from the 4th from the (not the) end: ')
+    shorty6.append(f'{colors[-4:-1]}    ')
+    colors.reverse()
+    shorty6.append(f'colors.reverse={colors}    ')
+    colors.sort()
+    shorty6.append(f'colors.sort={colors}    ')
+    new_colors = ['lime', 'gray']
+    colors.extend(new_colors)
+    shorty6.append(f".extend(new_['lime', 'gray']={colors}")
+    shorty6.append(r'r"print raw   \t\n\t\'\t    ')
     firststr = str.capitalize('conrad')
     secondstr = 'grant'.capitalize()
     thirdstr = 'bob'
-    print(firststr, secondstr, end='    ')
-    print(firststr, secondstr, thirdstr.capitalize(),end='    ')
-    print(firststr, secondstr, thirdstr, sep='-',end='    ')
-    print(firststr, secondstr, thirdstr, sep='-', end='.    ')
-    print("Mississippi".count("s"), end='.  ')
-    print(len("Mississippi"), end='.  ')
+    shorty6.append(f"{firststr} {secondstr}")
+    shorty6.append(f"{firststr} {secondstr} {thirdstr.capitalize()}")
+    shorty6.append(f"{firststr}-{secondstr}-{thirdstr}, sep='-',end=''")
+    shorty6.append(f"{firststr}-{secondstr}-{thirdstr}")
+    shorty6.append(f"{'Mississippi'.count('s')}")
+    shorty6.append(f"{len('Mississippi')}")
     messagez = 'The quick brown fox jumps over the lazy dog'
-    print(messagez.find('q'), end='.  ')
-    print(messagez.find('t'), end='.  ')
-    print(messagez.find('T'), end='.  ')
-    valuez = 'hi'
+    shorty6.append(f"{messagez.find('q')}")
+    shorty6.append(f"{messagez.find('t')}")
+    shorty6.append(f"{messagez.count('T')}")
 
+    valuez = 'hi'
     print(f'{valuez:<5}', end='.    ')
     print(f'{valuez:>5}', end='.    ')
     print(f'{valuez:^5}', end='.   ')
-    print(f"{valuez:-^5}")
-    
+    print(f"{valuez:-^5}", end='    ')
+    return shorty6
  
 def Calculator(commands=[0], is_console_read=True):
     commandindex = 0

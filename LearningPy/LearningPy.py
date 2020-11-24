@@ -79,9 +79,16 @@ recap=("""\nRecap
   The isinstance() function allows you to check to see whether a value is an instance of a specified data type.
   The float data type is for numeric values containing fractional values that are represented as numbers after the decimal point.
   Values have data types, and variables do not. A variable is merely pointed to a value, and it can point to any value of any data type.
+  A queue is a special term in programming that refers to a list that stores items in the order in which they were added. 
+  Queues are useful when you need to do some calculation logic on many items in a specific order. 
+  After you add items to the list, you remove them for processing one by one.
+  A pop operation removes an item from the queue for processing. 
+  You can remove an item from the beginning of the list ("first in, first out", or FIFO). 
+  Or you can remove an item from the end of the list ("last in, first out", or LIFO).
+  The pop() helper function allows you to select an item from the list by using its index. The first item is 0, and the last item is -1.
   """)
 
-bb.StringChallenge()
+shorty.append(bb.StringChallenge())
 dice = roll.randint(1,10)
 commandscalc=['c','2','bob','*','4']
 print(f"roll={dice},    {commandscalc}={bb.Calculator(commandscalc,False)}{emoji.emojize('    Howdy :sun_with_face:')}")
@@ -89,9 +96,10 @@ comman=['Frank','Bob','q']
 bb.gocurrent(comman,False)
 bb.dicerollMS(comman,False)
 bb.threadsafePrint()
+pp2.pprint(shorty)
 if False:
     print(recap)
-    pp2.pprint(shorty)
+    
     bb.colortest()
     bb.mothodlog()
     bb.print_format_table()
