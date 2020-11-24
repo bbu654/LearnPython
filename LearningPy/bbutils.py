@@ -1,3 +1,8 @@
+import shutil
+import pkgutil
+import random
+import logging                          #from thread_safe_print import thread_safe_print
+import threading
 def printit():
     print("String usage:             \t\t'...' in Strng - => bool  ")
     print("len(String)    - CharCount\t\tString.find()  - => index \t\tString.replace() -   ")
@@ -15,10 +20,10 @@ def printit():
         while k<=5:
             popp=popp + ' ' 
             k+=1                #pooo='@' * i
-        print(f"{popp}{'@' * i}{'@' * i}")#    print(pop)
+        print(f"{popp}\033[92m{'#' * i}{'#' * i}") #    print(pop)def prGreen(skk): print("\033[92m {}\033[00m" .format(skk)) 
         i+=1
     else:
-        print("     @@\n")#    print("     @@")
+        print("     @@\033[00m\n")#    print("     @@")
 
 
 class Patient:
@@ -76,33 +81,30 @@ class LoanEligibility:
 
 
 class secretgame:
-    def __init__(self4, secretnumber=9, guesslimit=3):
-        self4.secretnumber=secretnumber
-        self4.guesslimit=guesslimit        
+    def __init__(self, secretnumber=9, guesslimit=3):
+        self.secretnumber=secretnumber
+        self.guesslimit=guesslimit        
         
-    def secretguess(self4, listguess=[0]):
-        self4.listguess=list(listguess)
+    def secretguess(self, listguess=[0]):
+        self.listguess=list(listguess)
         guesscount=0
         is_console = False
-        while guesscount < self4.guesslimit:
+        while guesscount < self.guesslimit:
 #        for x in self4.listguess:
-            if len(self4.listguess) != self4.guesslimit:
+            if len(self.listguess) != self.guesslimit:
                 is_console=True
             if is_console:
-                x = int(input(f"{self4.guesslimit-guesscount} Guess's(1,2,3) left: ")) #     x=singleguess
+                x = int(input(f"{self.guesslimit-guesscount} Guess's(1,2,3) left: ")) #     x=singleguess
             else:
-                x=self4.listguess[guesscount]
+                x=self.listguess[guesscount]
             guesscount += 1
-            if x==self4.secretnumber:
+            if x==self.secretnumber:
                 return("You won!")    #                break
         else:
             return("Sorry you didnt guess correctly")
 
 
 
-
-import shutil
-import pkgutil
 
 def show_acceptable_modules():# modules = {         module        for _, module, package in list(pkgutil.iter_modules())}#        if package is False    }
     line2 = '-' * 100
@@ -112,9 +114,6 @@ def show_acceptable_modules():# modules = {         module        for _, module,
 import sys
 
 def listmodules():
-    line2=""
-    index2=0
-    strs=[]
     modlst=[]    #pop=int(sys.builtin_module_names.count())
     pop6=len(sys.builtin_module_names)
     mlindex=0
@@ -127,7 +126,7 @@ def listmodules():
     #for x in modlst:
     #    strs.append(f"{x}")
     modulelists=list(sys.builtin_module_names)
-    if not True:
+    if False:
         for y in modulelists:
              modlst.append(f"    {y}    ")
     return modlst
@@ -421,22 +420,21 @@ class whileforloops:
 
 # Python program to print 
 # colored text and background 
-def prRed(skk): print("\033[91m {}\033[00m" .format(skk)) 
-def prGreen(skk): print("\033[92m {}\033[00m" .format(skk)) 
-def prYellow(skk): print("\033[93m {}\033[00m" .format(skk)) 
-def prLightPurple(skk): print("\033[94m {}\033[00m" .format(skk)) 
-def prPurple(skk): print("\033[95m {}\033[00m" .format(skk)) 
-def prCyan(skk): print("\033[96m {}\033[00m" .format(skk)) 
-def prLightGray(skk): print("\033[97m {}\033[00m" .format(skk)) 
-def prBlack(skk): print("\033[98m {}\033[00m" .format(skk)) 
-
-#prCyan("Hello World, ") 
-#prYellow("It's") 
-#prGreen("Geeks") 
-#prRed("For") 
-#prGreen("Geeks") 
-# Python program to print 
-# colored text and background 
+def prRed(skk): print("\033[91m {}\033[00m" .format(skk), end=' ')
+def prGreen(skk): print("\033[92m {}\033[00m" .format(skk), end=' ')
+def prYellow(skk): print("\033[93m {}\033[00m" .format(skk), end=' ')
+def prLightPurple(skk): print("\033[94m {}\033[00m" .format(skk), end=' ')
+def prPurple(skk): print("\033[95m {}\033[00m" .format(skk), end=' ')
+def prCyan(skk): print("\033[96m {}\033[00m" .format(skk), end=' ') 
+def prLightGray(skk): print("\033[97m {}\033[00m" .format(skk), end=' ') 
+def prBlack(skk): print("\033[98m {}\033[00m" .format(skk), end=' ') 
+def colortest():
+    prCyan("Hello World, ") 
+    prYellow("It's") 
+    prGreen("Geeks") 
+    prRed("For") 
+    prGreen("Geeks!") 
+# Python program to print       # colored text and background 
 def print_format_table(): 
 	""" 
 	prints table of formatted text format options 
@@ -503,6 +501,49 @@ def StringChallenge():
         print(f"type({x})={testtype},isinstance={boolint}", end='    ')
     else:
         print(f"sum={sum}", end='    ')
+    colors = ['red', 'green', 'blue', 'yellow', 'orange', 'purple', 'brown']
+        # print(f'0-based indexing into the list ... second item: {colors[1]}')
+        # print(f'Last item of the list: {colors[-1]}')
+        # print(f'Next to last item in the list: {colors[-2]}')
+
+    print('\nPrint a SLICE, colors[2:5], starting at index 2 and excluding index 5:', end='    ')
+    print(colors[2:5], end='    ')
+    print(type(colors[2:5]), end='    ')
+
+    print('Print a slice, colors[:3], starting at index 0 to index 3:', end='    ')
+    print(colors[:3], end='    ')
+
+    print('\nPrint a slice, colors[4:], starting a index 4 to the end of the list:', end='    ')
+    print(colors[4:], end='    ')
+
+    print('Print a slice, colors[-4:-1], from the 4th from the end (but not the last item):', end='    ')
+    print(colors[-4:-1])
+       
+    print(colors.reverse())
+    print(colors.sort())
+
+    print(r'r"print raw   \t\n\t\'\t', end='    ')
+    firststr = str.capitalize('conrad')
+    secondstr = 'grant'.capitalize()
+    thirdstr = 'bob'
+    print(firststr, secondstr, end='    ')
+    print(firststr, secondstr, thirdstr.capitalize(),end='    ')
+    print(firststr, secondstr, thirdstr, sep='-',end='    ')
+    print(firststr, secondstr, thirdstr, sep='-', end='.    ')
+    print("Mississippi".count("s"), end='.  ')
+    print(len("Mississippi"), end='.  ')
+    messagez = 'The quick brown fox jumps over the lazy dog'
+    print(messagez.find('q'), end='.  ')
+    print(messagez.find('t'), end='.  ')
+    print(messagez.find('T'), end='.  ')
+    valuez = 'hi'
+
+    print(f'{valuez:<5}', end='.    ')
+    print(f'{valuez:>5}', end='.    ')
+    print(f'{valuez:^5}', end='.   ')
+    print(f"{valuez:-^5}")
+    
+ 
 def Calculator(commands=[0], is_console_read=True):
     commandindex = 0
     if len(commands) > 0 and is_console_read:
@@ -562,3 +603,93 @@ def getanswer(first_operand, second_operand, operation):
     if operation == '**':
         return first_operand ** second_operand
     
+def gocurrent(comman=[0],is_console_input=True):
+    commandindex = 0
+    if len(comman) > 0 and is_console_input:
+        exit(6969)
+    count = 0
+    pr1 = pr2 = 0
+    if is_console_input:
+        pl1= input("Player One, Tell me your name: ")
+        pl2= input("Player Two, Tell me your name: ")
+    else:
+        pl1=comman[commandindex]
+        commandindex+=1
+        pl2=comman[commandindex]
+        commandindex+=1
+    while pr1 != 5 and pr2 !=5:
+        pr1=random.randint(1,5)
+        print(f"{pl1} rolls {pr1}",end=',    ')
+        count += 1
+        pr2 = random.randint(1,5)
+        print(f"{pl2} rolls {pr2}",end=',    ')
+        count += 1
+    else:
+        if pr1 == 5:
+            print(f"wow {pl1}, it took {count} rolls for you two to roll a 5!",end=',    ')
+        elif pr2 == 5:
+            print(f"wow {pl2}, it took {count} rolls for you two to roll a 5!",end=',    ')
+def dicerollMS(comman=[0],is_console_input=True):
+    rollx = 0
+    count = 0
+    commandindex = 0
+    print("First person to roll a 5 wins!",end=',    ')
+    while rollx != 5:
+        if is_console_input:
+            name = input('Enter a name, or \'q\' to quit:  ' )
+        else:
+            name = comman[commandindex]
+            commandindex += 1
+       
+        if name.strip() == '':
+            continue
+
+        if name.strip() == 'q':
+            break
+  
+        count = count + 1
+        rollx = random.randint(1, 5)
+        print(f'{name} rolled {rollx}',end='    ')
+    else:
+        print(f'{name} Wins!!!',end='    ')
+
+    print(f'You rolled the dice {count} times.', end='    ')
+def newguess():
+    import random
+
+    value = random.randint(1, 10)
+    count = 0
+    guess = 0
+    print('Guess a number between 1 and 10')
+
+    while guess != value:
+        count += 1
+        guess = input(f'Enter guess #{count}: ')
+
+        if guess.isnumeric():
+            guess = int(guess)
+        else:
+            print('Numbers only, please!')
+            continue
+
+        if guess > value:
+            print('Your guess is too high, try again!')
+        elif guess < value:
+            print('Your guess is too low, try again!')
+
+    else:
+        print(f'You guessed it in {count} tries!')
+def mothodlog():
+    logging.basicConfig(format='%(threadName)s %(message)s')
+    logging.error('hello, from mothodlog')
+        #MainThread hello
+def threadsafePrint():
+    thread_name = threading.current_thread().name       #threading.current_thread().name#   __name__()   # Thread.getName()
+    for letter in 'ABC':        #threading.currentThread.n
+        thread_safe_print(f'[{thread_name} {letter}]', end='    ')
+        
+lock = threading.Lock()
+
+def thread_safe_print(*args, **kwargs):
+    with lock:
+        print(*args, **kwargs)
