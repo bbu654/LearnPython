@@ -6,7 +6,7 @@ import distutils.util as dutil
 import pprint
 import random as roll
 import emoji
-
+import bbutilities as bbut
 iname = "Brice"         #input("Name: ")
 iage = 42               #int(input("Age: "))
 some_string = "false"   #input("True or False: RUANewPatient? ")
@@ -87,8 +87,8 @@ recap=("""\nRecap
   Or you can remove an item from the end of the list ("last in, first out", or LIFO).
   The pop() helper function allows you to select an item from the list by using its index. The first item is 0, and the last item is -1.
   """)
-
-shorty.append(bb.StringChallenge())
+if False:
+    shorty.append(bb.StringChallenge())
 dice = roll.randint(1,10)
 commandscalc=['c','2','bob','*','4']
 print(f"roll={dice},    {commandscalc}={bb.Calculator(commandscalc,False)}{emoji.emojize('    Howdy :sun_with_face:')}")
@@ -96,10 +96,14 @@ comman=['Frank','Bob','q']
 bb.gocurrent(comman,False)
 bb.dicerollMS(comman,False)
 bb.threadsafePrint()
-pp2.pprint(shorty)
+shorty.append(bbut.dontknow())
+if True:
+    shorty.append(bbut.poppop())
+if True:
+    pp2.pprint(shorty)    
 if False:
     print(recap)
-    
+
     bb.colortest()
     bb.mothodlog()
     bb.print_format_table()
