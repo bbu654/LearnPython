@@ -1,4 +1,5 @@
-import colorama, functools
+import colorama, time, functools
+from functools import wraps
 
 def dontknow():
     shorty=[]
@@ -123,3 +124,12 @@ def poppop():
 
 
 
+def atimer(func):    # a timer decorator from "Python Cookbook chapter 9.2"
+    @wraps(func)
+    def timerwrapper(*args, **kwargs):
+        timerstart=time.time()
+        funcresult=func(*args, **kwargs)
+        timerend=time.time()
+        print(f'{func.__name__}: {timerend-timerstart}')
+        return funcresult
+    return timerwrapper

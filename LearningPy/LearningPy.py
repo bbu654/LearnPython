@@ -62,30 +62,64 @@ recap=("""\nRecap
   Strip = Trim in C#
   You can define a literal string by using either a set of single-quote or double-quote symbols.
   You can add an escape sequence to use a special character inside your string, 
-      such as a single-quote escape sequence (\'), double-quote escape sequence (\"), a new line escape sequence (\n      ), or a tab escape sequence (\t).
+      such as a single-quote escape sequence (\'), double-quote escape sequence (\"), 
+      a new line escape sequence (\n      ), or a tab escape sequence (\t).
   You can print the raw output of a string by prefixing it with the r character.
-  You can define a multi-line verbatim string by using either a set of three single-quote characters (''') 
-      or a set of three double-quote characters (\"\"\").
-  The print() function can concatenate a variable number of strings sent as arguments into the function. 
-  You can specify the character you want to separate each argument, as well as the ending character.
+  You can define a multi-line verbatim string by using either a set of three single-quote characters 
+      (''') or a set of three double-quote characters (\"\"\").
+  The print() function can concatenate a variable number of strings 
+  sent as arguments into the function. You can specify the character you want 
+     to separate each argument, as well as the ending character.
   The format() function allows you to define a format string (essentially, a template). 
-  The string contains a series of replacement fields that are replaced with arguments you pass into the function.
+  The string contains a series of replacement fields 
+  that are replaced with arguments you pass into the function.
   The new format string literal, or f-string, reduces the keystrokes of the format() method. 
   This allows you to use variables or expressions in the replacement fields.
-  Format specifiers are a compact syntax that allows you to format numbers, dates, and percentages, 
-      as well as alignment and spacing.
+  Format specifiers are a compact syntax that allows you 
+  to format numbers, dates, and percentages, as well as alignment and spacing.
   Types:
   The type() function returns the data type of a specified value.
-  The isinstance() function allows you to check to see whether a value is an instance of a specified data type.
-  The float data type is for numeric values containing fractional values that are represented as numbers after the decimal point.
-  Values have data types, and variables do not. A variable is merely pointed to a value, and it can point to any value of any data type.
-  A queue is a special term in programming that refers to a list that stores items in the order in which they were added. 
-  Queues are useful when you need to do some calculation logic on many items in a specific order. 
-  After you add items to the list, you remove them for processing one by one.
-  A pop operation removes an item from the queue for processing. 
-  You can remove an item from the beginning of the list ("first in, first out", or FIFO). 
-  Or you can remove an item from the end of the list ("last in, first out", or LIFO).
-  The pop() helper function allows you to select an item from the list by using its index. The first item is 0, and the last item is -1.
+  The isinstance() function allows you to check to see whether 
+  a value is an instance of a specified data type. The float data type is for numeric values 
+  containing fractional values that are represented as numbers after the decimal point.
+  Values have data types, and variables do not. 
+  A variable is merely pointed to a value, and it can point to any value of any data type.
+  A queue is a special term in programming 
+  that refers to a list that stores items in the order in which they were added. 
+  Recap
+  Lists are data structures that are intended to collect related data in your programs. 
+  The data can be of any type. But elements are usually of the same data type 
+  because they serve a similar purpose in your programs.
+  Create a list by using square brackets. Use a comma to separate each item.
+  Access individual elements inside the list by using square brackets 
+  and a zero-based index.   Access the first item in the list by using index 0. 
+  Access the last item in the list by using index -1. 
+  Access items relative to the end of the list 
+  by using other negative numbers as indexes.  Create slices by using square brackets 
+  and a colon.   The colon separates the beginning of the slice, on the left, 
+  from the end of the slice, on the right. Use helper functions like 
+  pop(), append(), remove(), extend(), and clear() to change the items in a list.
+  Queues are useful when you need to do some calculation logic 
+  on many items in a specific order. After you add items to the list, 
+  you remove them for processing one by one.   A pop operation removes an item 
+  from the queue for processing.  You can remove an item from the beginning of the list 
+  ("first in, first out", or FIFO).   Or you can remove an item from 
+  the end of the list ("last in, first out", or LIFO). The pop() helper function 
+  allows you to select an item from the list by using its index. 
+  The first item is 0, and the last item is -1.
+  Recap
+Use the in and not in keywords as part of a Boolean expression 
+to test whether a value is part of a list. Use the for statement to iterate through 
+all items in a list. Also use the statement to execute a code block 
+that puts the current item in scope to be inspected in the logic of the code block.
+Use the continue statement to skip the remaining code block logic 
+and continue to the next list item that's assigned by the for statement.
+Use the break statement to break out of the for statement prematurely.
+Use the else statement to create a code block that executes 
+after you use the for statement to iterate through all items in the list.
+Nest for statements to create a list of every combination of two lists.
+Use the random module's choice() and choices() functions to select 
+one or many items from the list, respectively.
   """)
 if False:
     shorty.append(bb.StringChallenge())
@@ -97,13 +131,19 @@ bb.gocurrent(comman,False)
 bb.dicerollMS(comman,False)
 bb.threadsafePrint()
 shorty.append(bbut.dontknow())
+import PythonCookBook.get_top_n_items_from_list
+
 if True:
     shorty.append(bbut.poppop())
+
 if True:
-    pp2.pprint(shorty)    
+    shorty.append(PythonCookBook.get_top_n_items_from_list.exampleBBU())
+    print(f'{PythonCookBook.get_top_n_items_from_list.exampleBBU()}')
+
+    pp2.pprint(shorty) 
 if False:
     print(recap)
-
+    shorty.append(recap)
     bb.colortest()
     bb.mothodlog()
     bb.print_format_table()
