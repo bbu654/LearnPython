@@ -1,11 +1,23 @@
 import colorama, time, functools
 from functools import wraps
+#@bbutilities.atimer
 
+def atimer(func):    # a timer decorator from "Python Cookbook chapter 9.2"
+    @wraps(func)
+    def timerwrapper(*args, **kwargs):
+        timerstart=time.time()
+        funcresult=func(*args, **kwargs)
+        timerend=time.time()
+        print(f'{func.__name__}: {timerend-timerstart}',end='        ')
+        return funcresult
+    return timerwrapper
+
+@atimer    
 def dontknow():
-    shorty=[]
+    shorty=[] # 456789012
     name = 'Imtiaz Abedin'
     try:               # Write the suspicious block of code
-       shorty.append(name[10])
+       shorty.append(name[12])
     except AssertionError as assertE:  # Catch a single exception
        shorty.append(f'AssertionError={assertE}')# This block will be executed if exception A is caught
     except (EnvironmentError, SyntaxError, NameError) as ESNE:  # catch multiple exception
@@ -43,6 +55,7 @@ def dontknow():
         Sort List natural order;;  use reverse=True, keytosort 
         Use functools module to create complex sorting logic based on multiple fields.
         """
+    backwardcounting(20000)    
     if False:
         shorty.append(journaldevRecap)
         verify_age(23)  # won't raise exception
@@ -95,6 +108,7 @@ class Employee:
         
     # List uses __repr__, so overriding it to print useful information
     __repr__ = __str__
+@atimer
 def poppop():
     shorty1=[]
     e1 = Employee('Alice', 26, 'F')
@@ -119,17 +133,14 @@ def poppop():
     # sorting based on age
     
     shorty1.append(f'After  Sorting By Age: {emp_list}')
+    #print()
+    backwardcounting(10000)
+
+
     return shorty1
 
 
-
-
-def atimer(func):    # a timer decorator from "Python Cookbook chapter 9.2"
-    @wraps(func)
-    def timerwrapper(*args, **kwargs):
-        timerstart=time.time()
-        funcresult=func(*args, **kwargs)
-        timerend=time.time()
-        print(f'{func.__name__}: {timerend-timerstart}')
-        return funcresult
-    return timerwrapper
+@atimer
+def backwardcounting(n:int):
+    while n > 0:
+        n -= 1
