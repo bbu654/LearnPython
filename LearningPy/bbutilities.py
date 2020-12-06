@@ -1,5 +1,6 @@
-import colorama, time, functools
+import colorama, time, functools, collections
 from functools import wraps
+from statistics import mean as avg
 #@bbutilities.atimer
 
 def atimer(func):    # a timer decorator from "Python Cookbook chapter 9.2"
@@ -133,10 +134,12 @@ def poppop():
     # sorting based on age
     
     shorty1.append(f'After  Sorting By Age: {emp_list}')
+    
     #print()
     backwardcounting(10000)
 
-
+    grades=[2,33,22,11,400,551,6,77,88,39,26,82,19,89]
+    shorty1.append(f"avg={drop_first_last(grades)}")
     return shorty1
 
 
@@ -144,3 +147,11 @@ def poppop():
 def backwardcounting(n:int):
     while n > 0:
         n -= 1
+
+
+def drop_first_last(grades):
+    grades.pop(grades.index(min(grades)))
+    grades.pop(grades.index(max(grades)))
+    first, *middle, last = grades
+    return avg(middle)#sum(middle)/len(middle)#    lad= Collection.avg()
+    
