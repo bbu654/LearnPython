@@ -108,18 +108,18 @@ recap=("""\nRecap
   allows you to select an item from the list by using its index. 
   The first item is 0, and the last item is -1.
   Recap
-Use the in and not in keywords as part of a Boolean expression 
-to test whether a value is part of a list. Use the for statement to iterate through 
-all items in a list. Also use the statement to execute a code block 
-that puts the current item in scope to be inspected in the logic of the code block.
-Use the continue statement to skip the remaining code block logic 
-and continue to the next list item that's assigned by the for statement.
-Use the break statement to break out of the for statement prematurely.
-Use the else statement to create a code block that executes 
-after you use the for statement to iterate through all items in the list.
-Nest for statements to create a list of every combination of two lists.
-Use the random module's choice() and choices() functions to select 
-one or many items from the list, respectively.
+  Use the in and not in keywords as part of a Boolean expression 
+  to test whether a value is part of a list. Use the for statement to iterate through 
+  all items in a list. Also use the statement to execute a code block 
+  that puts the current item in scope to be inspected in the logic of the code block.
+  Use the continue statement to skip the remaining code block logic 
+  and continue to the next list item that's assigned by the for statement.
+  Use the break statement to break out of the for statement prematurely.
+  Use the else statement to create a code block that executes 
+  after you use the for statement to iterate through all items in the list.
+  Nest for statements to create a list of every combination of two lists.
+  Use the random module's choice() and choices() functions to select 
+  one or many items from the list, respectively.
   """)
 if False:
     shorty.append(bb.StringChallenge())
@@ -128,17 +128,23 @@ commandscalc=['c','2','bob','*','4']
 print(f"roll={dice},    {commandscalc}={bb.Calculator(commandscalc,False)}{emoji.emojize('    Howdy :sun_with_face:')}")
 comman=['Frank','Bob','q']
 bb.gocurrent(comman,False)
+print()
 bb.dicerollMS(comman,False)
 bb.threadsafePrint()
+print()
 shorty.append(bbut.dontknow())
-import PythonCookBook.get_top_n_items_from_list
+#from PythonCookBook import get_top_n_items_from_list
+##shorty.append(get_top_n_items_from_list.exampleBBU())#
 
 if True:
     shorty.append(bbut.poppop())
+    print()
+    # bbut.backwardcounting(10000000)
+    # bbut.backwardcounting(20000000)
 
-if True:
-    shorty.append(PythonCookBook.get_top_n_items_from_list.exampleBBU())
-    print(f'{PythonCookBook.get_top_n_items_from_list.exampleBBU()}')
+#if True:
+#    shorty.append(get_top_n_items_from_list.exampleBBU())
+#    print(f'{get_top_n_items_from_list.exampleBBU()}')
 
     pp2.pprint(shorty) 
 if False:

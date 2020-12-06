@@ -1,11 +1,24 @@
-import colorama, time, functools
+import colorama, time, functools, collections
 from functools import wraps
+from statistics import mean as avg
+#@bbutilities.atimer
 
+def atimer(func):    # a timer decorator from "Python Cookbook chapter 9.2"
+    @wraps(func)
+    def timerwrapper(*args, **kwargs):
+        timerstart=time.time()
+        funcresult=func(*args, **kwargs)
+        timerend=time.time()
+        print(f'{func.__name__}: {timerend-timerstart}',end='        ')
+        return funcresult
+    return timerwrapper
+
+@atimer    
 def dontknow():
-    shorty=[]
+    shorty=[] # 456789012
     name = 'Imtiaz Abedin'
     try:               # Write the suspicious block of code
-       shorty.append(name[10])
+       shorty.append(name[12])
     except AssertionError as assertE:  # Catch a single exception
        shorty.append(f'AssertionError={assertE}')# This block will be executed if exception A is caught
     except (EnvironmentError, SyntaxError, NameError) as ESNE:  # catch multiple exception
@@ -43,6 +56,7 @@ def dontknow():
         Sort List natural order;;  use reverse=True, keytosort 
         Use functools module to create complex sorting logic based on multiple fields.
         """
+    backwardcounting(20000)    
     if False:
         shorty.append(journaldevRecap)
         verify_age(23)  # won't raise exception
@@ -95,6 +109,7 @@ class Employee:
         
     # List uses __repr__, so overriding it to print useful information
     __repr__ = __str__
+@atimer
 def poppop():
     shorty1=[]
     e1 = Employee('Alice', 26, 'F')
@@ -119,17 +134,24 @@ def poppop():
     # sorting based on age
     
     shorty1.append(f'After  Sorting By Age: {emp_list}')
+    
+    #print()
+    backwardcounting(10000)
+
+    grades=[2,33,22,11,400,551,6,77,88,39,26,82,19,89]
+    shorty1.append(f"avg={drop_first_last(grades)}")
     return shorty1
 
 
+@atimer
+def backwardcounting(n:int):
+    while n > 0:
+        n -= 1
 
 
-def atimer(func):    # a timer decorator from "Python Cookbook chapter 9.2"
-    @wraps(func)
-    def timerwrapper(*args, **kwargs):
-        timerstart=time.time()
-        funcresult=func(*args, **kwargs)
-        timerend=time.time()
-        print(f'{func.__name__}: {timerend-timerstart}')
-        return funcresult
-    return timerwrapper
+def drop_first_last(grades):
+    grades.pop(grades.index(min(grades)))
+    grades.pop(grades.index(max(grades)))
+    first, *middle, last = grades
+    return avg(middle)#sum(middle)/len(middle)#    lad= Collection.avg()
+    
