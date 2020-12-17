@@ -55,7 +55,7 @@ shorty.append(chucky.lassoWord("terra",13))
 whiley=bb.whileforloops(False)
 commands=["start","start","stop","stop","quit"]
 shorty.append(whiley.autohelp(commands))
-shorty.append(whiley.userange(4,3))
+shorty.append(whiley.userange(4,6))
 
 recap=("""\nRecap
   Strings:
