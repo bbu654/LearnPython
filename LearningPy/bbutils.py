@@ -391,9 +391,9 @@ class whileforloops:
         shorty5=[]
         aascii=ord('a')
         for x in range(xin):
-            for y in range(yin):
-                shorty5.append(f"{chr(x+aascii)},{y}    ")
-            shorty5.append('                                                                 ')
+            for y in range(1, yin):
+                shorty5.append(f"{chr(x+aascii)}, {y}    ")
+            shorty5.append('                                      ')
         matrix = [   [1,2,3],[4,5,6],[7,8,9]]
         for row in matrix:
             for item in row:
