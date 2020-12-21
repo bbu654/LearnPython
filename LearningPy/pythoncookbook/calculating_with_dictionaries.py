@@ -35,8 +35,7 @@ for price, name in prices_sorted:
 else:
     print()
 
-
-###Python zip()
+zipstr="""Python zip()
 #The zip() function takes iterables (can be zero or more), 
 #          aggregates them in a tuple, and return it.
 #The syntax of the zip() function is:
@@ -59,7 +58,7 @@ else:
 #Suppose, two iterables are passed to zip(); 
 #one iterable containing three and other containing five elements. 
 #Then, the returned iterator will contain three tuples. 
-#It's because iterator stops when the shortest iterable is exhausted.
+#It's because iterator stops when the shortest iterable is exhausted."""
 number_list = [1, 2, 3]
 str_list = ['one', 'two', 'three']
 
@@ -68,14 +67,15 @@ result = zip()
 
 # Converting iterator to list
 result_list = list(result)
-print(result_list)
+print(zipstr)
+print(f'No iterables are passed: {result_list}')
 
 # Two iterables are passed
 result = zip(number_list, str_list)
 
 # Converting iterator to set
 result_set = set(result)
-print(result_set)
+print(f'Two iterables are passed: {result_set}')
 #Output
 #
 #[]

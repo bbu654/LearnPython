@@ -49,3 +49,17 @@ values = values.parents
 print(values)
 print(values['x'])
 
+#output:
+#1
+#2
+#3
+#len(c): 3
+#c.keys(): ['y', 'z', 'x']
+#c.values(): [2,3,1]
+#a: {'z': 10, 'w': 40}
+#ChainMap({'x': 3}, {'x': 2}, {'x': 1})
+#3
+#ChainMap({'x': 2}, {'x': 1})
+#2
+#ChainMap({'x': 1})
+#1
