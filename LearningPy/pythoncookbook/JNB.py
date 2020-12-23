@@ -13,3 +13,17 @@ if __name__ == '__main__':
 
 
 # %%
+collection_list = []
+print(collection_list)
+list123 = [1,2,3,4,5]
+print(list123)
+listalpha = ['a','b','c','d','e']
+print(listalpha)
+collection_list = list()
+print(collection_list)
+
+collection_list = [1] * 10 # [1,1,1,1,1,1,1,1,1,1]
+collection_list.extend(listalpha)
+collection_list.extend(list123)
+print(collection_list)
+# %%
