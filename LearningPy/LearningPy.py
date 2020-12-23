@@ -56,7 +56,38 @@ whiley=bb.whileforloops(False)
 commands=["start","start","stop","stop","quit"]
 shorty.append(whiley.autohelp(commands))
 shorty.append(whiley.userange(4,6))
+if __name__ == '__main__':
+    a = [1, 5, 2, 1, 9, 1, 5, 10]
+    shorty.append(F'a={a};;;    ')
+    shorty.append(f'list(dedupe(a)={list(bb.dedupe(a))}{bb.DeepDiveOnCollections}')
+collection_list = []
+print(collection_list,end='    ')
+list123 = [1,2,3,4,5]
+print(list123,end='    ')
+listalpha = ['a','b','c','d','e']
+print(listalpha,end='    ')
+collection_list = list()
+print(collection_list,end='    ')
 
+collection_list = [1] * 10 # [1,1,1,1,1,1,1,1,1,1]
+collection_list.extend(listalpha)
+collection_list.extend(list123)
+print(collection_list)
+truepop=True
+iNeedanum=0
+from itertools import islice
+"""for i,elm in islice(enumerate(some_list),7,40):
+  print i,elm  """
+for yearindex, yearobj in enumerate(bb.listyearsum2020):
+    for nextindex, nextobj in islice(enumerate(bb.listyearsum2020),yearindex):#for element in l[1:]:
+        for elveindex, elveobj in islice(enumerate(bb.listyearsum2020),nextindex):
+            if yearobj+nextobj+elveobj == 2020:
+                print(f'the sum of {yearobj}*{nextobj}*{elveobj}={yearobj*nextobj*elveobj}')
+
+adventofcode1stday="Advent of Code *bbu654 2*  :year 2020  That's the right answer! You are one gold star closer to saving your vacation. You have completed Day 1!" 
+print(f'adventofcode1stday={adventofcode1stday}')
+#while truepop:
+#bb.listyearsum2020
 recap=("""\nRecap
   Strings:
   Strip = Trim in C#
