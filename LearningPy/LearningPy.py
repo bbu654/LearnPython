@@ -6,6 +6,7 @@ import distutils.util as dutil
 import pprint
 import random as roll
 import emoji
+from itertools import islice
 import bbutilities as bbut
 iname = "Brice"         #input("Name: ")
 iage = 42               #int(input("Age: "))
@@ -75,7 +76,7 @@ collection_list.extend(list123)
 print(collection_list)
 truepop=True
 iNeedanum=0
-from itertools import islice
+
 """for i,elm in islice(enumerate(some_list),7,40):
   print i,elm  """
 for yearindex, yearobj in enumerate(bb.listyearsum2020):
@@ -84,8 +85,9 @@ for yearindex, yearobj in enumerate(bb.listyearsum2020):
             if yearobj+nextobj+elveobj == 2020:
                 print(f'the sum of {yearobj}*{nextobj}*{elveobj}={yearobj*nextobj*elveobj}')
 
-adventofcode1stday="Advent of Code *bbu654 2*  :year 2020  That's the right answer! You are one gold star closer to saving your vacation. You have completed Day 1!" 
+adventofcode1stday="Advent of Code *bbu654 4*  :year 2020  That's the right answer! You are one gold star closer to saving your vacation. You have completed Day 1 and Day 2!" 
 print(f'adventofcode1stday={adventofcode1stday}')
+shorty.append(f'day2AdventOfCode={bb.day2AdventOfCode()}')
 #while truepop:
 #bb.listyearsum2020
 recap=("""\nRecap

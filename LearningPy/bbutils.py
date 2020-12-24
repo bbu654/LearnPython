@@ -461,7 +461,6 @@ def dedupe(items):
         if item not in seen:
             yield item
             seen.add(item)
-
     #print it thx
     #if __name__ == '__main__':
     #    a = [1, 5, 2, 1, 9, 1, 5, 10]
@@ -604,6 +603,43 @@ DeepDiveOnCollections= """
         #output:
 #a=[1, 5, 2, 1, 9, 1, 5, 10]
 #list(dedupe(a)=[1, 5, 2, 9, 10]
+def passwordisvalid(line):
+    #self.line = line
+    lineparts = line.split(':',1)
+    password=lineparts[1].strip()
+    numberandchars = lineparts[0].split(' ',1)
+    charactrinpassword= numberandchars[1].strip()
+    numbersa = numberandchars[0].split(',')
+    numbersb  = numbersa[0].split('-')
+    numbersofcharmusthave = int(numbersb[0].strip())
+    numberofcharmaxhave  = int(numbersb[1].strip())
+    charcountpassword=0
+    numberofcharmaxhave -=1
+    numbersofcharmusthave -=1
+    if password[numbersofcharmusthave] == charactrinpassword:
+        charcountpassword +=1
+    if password[numberofcharmaxhave] == charactrinpassword:
+        charcountpassword +=1
+    #countchar = password.count(charactrinpassword)
+    #if numberofcharmaxhave >= countchar and numbersofcharmusthave <= countchar:
+    if charcountpassword == 1:
+        return True
+    else:
+        return False
+def day2AdventOfCode():
+    path = f'InputDay2Passwords.txt'
+    # Python program to  demonstrate readline() 
+    # Using readline() 
+    file1 = open(path, 'r') 
+    count = 0
+    while True: 
+        line = file1.readline()   # Get next line from file 
+        if not line: # if line is empty end of file is reached 
+            break
+        if (passwordisvalid(line)):
+            count += 1
+    file1.close()
+    return count
 def StringChallenge():
     shorty6=[]
     first_value = '  FIRST challenge         '
