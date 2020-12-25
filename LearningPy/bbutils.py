@@ -640,6 +640,53 @@ def day2AdventOfCode():
             count += 1
     file1.close()
     return count
+def isitatree(line, column):
+    if line[column] == '#':
+        return True
+    else:
+        return False
+def day3AdventOfCode():
+    """
+    read a line;add 3 to collumn ;check column>len(line)
+    """
+    path = f'InputDay3Trees.txt'
+    step = 3    
+    column = -1
+    count = 0    
+    file1 = open(path, 'r') 
+    line= file1.readline()
+    linecnt = 1
+    popo = len(line) -1    #line.strip() \n char
+    while True:
+        line= file1.readline()
+        linecnt +=1
+        if not line:
+            break
+        column +=step
+        if column > popo:   #not >= 31 because 31 is the last valid char
+            column = (step - 1) - (column - popo)    #step-1= zero-based index
+        if isitatree(line,column):
+            count +=1
+    file1.close()
+    return count
+def day3rdlineAdventOfCode():
+    path = f'InputDay3Trees.txt'
+    step = 3    
+    file1 = open(path, 'r') 
+    column = -1
+    count = 0    #    while True:         # Print every second line.
+    with open(path, 'r') as handle:
+        for lineno, line in enumerate(handle):
+            if lineno % step == 0:
+                column +=3
+                if column >= len(line):
+                    column= len(line) - column
+                    print(f'newcol={column}',end='    ')
+                if (isitatree(line, column)):   # line = file1.readline()   # Get next line from file         if not line: # if line is empty end of file is reached             break           if (isitatree(line)):
+                        count += 1
+    handle.close()
+    return count
+
 def StringChallenge():
     shorty6=[]
     first_value = '  FIRST challenge         '

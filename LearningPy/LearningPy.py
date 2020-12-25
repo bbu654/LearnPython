@@ -87,7 +87,9 @@ for yearindex, yearobj in enumerate(bb.listyearsum2020):
 
 adventofcode1stday="Advent of Code *bbu654 4*  :year 2020  That's the right answer! You are one gold star closer to saving your vacation. You have completed Day 1 and Day 2!" 
 print(f'adventofcode1stday={adventofcode1stday}')
-shorty.append(f'day2AdventOfCode={bb.day2AdventOfCode()}')
+shorty.append(f'day2AdventOfCode={bb.day2AdventOfCode()} and day3={bb.day3AdventOfCode()}')
+if False:
+    day3rdlineAdventOfCode()
 #while truepop:
 #bb.listyearsum2020
 recap=("""\nRecap
