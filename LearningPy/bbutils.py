@@ -603,6 +603,40 @@ DeepDiveOnCollections= """
         #output:
 #a=[1, 5, 2, 1, 9, 1, 5, 10]
 #list(dedupe(a)=[1, 5, 2, 9, 10]
+def ispassport(fieldsbbu):
+    if fieldsbbu.contain('eyr'):
+        if fieldsbbu.get('byr')==None:
+            """  byr (Birth Year)
+                 iyr (Issue Year)
+                 eyr (Expiration Year)
+                 hgt (Height)
+                 hcl (Hair Color)
+                 ecl (Eye Color)
+                 pid (Passport ID)
+                 cid (Country ID)       """
+    return True
+def day4passports():
+    countpassports = 0
+    countline=0
+    path = f'day4passports.txt'
+    file1 = open(oath, 'r')
+    passportdict={}
+    while True:
+        line = file1.readline()   # Get next line from file 
+        countline +=1
+        if not line: # if line is empty end of file is reached 
+            break
+        if line=='\n':
+            if ispassport(passportdict):
+                countpassports+=1
+            else:
+                continue
+        else:
+            splitlinekvp = line.split(' ')
+            for ppkey,ppvalue in splitlinekvp:
+                passportdict.[ppkey].append(ppvalue)
+    file1.close()
+    return countpassports
 def passwordisvalid(line):
     #self.line = line
     lineparts = line.split(':',1)
