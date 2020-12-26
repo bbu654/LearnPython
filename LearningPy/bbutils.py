@@ -645,13 +645,13 @@ def isitatree(line, column):
         return True
     else:
         return False
-def day3AdventOfCode():
+def day3AdventOfCode(step):
     """
     read a line;add 3 to collumn ;check column>len(line)
     """
     path = f'InputDay3Trees.txt'
-    step = 3    
-    column = -1
+    #step = 3    
+    column = 0
     count = 0    
     file1 = open(path, 'r') 
     line= file1.readline()
@@ -659,12 +659,15 @@ def day3AdventOfCode():
     popo = len(line) -1    #line.strip() \n char
     while True:
         line= file1.readline()
-        linecnt +=1
+        line= file1.readline()
+        linecnt +=2
         if not line:
             break
         column +=step
-        if column > popo:   #not >= 31 because 31 is the last valid char
-            column = (step - 1) - (column - popo)    #step-1= zero-based index
+        if column >= popo:   #not >= 31 because 31 is the last valid char
+            print(f'col{column - popo}= col{column} - len(line){popo}', end="    ")
+            column = column - popo    #(step - 1) - (column - popo)    #step-1= zero-based index
+            
         if isitatree(line,column):
             count +=1
     file1.close()
