@@ -85,7 +85,7 @@ for yearindex, yearobj in enumerate(bb.listyearsum2020):
             if yearobj+nextobj+elveobj == 2020:
                 print(f'the sum of {yearobj}*{nextobj}*{elveobj}={yearobj*nextobj*elveobj}')
 
-adventofcode1stday="Advent of Code *bbu654 4*  :year 2020  That's the right answer! You are one gold star closer to saving your vacation. You have completed Day 1 and Day 2!" 
+adventofcode1stday="Advent of Code *bbu654 6*  :year 2020  That's the right answer! You are one gold star closer to saving your vacation. You have completed Day 1 thru 3!" 
 print(f'adventofcode1stday={adventofcode1stday}')
 pobbu = bb.day3AdventOfCode(1) * 44996864#bb.day3AdventOfCode(3) * bb.day3AdventOfCode(5) * bb.day3AdventOfCode(7)
 shorty.append(f'day2AdventOfCode={bb.day2AdventOfCode()} and day3={pobbu}')
