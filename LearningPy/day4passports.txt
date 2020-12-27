@@ -2,6 +2,8 @@ iyr:2015
 hgt:59cm byr:2029 cid:219 pid:9381688753 eyr:1992 hcl:#b6652a
 ecl:#7a0fa6
 
+hgt:170cm hcl:#ceb3a1 iyr:2014 eyr:2023 ecl:oth pid:243067344 byr:1962
+
 ecl:blu iyr:2018 pid:943614755 cid:335
 byr:1968
 eyr:2026
@@ -36,8 +38,6 @@ eyr:2020
 pid:646870519 hgt:179cm eyr:2022 iyr:2011 hcl:#602927
 ecl:brn
 byr:1997
-
-hgt:170cm hcl:#ceb3a1 iyr:2014 eyr:2023 ecl:oth pid:243067344 byr:1962
 
 hcl:#866857
 ecl:oth pid:704529614
