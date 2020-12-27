@@ -482,18 +482,15 @@ DeepDiveOnCollections= """
         To get the length of list, use the len() function. In Python, 
         you do not need to explicitly specify the size of a list while
         creating. Length is calculated in constant time.
-
         To access a specific list item or assign value to it, 
         we refer to the element by index where first element 
         has index of 0. To access an item from back, 
         use negative index [-1]:
-
         Accessing a nonexistent index results in an error:
         Error Index: list index out of range !
         Using the in operator, we can check if an object exists 
         in the list. 
         Result of operation returns a bool value:
-
         You can also use slices to access a particular range of 
         values of given list:
         It is important to note that when using a slice, 
@@ -503,7 +500,6 @@ DeepDiveOnCollections= """
         necessary to get the index of the current element during 
         iteration. To do this, you can use the enumerate function, 
                 which returns the index and the current element:
-
         As lists are a mutable data structures, we can add and remove 
         items. To add item to list, use .append() method:
         If you need to expand the list with another list, 
@@ -511,24 +507,18 @@ DeepDiveOnCollections= """
         transferred list to the end of your list:
         
         You can use the del keyword to remove an item from the list:
-
         To find the minimum and maximum or calculate the sum of 
         all elements, we can use the built-in functions min, max, sum:
-
         It is often required to convert the list to a string, 
         for this you can use the str.join() method:
-
         Often we need to sort the list. There are two ways to sort 
         a list in Python.
         sorted()- the standard function, which returns the 
         new list obtained by sorting the original:
-
         .sort ()- the list method, which sorts list itself. 
         For sorting, the Timsort algorithm is used. O(n log n) 
         for worst case:
-
         If we need to sort in reverse order, pass reverse=True as argument:
-
         Dictionary
         Dictionary allows you to store data in key-value format. 
         Use the curly braces literal or just call dict() to define 
@@ -536,16 +526,13 @@ DeepDiveOnCollections= """
         defining it, we write the key-value through a colon.
         Access to the value by key is carried out for constant time 
         and it does not depend on the size of the dictionary.
-
         If you access element by key that does not exist, 
         Python will throw a KeyError error, but it is often useful to try 
         to get the value from the dictionary, and if there is no key, 
         return some standard value. For such purposes we can use 
         a built-in get() method.
-
         Using the in operator, we can check if an object exists in the dictionary. 
         Result of operation returns a bool value:
-
         As dictionary is a mutable data structure, we can add and remove elements from it. 
         We can add item to dictionary simply using key access. 
         To remove the key and value from the dictionary, you can use the 
@@ -554,19 +541,15 @@ DeepDiveOnCollections= """
         the built-in update() method, which takes another dictionary 
         and extends our dictionary and also updates values of the original 
         dictionary in the case of identical keys.
-
         To remove the key-value from the dictionary and return the value 
         at the same time, we use the pop method:
-
         Sometimes it is required to check if a key exists in the dictionary, 
         and in case of failure add this new key-value pair. 
         For such situations we use setdefault() method:
-
         Using a for loop, we can iterate over dictionary keys:
         To iterate not by keys, but by keys and values ​​at once, 
         we can use the method items():
         The values() ​​method, which returns the values ​​logically:
-
         Set
         Set is an unordered collection of unique objects. 
         Sets are mutable and are most often used to remove duplicates 
@@ -577,13 +560,10 @@ DeepDiveOnCollections= """
         The check is performed in constant time. Each element of the structure 
         is hashed by analogy with dictionaries. Based on the key received 
         from the hash function, the object is searched.
-
         To add an element to the set we use the add() method. 
         The remove() method is used to remove a specific element:
-
         Sets in Python support standard set operations — such as union, 
         difference, intersection, and symmetric difference.
-
         NOTE: all mentioned collections and their methods, 
         functions are ones that are mostly used in practice. 
         There are more of them.
@@ -593,34 +573,46 @@ DeepDiveOnCollections= """
         While The Python Language Reference describes the exact syntax 
         and semantics of the Python language, this library…
         docs.python.org
-
         Kamoliddin Nabijonov
-
-
-
             """
            # print(f'DeepDiveOnCollections={DeepDiveOnCollections}')
         #output:
 #a=[1, 5, 2, 1, 9, 1, 5, 10]
 #list(dedupe(a)=[1, 5, 2, 9, 10]
 def ispassport(fieldsbbu):
-    if fieldsbbu.contain('eyr'):
-        if fieldsbbu.get('byr')==None:
-            """  byr (Birth Year)
-                 iyr (Issue Year)
-                 eyr (Expiration Year)
-                 hgt (Height)
-                 hcl (Hair Color)
-                 ecl (Eye Color)
-                 pid (Passport ID)
-                 cid (Country ID)       """
-    return True
+    """  byr (Birth Year)
+         iyr (Issue Year)
+         eyr (Expiration Year)
+         hgt (Height)
+         hcl (Hair Color)
+         ecl (Eye Color)
+         pid (Passport ID)
+         cid (Country ID)       """
+    popeer=fieldsbbu.get('hgt')
+    if   fieldsbbu.get('byr')==[]:
+        return False
+    elif fieldsbbu.get('iyr')==[]:
+        return False
+    elif fieldsbbu.get('eyr')==[]:
+        return False
+    elif fieldsbbu.get('hgt')==[]:
+        return False
+    elif fieldsbbu.get('hcl')==[]:
+        return False
+    elif fieldsbbu.get('ecl')==[]:
+        return False
+    elif fieldsbbu.get('pid')==[]:
+        return False       
+    else:
+        return True     
+    
 def day4passports():
     countpassports = 0
     countline=0
+    countfalse=0
     path = f'day4passports.txt'
-    file1 = open(oath, 'r')
-    passportdict={}
+    file1 = open(path, 'r')
+    passportdict={"byr":[], "iyr":[], "eyr":[], "hgt":[], "hcl":[], "ecl":[], "pid":[], "cid":[]}
     while True:
         line = file1.readline()   # Get next line from file 
         countline +=1
@@ -630,12 +622,15 @@ def day4passports():
             if ispassport(passportdict):
                 countpassports+=1
             else:
-                continue
+                countfalse+=1
+            passportdict={"byr":[], "iyr":[], "eyr":[], "hgt":[], "hcl":[], "ecl":[], "pid":[], "cid":[]}
         else:
-            splitlinekvp = line.split(' ')
-            for ppkey,ppvalue in splitlinekvp:
-                passportdict.[ppkey].append(ppvalue)
+            splitlinekvp = line.strip().split(' ')
+            for ppkvp in splitlinekvp:
+                ppkey, ppvalue= ppkvp.split(':',1)
+                passportdict[ppkey].append(ppvalue)
     file1.close()
+    print(f'countfalse={countfalse}', end="    ")
     return countpassports
 def passwordisvalid(line):
     #self.line = line
@@ -663,7 +658,6 @@ def passwordisvalid(line):
 def day2AdventOfCode():
     path = f'InputDay2Passwords.txt'
     # Python program to  demonstrate readline() 
-    # Using readline() 
     file1 = open(path, 'r') 
     count = 0
     while True: 
