@@ -3,6 +3,7 @@ import pkgutil
 import random
 import logging                          #from thread_safe_print import thread_safe_print
 import threading
+from collections import defaultdict
 def printit():
     print("String usage:             \t\t'...' in Strng - => bool  ")
     print("len(String)    - CharCount\t\tString.find()  - => index \t\tString.replace() -   ")
@@ -579,59 +580,121 @@ DeepDiveOnCollections= """
         #output:
 #a=[1, 5, 2, 1, 9, 1, 5, 10]
 #list(dedupe(a)=[1, 5, 2, 9, 10]
+def incrementstring(popopo):
+    popopo.replace("['","")
+    popopo.replace("']","")
+    lot=0
+    jot=''
+    for tot in popopo:
+        if str(tot).isdigit():
+            jot= str(tot)
+            lot= int(jot)
+    lot += 1
+    lot= int(popopo) + 1
+    #uup+=1
+    popopo=str(lot)
+    return popopo
+
 def ispassport(fieldsbbu):
-    """  byr (Birth Year)
-         iyr (Issue Year)
-         eyr (Expiration Year)
-         hgt (Height)
-         hcl (Hair Color)
-         ecl (Eye Color)
-         pid (Passport ID)
-         cid (Country ID)       """
-    popeer=fieldsbbu.get('hgt')
-    if   fieldsbbu.get('byr')==[]:
-        return False
-    elif fieldsbbu.get('iyr')==[]:
-        return False
-    elif fieldsbbu.get('eyr')==[]:
-        return False
-    elif fieldsbbu.get('hgt')==[]:
-        return False
-    elif fieldsbbu.get('hcl')==[]:
-        return False
-    elif fieldsbbu.get('ecl')==[]:
-        return False
-    elif fieldsbbu.get('pid')==[]:
-        return False       
-    else:
-        return True     
+    """  byr (Birth Year) - four digits; at least 1920 and at most 2002.
+         iyr (Issue Year) - four digits; at least 2010 and at most 2020.
+         eyr (Expiration Year) - four digits; at least 2020 and at most 2030.
+         hgt (Height) - a number followed by either cm or in:
+         If cm, the number must be at least 150 and at most 193.
+         If in, the number must be at least 59 and at most 76.
+         hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f.
+         ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
+         pid (Passport ID) - a nine-digit number, including leading zeroes.
+         cid (Country ID) - ignored, missing or not.       """
+    byrpop=str(fieldsbbu.get('byr'))
+    iyrpop=str(fieldsbbu.get('iyr'))
+    eyrpop=str(fieldsbbu.get('eyr'))
+    hgtpop=str(fieldsbbu.get('hgt'))
+    hclpop=str(fieldsbbu.get('hcl'))
+    eclpop=str(fieldsbbu.get('ecl'))
+    pidpop=str(fieldsbbu.get('pid'))
+    byr = False
+    iyr = False
+    eyr = False
+    hgt = False
+    hcl = False
+    ecl = False
+    pid = False
+    if byrpop.isdigit() and byrpop > '1919' and byrpop < '2003':
+        byr = True
+
+    if iyrpop.isdigit() and iyrpop > '2009' and iyrpop < '2021':
+        iyr = True 
+
+    if eyrpop.isdigit() and eyrpop > '2019' and eyrpop < '2031':
+        eyr = True 
+
+    if hgtpop.__contains__('in'):
+        if hgtpop > '58in' and hgtpop < '77in':
+            hgt = True
+    if not hgt:
+        if hgtpop.__contains__('cm'):
+            if hgtpop > '149cm' and hgtpop < '194cm':
+                hgt = True            
     
+    if (len(hclpop) == 7) and hclpop[0]== '#':
+        for item in hclpop[1:]:
+            if item < '0' or item.lower() > 'f':
+                break
+        else:
+            hcl=True
+
+    if eclpop == 'amb' or eclpop == 'blu' or eclpop == 'brn' or eclpop == 'gry' or eclpop == 'grn' or eclpop == 'hzl' or eclpop == 'oth':
+        ecl = True
+    
+    if (len(pidpop) == 9) and pidpop.isdigit():
+        pid = True
+
+    if byr and iyr and eyr and hgt and hcl and ecl and pid:
+        popopo = str(fieldsbbu.get("ppt"))
+        fieldsbbu["ppt"]=incrementstring(popopo)
+    else:
+        popopo = str(fieldsbbu.get("fal"))
+        fieldsbbu["fal"]=incrementstring(popopo)
+        print(f'falsedict={fieldsbbu}')        
+    fieldsbbu={"byr":"", "iyr":"", "eyr":"", "hgt":"", "hcl":"", "ecl":"", "pid":"", "cid":"", "ppt": fieldsbbu.get("ppt"), "fal": fieldsbbu.get("fal")}        #return True     
+    return fieldsbbu
 def day4passports():
     countpassports = 0
     countline=0
     countfalse=0
     path = f'day4passports.txt'
     file1 = open(path, 'r')
-    passportdict={"byr":[], "iyr":[], "eyr":[], "hgt":[], "hcl":[], "ecl":[], "pid":[], "cid":[]}
+   #passportdict=defaultdict(str)
+    passportdict={"byr":"", "iyr":"", "eyr":"", "hgt":"", "hcl":"", "ecl":"", "pid":"", "cid":"", "ppt":'0', "fal":'0'}
+    countppt=defaultdict(int)
+    countppt["ppp"]=0
+    countppt["faa"]=0
+    print(countppt)
+    #passportdict.update(countppt)
     while True:
         line = file1.readline()   # Get next line from file 
         countline +=1
         if not line: # if line is empty end of file is reached 
             break
         if line=='\n':
-            if ispassport(passportdict):
-                countpassports+=1
-            else:
-                countfalse+=1
-            passportdict={"byr":[], "iyr":[], "eyr":[], "hgt":[], "hcl":[], "ecl":[], "pid":[], "cid":[]}
+            passportdict = ispassport(passportdict)
         else:
             splitlinekvp = line.strip().split(' ')
             for ppkvp in splitlinekvp:
                 ppkey, ppvalue= ppkvp.split(':',1)
-                passportdict[ppkey].append(ppvalue)
+                passportdict[ppkey]=str(ppvalue)
+    #else:
+    if ispassport(passportdict):
+        countpassports+=1
+        print(f'Lastdict={passportdict}')
+    else:
+        countfalse+=1
+        print(f'LASTfalsedict={passportdict}')
+        
     file1.close()
-    print(f'countfalse={countfalse}', end="    ")
-    return countpassports
+    print(f'countfalse={str(passportdict["fal"])}', end="    ")
+    return str(passportdict["ppt"])
 def passwordisvalid(line):
     #self.line = line
     lineparts = line.split(':',1)
