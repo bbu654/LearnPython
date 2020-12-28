@@ -77,21 +77,6 @@ print(collection_list)
 truepop=True
 iNeedanum=0
 
-"""for i,elm in islice(enumerate(some_list),7,40):
-  print i,elm  """
-for yearindex, yearobj in enumerate(bb.listyearsum2020):
-    for nextindex, nextobj in islice(enumerate(bb.listyearsum2020),yearindex):#for element in l[1:]:
-        for elveindex, elveobj in islice(enumerate(bb.listyearsum2020),nextindex):
-            if yearobj+nextobj+elveobj == 2020:
-                print(f'the sum of {yearobj}*{nextobj}*{elveobj}={yearobj*nextobj*elveobj}')
-
-adventofcode1stday="Advent of Code *bbu654 6*  :year 2020  That's the right answer! You are one gold star closer to saving your vacation. You have completed Day 1 thru 3!" 
-print(f'adventofcode1stday={adventofcode1stday}') #Too Low=935
-pobbu = bb.day3AdventOfCode(1) * 44996864#bb.day3AdventOfCode(3) * bb.day3AdventOfCode(5) * bb.day3AdventOfCode(7)
-shorty.append(f'day2AdventOfCode={bb.day2AdventOfCode()}, day3={pobbu}, day4={bb.day4passports()}, day5={bb.day5SeatNumbers()},')
-
-if False:
-    bb.day3rdlineAdventOfCode()
 #while truepop:
 #bb.listyearsum2020
 recap=("""\nRecap
@@ -182,8 +167,23 @@ if True:
 #if True:
 #    shorty.append(get_top_n_items_from_list.exampleBBU())
 #    print(f'{get_top_n_items_from_list.exampleBBU()}')
+"""for i,elm in islice(enumerate(some_list),7,40):
+  print i,elm  """
+for yearindex, yearobj in enumerate(bb.listyearsum2020):
+    for nextindex, nextobj in islice(enumerate(bb.listyearsum2020),yearindex):#for element in l[1:]:
+        for elveindex, elveobj in islice(enumerate(bb.listyearsum2020),nextindex):
+            if yearobj+nextobj+elveobj == 2020:
+                print(f'the sum of {yearobj}*{nextobj}*{elveobj}={yearobj*nextobj*elveobj}')
 
-    pp2.pprint(shorty) 
+adventofcode1stday="Advent of Code *bbu654 9*  :year 2020  That's the right answer! You are one gold star closer to saving your vacation. You have completed Day 1 thru 5.1!" 
+print(f'adventofcode1stday={adventofcode1stday}') #Too Low=935
+pobbu = bb.day3AdventOfCode(1) * 44996864#bb.day3AdventOfCode(3) * bb.day3AdventOfCode(5) * bb.day3AdventOfCode(7)
+shorty.append(f'day2AdventOfCode={bb.day2AdventOfCode()}, day3={pobbu}, day4={bb.day4passports()}, day5={bb.day5SeatNumbers()[0]}, day6={bb.day6answers()}')
+
+if False:
+    bb.day3rdlineAdventOfCode()
+
+pp2.pprint(shorty) 
     #pp2.pprint(bb.day5SeatNumbers().left)
 if False:
     print(recap)

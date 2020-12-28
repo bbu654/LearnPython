@@ -583,6 +583,72 @@ DeepDiveOnCollections= """
         #output:
 #a=[1, 5, 2, 1, 9, 1, 5, 10]
 #list(dedupe(a)=[1, 5, 2, 9, 10]
+def day6answers():
+    countline=0
+    countanswers=0
+    countgrouplines=0
+    dup=0
+    dedupe=[]
+    mergeit=[]
+    path = f'day6answers.txt'
+    skiprestofgroup=False
+    file1 = open(path, 'r')
+    while True:
+        line=file1.readline()
+        countline += 1
+        if not line:
+            break
+        if line == '\n':
+            #if countgrouplines> 1:
+            #    countanswers+=len(mer)
+            countanswers+= len(dedupe)
+            dedupe=[]
+            mergeit=[]
+            skiprestofgroup=False
+            countgrouplines=0
+        else:
+            line=line.strip()
+            countgrouplines+=1
+            if skiprestofgroup:
+                dup+=1
+            else:
+                if countgrouplines == 1:
+                    for item in line:
+                        dedupe.append(item)
+                else:
+                    for itema in line:
+                        if dedupe.__contains__(itema):
+                            mergeit.append(itema)
+                        else:
+                            dup+=1    
+                    else:
+                        if len(mergeit)>0:
+                            dedupe.clear()
+                            for ql in mergeit:
+                                dedupe.append(ql)
+                            else:
+                                mergeit.clear()
+                        else:
+                            skiprestofgroup=True
+                            dedupe.clear()
+        
+            #if len(line)>0:
+            #    for item in line:
+            #        if dedupe.__contains__(item):
+            #            dup+=1
+            #        else:
+            #            dedupe.append(item)
+
+        #linelen= len(line.strip())
+        #if there are more than one line in a group=if countgrouplines> 1
+        #countanswers += linelen
+        #allseats.append(ishighest(line,largestseat))
+        #countseats += 1
+    countanswers+=len(dedupe)#else:
+    #    print(seats)
+    file1.close()
+    #allseats.sort()
+    return countanswers#l
 def ishighest(line,largestseat):
     #if line[0] == "F":          #0-63
     #    if line[1] == "F":      #0-31
@@ -619,16 +685,17 @@ def ishighest(line,largestseat):
     cseat= bseat.replace('R','1')
     drow= int(crow,2)
     dseat=int(cseat,2)
-    eseat=(drow*8)+dseat
-    print(f'line{line},row{crow},')
+    eseat=(drow*8)+dseat    #    print(f'line{line},row{crow},')
     if eseat > largestseat:
         largestseat=eseat
-    return largestseat
+    #return largestseat
+    return eseat
     SeatInfo = namedtuple('Seatinfo',[line,crow,cseat])
 def day5SeatNumbers():
     countline=0
     countseats=0
     largestseat=0
+    allseats=[]
     path = f'day5seatnumbers.txt'
     seats = binarytree.bst(height=6,is_perfect=True)
     file1 = open(path, 'r')
@@ -637,12 +704,14 @@ def day5SeatNumbers():
         countline += 1
         if not line:
             break
-        largestseat= ishighest(line,largestseat)
+        #largestseat= ishighest(line,largestseat)
+        allseats.append(ishighest(line,largestseat))
         #countseats += 1
     #else:
     #    print(seats)
     file1.close()
-    return largestseat
+    allseats.sort()
+    return allseats#largestseat
 
 def incrementstring(popopo):
     popopo.replace("['","")
@@ -719,8 +788,7 @@ def ispassport(fieldsbbu):
         fieldsbbu["ppt"]=incrementstring(popopo)
     else:
         popopo = str(fieldsbbu.get("fal"))
-        fieldsbbu["fal"]=incrementstring(popopo)
-        print(f'falsedict={fieldsbbu}')        
+        fieldsbbu["fal"]=incrementstring(popopo)    #        print(f'falsedict={fieldsbbu}')        
     fieldsbbu={"byr":"", "iyr":"", "eyr":"", "hgt":"", "hcl":"", "ecl":"", "pid":"", "cid":"", "ppt": fieldsbbu.get("ppt"), "fal": fieldsbbu.get("fal")}        #return True     
     return fieldsbbu
 def day4passports():
