@@ -90,7 +90,6 @@ print(f'adventofcode1stday={adventofcode1stday}') #Too Low=935
 pobbu = bb.day3AdventOfCode(1) * 44996864#bb.day3AdventOfCode(3) * bb.day3AdventOfCode(5) * bb.day3AdventOfCode(7)
 shorty.append(f'day2AdventOfCode={bb.day2AdventOfCode()}, day3={pobbu}, day4={bb.day4passports()}, day5={bb.day5SeatNumbers()},')
 
-
 if False:
     bb.day3rdlineAdventOfCode()
 #while truepop:
@@ -185,7 +184,7 @@ if True:
 #    print(f'{get_top_n_items_from_list.exampleBBU()}')
 
     pp2.pprint(shorty) 
-    pp2.pprint(bb.day5SeatNumbers().left)
+    #pp2.pprint(bb.day5SeatNumbers().left)
 if False:
     print(recap)
     shorty.append(recap)

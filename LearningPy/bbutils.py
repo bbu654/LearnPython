@@ -583,7 +583,7 @@ DeepDiveOnCollections= """
         #output:
 #a=[1, 5, 2, 1, 9, 1, 5, 10]
 #list(dedupe(a)=[1, 5, 2, 9, 10]
-def ishighest(line):
+def ishighest(line,largestseat):
     #if line[0] == "F":          #0-63
     #    if line[1] == "F":      #0-31
     #        if line[2] == "F":  #0-15
@@ -611,30 +611,38 @@ def ishighest(line):
     #                        else:           #0123456
     #                            seatdict = ["FFFBBBB" : 7]
     n = 7
-row,seat = [line[i:i+n] for i in range(0, len(line), n)]
-brow= row.replace('F','0')
-brow = row.replace('B','1')
-bseat= seat.relace('L' ,'0')
-bseat=seat.replace('R','1')
-SeatInfo = namedtuple('Seatinfo',[brow,bseat])
+    line=line.strip()
+    row,seat = [line[i:i+n] for i in range(0, len(line), n)]
+    brow= row.replace('F','0')
+    crow= brow.replace('B','1')
+    bseat= seat.replace('L' ,'0')
+    cseat= bseat.replace('R','1')
+    drow= int(crow,2)
+    dseat=int(cseat,2)
+    eseat=(drow*8)+dseat
+    print(f'line{line},row{crow},')
+    if eseat > largestseat:
+        largestseat=eseat
+    return largestseat
+    SeatInfo = namedtuple('Seatinfo',[line,crow,cseat])
 def day5SeatNumbers():
     countline=0
     countseats=0
+    largestseat=0
     path = f'day5seatnumbers.txt'
     seats = binarytree.bst(height=6,is_perfect=True)
-    print(seats)
     file1 = open(path, 'r')
     while True:
         line=file1.readline()
         countline += 1
         if not line:
             break
-        if ishighest(line):
-            countseats += 1
-    else:
-        print(seats)
+        largestseat= ishighest(line,largestseat)
+        #countseats += 1
+    #else:
+    #    print(seats)
     file1.close()
-    return seats
+    return largestseat
 
 def incrementstring(popopo):
     popopo.replace("['","")
