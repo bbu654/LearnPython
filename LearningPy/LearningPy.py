@@ -86,9 +86,9 @@ for yearindex, yearobj in enumerate(bb.listyearsum2020):
                 print(f'the sum of {yearobj}*{nextobj}*{elveobj}={yearobj*nextobj*elveobj}')
 
 adventofcode1stday="Advent of Code *bbu654 6*  :year 2020  That's the right answer! You are one gold star closer to saving your vacation. You have completed Day 1 thru 3!" 
-print(f'adventofcode1stday={adventofcode1stday}')
+print(f'adventofcode1stday={adventofcode1stday}') #Too Low=935
 pobbu = bb.day3AdventOfCode(1) * 44996864#bb.day3AdventOfCode(3) * bb.day3AdventOfCode(5) * bb.day3AdventOfCode(7)
-shorty.append(f'day2AdventOfCode={bb.day2AdventOfCode()}, day3={pobbu}, day4={bb.day4passports()}')
+shorty.append(f'day2AdventOfCode={bb.day2AdventOfCode()}, day3={pobbu}, day4={bb.day4passports()}, day5={bb.day5SeatNumbers()},')
 
 
 if False:
@@ -185,6 +185,7 @@ if True:
 #    print(f'{get_top_n_items_from_list.exampleBBU()}')
 
     pp2.pprint(shorty) 
+    pp2.pprint(bb.day5SeatNumbers().left)
 if False:
     print(recap)
     shorty.append(recap)

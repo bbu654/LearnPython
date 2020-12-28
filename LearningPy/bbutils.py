@@ -3,7 +3,10 @@ import pkgutil
 import random
 import logging                          #from thread_safe_print import thread_safe_print
 import threading
-from collections import defaultdict
+from collections import defaultdict, namedtuple
+import binarytree
+import prettyprint
+
 def printit():
     print("String usage:             \t\t'...' in Strng - => bool  ")
     print("len(String)    - CharCount\t\tString.find()  - => index \t\tString.replace() -   ")
@@ -580,6 +583,59 @@ DeepDiveOnCollections= """
         #output:
 #a=[1, 5, 2, 1, 9, 1, 5, 10]
 #list(dedupe(a)=[1, 5, 2, 9, 10]
+def ishighest(line):
+    #if line[0] == "F":          #0-63
+    #    if line[1] == "F":      #0-31
+    #        if line[2] == "F":  #0-15
+    #            if line[3] == "F":        #0-7
+    #                if line[4] == "F":    #0-3
+    #                    if line[5] == "F":#0-1
+    #                        if line[6]  == "F":
+    #                            seatdict = ["FFFFFFF" : 0]
+    #                        else:           #0123456 
+    #                            seatdict = ["FFFFFFB" : 1]
+    #                    else:               #FBFBBFFRLR
+    #                        if line[6] == "F":
+    #                            seatdict = ["FFFFBBF" : 2]
+    #                        else:           #0123456
+    #                            seatdict = ["FFFFBBB" : 3]
+    #                else:
+    #                    if line[5] == "F": #4-7
+    #                        if line[6]  == "F":
+    #                            seatdict = ["FFFBFFF" : 4]
+    #                        else:           #0123456
+    #                            seatdict = ["FFFBFFB" : 5]
+    #                    else:
+    #                        if line[6] == "F"
+    #                            seatdict = ["FFFBBFF" : 6]
+    #                        else:           #0123456
+    #                            seatdict = ["FFFBBBB" : 7]
+    n = 7
+row,seat = [line[i:i+n] for i in range(0, len(line), n)]
+brow= row.replace('F','0')
+brow = row.replace('B','1')
+bseat= seat.relace('L' ,'0')
+bseat=seat.replace('R','1')
+SeatInfo = namedtuple('Seatinfo',[brow,bseat])
+def day5SeatNumbers():
+    countline=0
+    countseats=0
+    path = f'day5seatnumbers.txt'
+    seats = binarytree.bst(height=6,is_perfect=True)
+    print(seats)
+    file1 = open(path, 'r')
+    while True:
+        line=file1.readline()
+        countline += 1
+        if not line:
+            break
+        if ishighest(line):
+            countseats += 1
+    else:
+        print(seats)
+    file1.close()
+    return seats
+
 def incrementstring(popopo):
     popopo.replace("['","")
     popopo.replace("']","")
