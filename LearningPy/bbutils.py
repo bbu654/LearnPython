@@ -6,7 +6,7 @@ import threading
 from collections import defaultdict, namedtuple
 import binarytree
 import prettyprint
-
+import itertools
 def printit():
     print("String usage:             \t\t'...' in Strng - => bool  ")
     print("len(String)    - CharCount\t\tString.find()  - => index \t\tString.replace() -   ")
@@ -583,6 +583,95 @@ DeepDiveOnCollections= """
         #output:
 #a=[1, 5, 2, 1, 9, 1, 5, 10]
 #list(dedupe(a)=[1, 5, 2, 9, 10]
+def day7bags():
+    countline=0
+    totalcommas=0
+    largestline=0
+    indexofMergeit=0
+    constChildLit='#'
+    dedupe=[]
+    mergeit=[]
+    path = f'day7bagrules.txt'
+    file1 = open(path, 'r')
+    while True:
+        line=file1.readline()
+        line=line.strip()
+        if line.__contains__('bags'):
+            line=line.replace('bags','bag')
+            line=line.replace('.','')
+        countline += 1
+        if not line:
+            break
+        if line.__contains__('contain'):
+            root=line.split(' contain ')
+            poproot=root[0]
+            bagroot=root[1].split(', ')
+            for bagchild in bagroot:
+                #if str(bagchild).__contains__('bags'):
+                #    str(bagchild).replace('bags','bag')
+                ptemp0=f'{constChildLit}{str(bagchild[2:])}'
+                ptemp1=f'{ptemp0} : {str(bagchild[0])}'
+                dedupe.append(ptemp1)
+                if countline>42:
+                    breakpoint
+                if len(mergeit) > 0:
+                    #indexofMergeit= i
+                    for i, j in enumerate(mergeit):
+                        if j[:j.index('bag')+3] == ptemp0:
+                            ptemp4=f'{str(mergeit[i])}, {poproot}'
+                            mergeit[i]=ptemp4
+                            break
+                    else:
+                        mergeit.append(f'{ptemp1} | {poproot}')   #if indexofMergeit == []:                        #    indexofMergeit = 0                        #if mergeit.__contains__(ptemp0):                        #if indexofMergeit == 0: # or indexofMergeit == []:                                    #else:                    #ptemp3=mergeit[i]
+                else:    
+                    mergeit.append(f'{ptemp1} | {poproot}')
+            if line.__contains__(','):
+                countcommas=line.count(',') +1
+            else:
+                countcommas=1
+            if countcommas > largestline:
+                largestline=countcommas
+            totalcommas+=countcommas            #bagchild = bagroot.split()            #Bag = namedtuple('Bag', dedupe)
+    ntstr=  """
+            # Basic example
+            >>> Point = namedtuple('Point', ['x', 'y'])
+            >>> p = Point(11, y=22)     # instantiate with positional or keyword arguments
+            >>> p[0] + p[1]             # indexable like the plain tuple (11, 22)
+            33
+            >>> x, y = p                # unpack like a regular tuple
+            >>> x, y
+            (11, 22)
+            >>> p.x + p.y               # fields also accessible by name
+            33
+            >>> p                       # readable __repr__ with a name=value style
+            Point(x=11, y=22)"""
+    file2=open('text.txt','w')
+    for i in mergeit:
+        file2.write(i + '\n')
+    return countline,largestline,totalcommas
+def drilldownbags(mergechild, usedbagsstr,countbags,bagkvp)#bagkvp=shiny gold bag,146#ABD 1 4 clear blue bag
+    #use mergit to get all shiny gold bag
+    shinygoldindex= mergeit.index('#shiny gold bag : 146 | clear blue bag, bright coral bag, muted cyan bag, pale blue bag, dim maroon bag, light gray bag')
+    sgb=str(mergeit[shinygoldindex])
+    ss1=sgb.split('| ')
+    ss9=str(ss1[1])
+    ss2=ss9.split(', ')
+    ss3=[]
+    ss4=[]
+    for bagidx, bagdict in enumerate(ss2):
+        st3=str(bagdict)
+        ss3.append(f'{constChildLit}{st3}')    #        sn1= bagidx
+    for childidx, childval in enumerate(ss3):
+        for mergidx,mergval in enumerate(mergeit):
+            #mergval has each single element of the mergeit
+            mergstr = str(mergval)
+            mergstr1= mergstr.split('| ')
+            mergstr2= str(mergstr1[1])
+            mergstr3=mergstr2.split(', ')
+            if mergstr3.__contains__('#shiny gold bag'):
+                countbags+=1
+                ss4.append(mergstr3)
+
 def day6answers():
     countline=0
     countanswers=0

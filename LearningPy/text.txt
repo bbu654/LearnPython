@@ -1,0 +1,350 @@
+#vibrant green bag : 1 | striped orange bag, dark green bag, bright lime bag, wavy lime bag, shiny silver bag, pale magenta bag, pale white bag, faded aqua bag, pale lavender bag, dark crimson bag, bright plum bag
+#plaid yellow bag : 5 | striped orange bag, vibrant crimson bag, dull magenta bag, posh yellow bag
+#drab magenta bag : 1 | striped orange bag, dull aqua bag, clear yellow bag, vibrant violet bag, pale white bag, dull turquoise bag
+#wavy indigo bag : 3 | dark fuchsia bag
+#striped lime bag : 4 | dark fuchsia bag, light black bag, wavy teal bag, faded tomato bag
+#clear gold bag : 2 | clear maroon bag, muted teal bag, dull aqua bag, dull purple bag, pale chartreuse bag, dim orange bag, plaid tomato bag, light gray bag, dark plum bag
+#bright salmon bag : 5 | clear maroon bag, shiny lavender bag, clear blue bag, vibrant olive bag, pale turquoise bag, bright magenta bag, light purple bag, shiny gold bag
+#wavy tomato bag : 5 | clear maroon bag, plaid chartreuse bag, drab beige bag, wavy fuchsia bag, vibrant silver bag
+#dim brown bag : 4 | faded tan bag, light black bag, posh beige bag, striped olive bag
+#faded gray bag : 3 | wavy olive bag, dim fuchsia bag, posh gold bag, plaid red bag, wavy aqua bag, dim gold bag, light brown bag
+#posh brown bag : 2 | wavy olive bag, light salmon bag, dull blue bag, muted lavender bag, light bronze bag, shiny gold bag, dark black bag
+#striped cyan bag : 3 | wavy olive bag, plaid indigo bag, wavy turquoise bag, wavy tan bag, clear orange bag, bright salmon bag, bright teal bag, dark tan bag
+#vibrant plum bag : 4 | light plum bag, striped coral bag, drab lime bag
+#dotted gold bag : 4 | vibrant cyan bag, mirrored olive bag, faded red bag, light white bag
+#bright indigo bag : 4 | vibrant cyan bag, plaid orange bag, mirrored tan bag, faded indigo bag, wavy lavender bag
+#wavy lime bag : 4 | vibrant cyan bag, plaid aqua bag, wavy coral bag, wavy beige bag, faded lime bag, striped white bag
+#clear plum bag : 3 | vibrant cyan bag, light teal bag
+#wavy silver bag : 1 | vibrant beige bag, faded black bag, pale yellow bag, dull indigo bag, striped beige bag, dim gray bag
+#shiny indigo bag : 4 | vibrant beige bag, drab bronze bag, light violet bag, drab olive bag
+#wavy aqua bag : 2 | vibrant beige bag, plaid gold bag
+#mirrored cyan bag : 1 | vibrant beige bag, muted tomato bag, plaid orange bag, pale salmon bag, posh yellow bag, bright purple bag, clear chartreuse bag, muted yellow bag, plaid white bag
+#muted green bag : 5 | light tomato bag, vibrant olive bag, faded lime bag, vibrant salmon bag, faded lavender bag
+#striped tomato bag : 2 | light tomato bag, muted teal bag, wavy lime bag, bright blue bag, striped lavender bag
+#faded aqua bag : 4 | light tomato bag, clear plum bag, pale lime bag
+#muted salmon bag : 2 | light tomato bag, posh brown bag, dotted gray bag, mirrored violet bag, shiny black bag, pale gray bag, clear indigo bag
+#faded beige bag : 5 | drab white bag, dark coral bag, faded gold bag
+#light purple bag : 1 | drab white bag, posh silver bag, dim coral bag, faded fuchsia bag
+#striped white bag : 1 | drab white bag, striped yellow bag, dim yellow bag, muted bronze bag
+#muted cyan bag : 4 | drab white bag, dotted bronze bag, bright violet bag, striped teal bag, dark coral bag, light blue bag, mirrored cyan bag, plaid plum bag, light bronze bag, posh bronze bag
+#posh lime bag : 5 | faded purple bag, dotted chartreuse bag, wavy magenta bag, posh violet bag, striped silver bag, pale blue bag, muted beige bag, vibrant silver bag, bright black bag, drab aqua bag
+#dim bronze bag : 1 | striped violet bag, vibrant red bag, muted aqua bag, striped silver bag, light cyan bag, clear black bag, posh fuchsia bag, faded plum bag, wavy lavender bag, vibrant magenta bag
+#faded plum bag : 2 | striped violet bag, shiny salmon bag, clear plum bag, dark brown bag, dim green bag, dark salmon bag, vibrant white bag, pale yellow bag, drab lime bag, striped cyan bag, bright salmon bag, dotted olive bag, drab tan bag, clear beige bag, striped fuchsia bag, shiny plum bag
+#shiny salmon bag : 2 | pale teal bag, shiny lavender bag, dim coral bag, dotted salmon bag, wavy silver bag, wavy cyan bag
+#light tomato bag : 2 | pale teal bag, mirrored purple bag
+#dim coral bag : 5 | pale teal bag, wavy purple bag, light salmon bag, drab silver bag, dull cyan bag, pale chartreuse bag, muted silver bag, dull gray bag
+#bright tomato bag : 3 | dull lime bag, vibrant coral bag, dark turquoise bag, mirrored aqua bag, shiny violet bag, light aqua bag, dotted beige bag, shiny cyan bag, bright fuchsia bag, striped fuchsia bag
+#dim magenta bag : 3 | dull lime bag, clear tan bag, muted tan bag, muted chartreuse bag, dim brown bag, muted blue bag, bright purple bag
+#bright cyan bag : 3 | dull lime bag, light black bag, vibrant coral bag, dark bronze bag, dotted magenta bag, vibrant green bag
+#dark teal bag : 2 | dull lime bag, muted teal bag, shiny fuchsia bag, clear coral bag, mirrored crimson bag, dark gold bag, mirrored beige bag
+#dark chartreuse bag : 3 | dim salmon bag
+#shiny coral bag : 2 | faded teal bag, dull plum bag, light olive bag, shiny maroon bag, clear fuchsia bag
+#dark turquoise bag : 4 | faded teal bag, dark lavender bag, dark indigo bag, dark maroon bag
+#wavy black bag : 3 | faded teal bag, light gold bag
+#clear blue bag : 4 | dark green bag, mirrored magenta bag, bright gray bag, shiny lime bag, dull teal bag, clear coral bag, vibrant blue bag
+#vibrant bronze bag : 2 | dim black bag, plaid chartreuse bag, striped tan bag
+#faded salmon bag : 2 | light yellow bag, posh maroon bag, clear cyan bag, dull violet bag, bright tomato bag, muted salmon bag, clear gold bag, striped cyan bag, light fuchsia bag, dull chartreuse bag, plaid magenta bag
+#muted aqua bag : 4 | light yellow bag, shiny gray bag, dim green bag, shiny fuchsia bag, drab magenta bag, pale aqua bag, dull silver bag, shiny gold bag, mirrored tan bag, wavy bronze bag, vibrant chartreuse bag
+#clear green bag : 3 | drab brown bag, wavy plum bag, posh lime bag, muted salmon bag, mirrored tomato bag, dim crimson bag, mirrored chartreuse bag, drab black bag, mirrored cyan bag, posh yellow bag, vibrant plum bag, faded plum bag, striped fuchsia bag
+#pale aqua bag : 2 | drab brown bag, dark aqua bag, mirrored blue bag
+#vibrant purple bag : 3 | dotted tomato bag
+#vibrant tomato bag : 3 | dotted tomato bag, wavy purple bag, faded bronze bag, striped olive bag
+#clear lime bag : 3 | dotted tomato bag, light lime bag, striped yellow bag, striped blue bag, vibrant chartreuse bag
+#dim gold bag : 5 | dotted tomato bag
+#pale brown bag : 1 | faded orange bag, dark yellow bag, wavy maroon bag, mirrored tomato bag, bright salmon bag, wavy yellow bag, dotted olive bag
+#striped silver bag : 1 | light black bag, light orange bag, muted lavender bag, posh white bag, plaid violet bag
+#muted fuchsia bag : 5 | plaid turquoise bag, dull tan bag
+#dull violet bag : 1 | plaid turquoise bag, faded brown bag, muted gold bag, dark silver bag, wavy maroon bag, dotted silver bag, vibrant silver bag, mirrored cyan bag, mirrored violet bag, dull silver bag, posh magenta bag
+#wavy blue bag : 5 | light lime bag, dim cyan bag, dotted turquoise bag, pale chartreuse bag, dotted white bag, dotted fuchsia bag, muted tomato bag, dim plum bag, drab tan bag, bright bronze bag
+#dotted blue bag : 2 | plaid blue bag, muted magenta bag
+#light brown bag : 5 | plaid blue bag, clear cyan bag, drab plum bag, plaid brown bag, plaid white bag
+#posh teal bag : 5 | plaid blue bag
+#bright lavender bag : 2 | vibrant maroon bag, dim violet bag, clear aqua bag, dull gold bag, pale gray bag
+#wavy magenta bag : 1 | light orange bag, plaid indigo bag, faded gray bag, posh chartreuse bag, plaid purple bag, pale white bag
+#clear orange bag : 3 | light orange bag, striped crimson bag, shiny orange bag, mirrored lime bag, pale orange bag, mirrored silver bag, dark teal bag, striped indigo bag, light purple bag, pale gray bag, dull maroon bag
+#plaid red bag : 2 | bright beige bag, plaid indigo bag, vibrant white bag, striped salmon bag
+#dull aqua bag : 1 | bright beige bag, posh salmon bag, drab cyan bag, posh white bag, vibrant blue bag, dim turquoise bag
+#bright fuchsia bag : 3 | bright beige bag, muted green bag, muted indigo bag, pale plum bag, muted lime bag, clear lavender bag, light aqua bag, clear gold bag, faded cyan bag, light gray bag
+#faded maroon bag : 3 | striped crimson bag, light coral bag, dotted fuchsia bag, bright gold bag
+#dull chartreuse bag : 3 | striped crimson bag, plaid chartreuse bag, mirrored teal bag, dark silver bag, pale orange bag, light cyan bag, vibrant silver bag, dotted blue bag, mirrored turquoise bag, posh fuchsia bag, dull silver bag, drab aqua bag
+#mirrored red bag : 4 | striped crimson bag, dull salmon bag, dark salmon bag, dull teal bag
+#pale plum bag : 3 | posh silver bag, drab purple bag
+#light salmon bag : 4 | posh silver bag, drab silver bag, drab blue bag, wavy tan bag, faded red bag
+#dark white bag : 2 | dull white bag, dotted salmon bag, posh violet bag, vibrant yellow bag
+#clear indigo bag : 4 | bright lime bag, clear violet bag, pale indigo bag
+#light lime bag : 3 | bright crimson bag
+#vibrant magenta bag : 3 | dull lavender bag, posh salmon bag, dull violet bag, wavy maroon bag, drab magenta bag, posh brown bag, dark teal bag, dull gold bag, pale lavender bag, dark crimson bag
+# other bag : n | pale purple bag, bright chartreuse bag, dim bronze bag, light crimson bag, shiny teal bag, dull olive bag, faded salmon bag, pale brown bag, clear green bag, faded coral bag
+#dotted black bag : 4 | dull black bag, posh cyan bag, dark lavender bag, bright brown bag
+#clear lavender bag : 5 | shiny salmon bag, drab turquoise bag, faded gray bag, dim blue bag, bright indigo bag, striped cyan bag
+#light crimson bag : 1 | shiny salmon bag, wavy plum bag, dull violet bag, muted beige bag, dark teal bag, bright orange bag, mirrored gray bag
+#light gray bag : 2 | shiny salmon bag, dark bronze bag, light aqua bag, posh yellow bag, bright tan bag, striped beige bag
+#striped indigo bag : 1 | vibrant red bag, posh gold bag, muted fuchsia bag, pale aqua bag, shiny cyan bag, pale indigo bag, pale fuchsia bag
+#vibrant silver bag : 1 | vibrant red bag, dotted indigo bag, drab magenta bag, posh plum bag
+#posh purple bag : 1 | plaid beige bag, vibrant tomato bag
+#pale bronze bag : 5 | plaid beige bag, dark bronze bag, dotted tan bag, posh red bag
+#dotted white bag : 1 | plaid beige bag, dim red bag, wavy black bag, pale plum bag, light blue bag
+#wavy salmon bag : 1 | striped bronze bag, mirrored maroon bag, posh crimson bag, bright orange bag, faded indigo bag
+#posh fuchsia bag : 4 | shiny lavender bag, faded blue bag, dark white bag, bright magenta bag, muted blue bag, drab tan bag, vibrant fuchsia bag
+#dim blue bag : 2 | wavy white bag
+#faded silver bag : 5 | wavy white bag, muted violet bag, striped maroon bag, shiny black bag
+#shiny silver bag : 5 | wavy white bag
+#shiny beige bag : 2 | wavy white bag, dotted turquoise bag, faded lime bag
+#muted lavender bag : 5 | mirrored teal bag, clear plum bag, muted indigo bag, clear violet bag, striped chartreuse bag, striped aqua bag, wavy green bag, faded cyan bag, light red bag, striped lime bag, faded maroon bag, posh orange bag
+#clear magenta bag : 1 | dotted bronze bag, plaid aqua bag, dim lavender bag, dotted silver bag, posh red bag, striped white bag
+#muted silver bag : 2 | dotted bronze bag, plaid indigo bag, clear gray bag, faded white bag, dim olive bag
+#shiny fuchsia bag : 5 | dim red bag, dim indigo bag, plaid crimson bag, vibrant indigo bag
+#dull white bag : 2 | shiny crimson bag, drab orange bag, faded turquoise bag
+#vibrant maroon bag : 2 | shiny crimson bag
+#posh cyan bag : 5 | faded olive bag, striped turquoise bag, drab lavender bag
+#striped gold bag : 5 | mirrored gold bag, muted plum bag, dark salmon bag, vibrant tan bag
+#shiny green bag : 5 | dim cyan bag, muted gold bag, light salmon bag, vibrant brown bag, shiny brown bag, faded gold bag, bright fuchsia bag
+#mirrored lime bag : 3 | dim cyan bag, vibrant orange bag, vibrant tomato bag, plaid salmon bag, dull brown bag, mirrored maroon bag, vibrant blue bag, vibrant green bag, dotted aqua bag
+#dark plum bag : 4 | dim cyan bag, wavy chartreuse bag, pale chartreuse bag, wavy lime bag, dotted lime bag
+#bright chartreuse bag : 1 | vibrant orange bag, wavy magenta bag, muted fuchsia bag, vibrant black bag, mirrored red bag, plaid violet bag, shiny coral bag, bright lavender bag
+#pale crimson bag : 3 | vibrant orange bag, dull aqua bag, pale plum bag, dotted salmon bag, striped silver bag, clear lavender bag, faded turquoise bag, pale tan bag, dotted lime bag, drab aqua bag
+#muted beige bag : 4 | vibrant orange bag, pale lime bag, mirrored tan bag
+#dull olive bag : 5 | pale beige bag, shiny gray bag, muted white bag, bright gray bag, plaid silver bag, vibrant teal bag, muted turquoise bag, bright tomato bag, dim crimson bag, mirrored black bag, vibrant salmon bag
+#faded red bag : 1 | posh lavender bag, dark yellow bag, wavy black bag, dotted purple bag, dark chartreuse bag
+#wavy maroon bag : 2 | posh lavender bag, muted cyan bag
+#dull black bag : 3 | plaid teal bag
+#muted tan bag : 5 | plaid teal bag, striped blue bag, dull blue bag, striped maroon bag, dark crimson bag, plaid white bag
+#posh salmon bag : 1 | wavy red bag
+#light black bag : 1 | wavy red bag, drab salmon bag, clear bronze bag
+#drab olive bag : 2 | wavy red bag, mirrored lavender bag, vibrant violet bag, plaid plum bag, bright plum bag
+#drab beige bag : 4 | wavy red bag, striped gold bag, dark tomato bag, shiny purple bag, bright olive bag
+#bright yellow bag : 5 | drab maroon bag
+#light yellow bag : 1 | clear tan bag, light coral bag, dark brown bag, muted white bag, drab violet bag, dim coral bag, drab magenta bag, bright gold bag, mirrored tan bag, wavy green bag
+#mirrored indigo bag : 2 | clear tan bag
+#dotted olive bag : 2 | clear tan bag, striped gold bag, pale magenta bag, shiny green bag, pale white bag, bright purple bag, muted silver bag, striped tomato bag, dark red bag, wavy cyan bag
+#clear crimson bag : 1 | striped turquoise bag, vibrant lavender bag
+#bright bronze bag : 3 | posh turquoise bag, muted maroon bag, wavy brown bag
+#bright orange bag : 5 | posh turquoise bag, striped red bag, dotted violet bag
+#posh yellow bag : 3 | dark turquoise bag
+#dull red bag : 4 | dark turquoise bag, wavy indigo bag, shiny red bag
+#plaid silver bag : 5 | dark turquoise bag, light maroon bag, posh violet bag, drab fuchsia bag, dotted lavender bag
+#wavy bronze bag : 2 | posh green bag, wavy fuchsia bag
+#muted gold bag : 2 | muted green bag, bright cyan bag, bright indigo bag, dull red bag, plaid black bag
+#light orange bag : 3 | muted green bag, mirrored lime bag, shiny turquoise bag
+#pale chartreuse bag : 4 | dotted coral bag, drab silver bag, faded blue bag, plaid purple bag, dim maroon bag
+#bright gray bag : 2 | bright silver bag, dark tomato bag, light turquoise bag, dotted brown bag
+#pale teal bag : 5 | drab chartreuse bag, bright aqua bag, light blue bag, light gold bag, wavy gray bag, mirrored orange bag
+#posh white bag : 3 | muted plum bag, muted coral bag
+#bright red bag : 1 | muted plum bag, light magenta bag, plaid maroon bag
+#dim beige bag : 1 | dark bronze bag, posh tan bag, dim gold bag
+#dark black bag : 3 | dim fuchsia bag, drab blue bag, drab purple bag, plaid brown bag, dim gold bag, plaid magenta bag
+#mirrored chartreuse bag : 3 | dim fuchsia bag, posh cyan bag, dull crimson bag, mirrored tomato bag, posh gray bag, drab plum bag, striped plum bag, pale crimson bag, bright salmon bag, faded plum bag, dim tomato bag, light indigo bag, dull maroon bag
+#wavy white bag : 3 | faded brown bag
+#vibrant fuchsia bag : 4 | bright green bag
+#shiny white bag : 2 | bright green bag, striped magenta bag, dark chartreuse bag
+#mirrored blue bag : 3 | bright green bag, muted tomato bag
+#posh aqua bag : 4 | bright green bag, plaid cyan bag, dim chartreuse bag
+#dark coral bag : 4 | shiny orange bag, dotted indigo bag
+#bright teal bag : 2 | shiny orange bag, faded yellow bag
+#dotted brown bag : 5 | shiny orange bag, pale black bag, pale cyan bag
+#shiny gold bag : 2 | clear blue bag, bright coral bag, muted cyan bag, pale blue bag, dim maroon bag, light gray bag
+#wavy olive bag : 4 | vibrant olive bag, vibrant bronze bag, mirrored crimson bag, wavy green bag
+#striped plum bag : 3 | muted gold bag, bright cyan bag, dark brown bag, faded yellow bag, dark magenta bag, clear gold bag, dotted yellow bag, striped brown bag
+#shiny purple bag : 4 | plaid aqua bag, plaid plum bag, dark chartreuse bag
+#striped violet bag : 3 | plaid aqua bag, striped blue bag, drab teal bag, dull brown bag, shiny gold bag
+#wavy plum bag : 5 | vibrant turquoise bag, mirrored lime bag, faded gray bag, dull bronze bag, wavy magenta bag, shiny beige bag, dim coral bag, dim white bag, muted beige bag, faded crimson bag, dotted olive bag, wavy silver bag, bright black bag, striped fuchsia bag, posh bronze bag
+#drab crimson bag : 2 | light teal bag
+#drab violet bag : 1 | light coral bag, drab yellow bag, clear gray bag, vibrant indigo bag, clear black bag
+#dim crimson bag : 5 | bright cyan bag, dotted plum bag, bright tomato bag, wavy violet bag, shiny green bag, plaid orange bag, faded aqua bag, posh fuchsia bag, dim plum bag, dotted beige bag, bright plum bag
+#dull bronze bag : 4 | wavy purple bag, clear brown bag, dotted purple bag, mirrored plum bag, muted orange bag
+#pale blue bag : 5 | bright white bag, faded black bag, striped gold bag, dotted fuchsia bag, dark salmon bag, dark tomato bag, pale aqua bag, shiny purple bag, bright black bag, striped aqua bag, plaid magenta bag
+#dull indigo bag : 3 | clear plum bag, dull yellow bag, bright orange bag
+#vibrant turquoise bag : 3 | vibrant tomato bag, pale bronze bag, mirrored brown bag, dull fuchsia bag, striped black bag
+#clear maroon bag : 4 | vibrant tomato bag, dim yellow bag, dark purple bag, pale yellow bag, light violet bag, posh plum bag
+#dotted gray bag : 4 | muted tan bag, bright gold bag, wavy brown bag
+#plaid orange bag : 4 | muted tan bag, striped purple bag
+#pale green bag : 2 | muted tan bag, plaid cyan bag, pale tan bag, dotted red bag
+#mirrored tomato bag : 2 | dark brown bag, posh black bag, muted aqua bag, wavy fuchsia bag, bright indigo bag, shiny aqua bag, dull indigo bag, dark gray bag, posh blue bag, muted olive bag, faded cyan bag, bright teal bag
+#muted indigo bag : 5 | striped yellow bag, shiny beige bag, dotted teal bag, dim violet bag, plaid magenta bag
+#bright black bag : 4 | striped yellow bag
+#posh gray bag : 4 | posh black bag, posh maroon bag, wavy coral bag, vibrant brown bag, mirrored salmon bag, light blue bag, striped purple bag, wavy indigo bag, shiny magenta bag
+#pale orange bag : 5 | wavy black bag, clear coral bag
+#posh violet bag : 3 | wavy black bag
+#posh chartreuse bag : 1 | bright coral bag, shiny beige bag, dull orange bag
+#light violet bag : 4 | posh tomato bag
+#mirrored olive bag : 1 | posh tomato bag
+#vibrant gray bag : 5 | posh cyan bag, wavy tomato bag, muted turquoise bag, plaid lime bag, striped aqua bag, faded indigo bag, dotted lavender bag, pale maroon bag, faded maroon bag
+#light fuchsia bag : 1 | pale silver bag, striped teal bag, dark maroon bag
+#dark red bag : 4 | pale silver bag
+#mirrored magenta bag : 1 | dotted indigo bag, shiny chartreuse bag, dim lime bag, shiny bronze bag
+#plaid gold bag : 4 | dotted indigo bag
+#shiny blue bag : 5 | light chartreuse bag
+#drab coral bag : 5 | light chartreuse bag, dark gold bag, muted yellow bag
+#drab turquoise bag : 4 | light chartreuse bag, plaid gray bag, dark red bag
+#wavy violet bag : 3 | pale tomato bag
+#dotted tan bag : 3 | pale tomato bag, bright magenta bag, clear turquoise bag
+#drab brown bag : 4 | pale tomato bag
+#dim silver bag : 3 | muted chartreuse bag
+#dim chartreuse bag : 1 | muted chartreuse bag
+#striped green bag : 3 | muted chartreuse bag, bright yellow bag, striped brown bag
+#drab aqua bag : 2 | dull aqua bag, muted violet bag, dotted teal bag, bright blue bag, drab indigo bag, dim aqua bag, clear bronze bag, wavy cyan bag, pale maroon bag
+#light tan bag : 3 | dark lime bag, dotted plum bag, pale cyan bag, dark red bag
+#drab orange bag : 4 | dark orange bag, drab turquoise bag, light tan bag, faded yellow bag, faded gold bag
+#dotted chartreuse bag : 4 | faded black bag, dull coral bag, muted purple bag, dim silver bag
+#plaid olive bag : 5 | faded black bag, clear violet bag, bright maroon bag, mirrored coral bag, dotted maroon bag, wavy gold bag, light purple bag
+#wavy lavender bag : 5 | dull purple bag, faded lime bag, vibrant indigo bag, muted blue bag, clear olive bag, pale fuchsia bag
+#pale purple bag : 3 | dotted gold bag, vibrant brown bag, muted aqua bag, posh lime bag, mirrored aqua bag, drab bronze bag, muted beige bag, dim crimson bag, vibrant gray bag, dotted beige bag, clear olive bag, shiny white bag, posh purple bag
+#dark olive bag : 1 | dotted gold bag
+#wavy beige bag : 5 | dotted gold bag
+#mirrored aqua bag : 2 | dotted gold bag, dull violet bag, wavy maroon bag, muted aqua bag, shiny cyan bag, posh olive bag, mirrored crimson bag, bright fuchsia bag
+#shiny tomato bag : 2 | pale bronze bag, drab turquoise bag, drab lavender bag, mirrored white bag, posh tan bag
+#faded coral bag : 4 | bright aqua bag, drab red bag, dim magenta bag, mirrored aqua bag, muted salmon bag, clear tomato bag, striped salmon bag, dim crimson bag, faded plum bag, dim aqua bag, wavy cyan bag, posh bronze bag, vibrant magenta bag, shiny magenta bag
+#clear olive bag : 2 | bright aqua bag, plaid fuchsia bag, dotted cyan bag
+#wavy yellow bag : 5 | faded beige bag, pale turquoise bag, striped maroon bag, pale lime bag, plaid gray bag, dotted brown bag
+#pale lavender bag : 3 | faded beige bag, drab violet bag, mirrored silver bag
+#vibrant coral bag : 1 | faded beige bag, dim orange bag, clear magenta bag, dull indigo bag
+#posh bronze bag : 1 | light maroon bag, plaid black bag
+#dotted silver bag : 3 | light maroon bag, dark olive bag, dotted crimson bag, wavy indigo bag
+#muted teal bag : 1 | light maroon bag, dull plum bag, light red bag
+#mirrored maroon bag : 1 | posh maroon bag, plaid tan bag, light turquoise bag, dull gray bag
+#posh black bag : 1 | posh maroon bag
+#vibrant salmon bag : 2 | bright red bag, dark violet bag, shiny bronze bag
+#faded violet bag : 2 | vibrant purple bag
+#dotted yellow bag : 3 | vibrant crimson bag, light olive bag
+#pale tan bag : 2 | vibrant crimson bag, shiny brown bag, faded lavender bag
+#posh turquoise bag : 4 | dim green bag, dull plum bag, dull teal bag, faded red bag
+#striped fuchsia bag : 1 | striped gray bag, pale green bag, dotted white bag, plaid lime bag, striped indigo bag, dark olive bag, light gray bag
+#striped beige bag : 4 | light salmon bag, clear cyan bag, dull cyan bag, dotted white bag, vibrant yellow bag, pale salmon bag, dim maroon bag, shiny plum bag
+#dim maroon bag : 5 | bright violet bag
+#dark tan bag : 5 | bright violet bag
+#drab purple bag : 3 | bright violet bag, wavy violet bag
+#posh red bag : 4 | muted violet bag, dotted teal bag, light aqua bag, dull green bag, shiny plum bag
+#dull maroon bag : 2 | dull salmon bag, striped green bag
+#dim turquoise bag : 5 | posh aqua bag, dull magenta bag, dark gray bag, plaid green bag
+#drab green bag : 5 | posh aqua bag, light olive bag
+#striped red bag : 2 | posh aqua bag, mirrored orange bag
+#pale yellow bag : 3 | muted white bag, posh teal bag, muted cyan bag, dotted teal bag, posh tan bag
+#faded purple bag : 5 | wavy coral bag, clear yellow bag, pale yellow bag, plaid lavender bag, drab purple bag, clear purple bag, pale lavender bag, plaid maroon bag, bright lavender bag
+#dark tomato bag : 4 | wavy coral bag, pale lime bag, faded white bag, shiny red bag
+#mirrored violet bag : 1 | dotted plum bag, clear violet bag, bright indigo bag, pale lavender bag
+#mirrored fuchsia bag : 1 | dotted plum bag, clear teal bag, clear black bag, pale salmon bag, clear red bag
+#muted lime bag : 2 | mirrored purple bag, mirrored yellow bag, faded lavender bag
+#mirrored teal bag : 4 | mirrored purple bag
+#striped orange bag : 3 | drab yellow bag, pale coral bag, posh crimson bag
+#bright crimson bag : 1 | drab red bag, light green bag
+#dim gray bag : 5 | muted red bag, mirrored fuchsia bag, clear aqua bag, plaid gray bag, faded fuchsia bag
+#muted purple bag : 3 | clear cyan bag, drab cyan bag, drab lime bag
+#clear yellow bag : 2 | plaid cyan bag, shiny blue bag, dim tan bag
+#shiny gray bag : 4 | plaid cyan bag, wavy tan bag, drab cyan bag, striped indigo bag, shiny chartreuse bag, light fuchsia bag
+#faded lime bag : 4 | clear brown bag, dim white bag, mirrored silver bag, muted coral bag
+#clear bronze bag : 2 | clear brown bag, plaid brown bag
+#light bronze bag : 3 | light tan bag, muted magenta bag
+#pale fuchsia bag : 4 | muted black bag, muted blue bag, muted maroon bag
+#bright maroon bag : 3 | muted black bag
+#striped lavender bag : 3 | muted black bag, dull tomato bag
+#vibrant blue bag : 1 | dark aqua bag, striped gold bag, striped salmon bag, clear fuchsia bag
+#drab blue bag : 3 | dim lavender bag, faded silver bag, posh blue bag
+#plaid lime bag : 1 | bright gray bag, clear yellow bag, dull tomato bag, mirrored white bag, dull indigo bag, faded green bag
+#faded yellow bag : 1 | mirrored bronze bag
+#vibrant black bag : 4 | plaid silver bag, dotted white bag, posh lime bag, mirrored aqua bag, clear magenta bag, vibrant gray bag, striped indigo bag, wavy salmon bag, light purple bag, dull chartreuse bag, bright fuchsia bag, shiny coral bag
+#clear coral bag : 5 | dim yellow bag, dim white bag, dull red bag
+#plaid magenta bag : 1 | drab orange bag, clear turquoise bag, posh purple bag, bright brown bag, bright teal bag
+#dull lavender bag : 2 | drab orange bag, drab tomato bag, striped white bag, dull gold bag, clear white bag, clear beige bag
+#dim cyan bag : 4 | drab orange bag, plaid coral bag, dark white bag
+#wavy crimson bag : 5 | wavy turquoise bag
+#posh plum bag : 1 | wavy turquoise bag
+#faded turquoise bag : 4 | wavy turquoise bag, pale black bag
+#clear violet bag : 4 | clear yellow bag, muted gray bag, dull maroon bag, dim silver bag, bright bronze bag
+#vibrant orange bag : 1 | muted crimson bag, dotted gray bag, posh fuchsia bag
+#posh orange bag : 1 | dull cyan bag
+#bright lime bag : 5 | shiny fuchsia bag
+#faded indigo bag : 5 | shiny fuchsia bag, mirrored coral bag, clear silver bag, shiny coral bag
+#plaid tan bag : 4 | shiny tan bag
+#dotted lavender bag : 5 | dull bronze bag, drab tan bag, dim gold bag, posh blue bag, clear chartreuse bag, muted maroon bag
+#clear silver bag : 4 | dim blue bag
+#muted blue bag : 4 | dim blue bag, vibrant tan bag, faded tomato bag
+#drab gray bag : 2 | plaid coral bag, faded turquoise bag, pale cyan bag, dull coral bag
+#dark orange bag : 4 | plaid coral bag
+#dim fuchsia bag : 3 | striped coral bag
+#vibrant yellow bag : 5 | striped coral bag, pale red bag, mirrored cyan bag, clear olive bag
+#mirrored turquoise bag : 1 | striped coral bag, mirrored crimson bag, dark indigo bag, shiny plum bag
+#wavy gray bag : 1 | dark beige bag, light gold bag, posh magenta bag
+#muted olive bag : 5 | plaid red bag, vibrant teal bag, drab green bag, drab blue bag, drab teal bag, dull beige bag, plaid fuchsia bag, dull gray bag
+#dark silver bag : 3 | plaid red bag
+#dark green bag : 3 | dark purple bag, faded green bag
+#vibrant white bag : 3 | dull yellow bag, plaid gold bag
+#dotted teal bag : 4 | dull yellow bag, shiny indigo bag, dim tan bag
+#dark violet bag : 2 | faded magenta bag, dotted violet bag
+#light indigo bag : 4 | faded magenta bag
+#plaid indigo bag : 5 | faded blue bag
+#posh gold bag : 3 | dark coral bag, pale fuchsia bag
+#dim lime bag : 3 | dark coral bag, drab coral bag, drab olive bag
+#faded cyan bag : 1 | drab gold bag, plaid orange bag
+#dim green bag : 1 | dotted green bag, plaid black bag, mirrored orange bag
+#wavy red bag : 4 | dotted green bag
+#vibrant red bag : 2 | mirrored olive bag, dim beige bag, drab teal bag, dull beige bag, dull red bag, muted maroon bag
+#dim violet bag : 4 | muted lime bag, clear silver bag, dark olive bag, clear crimson bag, posh orange bag
+#plaid fuchsia bag : 5 | pale violet bag, vibrant lime bag
+#dotted beige bag : 5 | wavy lime bag, wavy tan bag, plaid purple bag, dim aqua bag, dark red bag
+#mirrored beige bag : 2 | dotted salmon bag
+#dark brown bag : 4 | vibrant white bag, wavy blue bag, plaid olive bag, shiny chartreuse bag, light brown bag
+#dotted lime bag : 1 | vibrant white bag, bright teal bag, dim olive bag
+#plaid violet bag : 3 | muted brown bag, muted turquoise bag, shiny purple bag, clear white bag, bright orange bag
+#plaid bronze bag : 4 | striped red bag
+#shiny aqua bag : 1 | vibrant teal bag, mirrored brown bag
+#pale violet bag : 4 | light gold bag
+#shiny magenta bag : 5 | posh violet bag, striped salmon bag
+#clear turquoise bag : 4 | dull tomato bag, faded lavender bag
+#dull lime bag : 3 | dull tomato bag, dim purple bag, mirrored indigo bag
+#vibrant beige bag : 2 | dull blue bag
+#drab salmon bag : 5 | light magenta bag, muted yellow bag
+#drab fuchsia bag : 1 | light beige bag, plaid brown bag
+#shiny cyan bag : 2 | muted fuchsia bag, dull crimson bag, vibrant violet bag, posh olive bag
+#vibrant brown bag : 2 | muted gray bag, shiny brown bag
+#dark indigo bag : 4 | bright maroon bag
+#muted brown bag : 2 | drab crimson bag, striped brown bag
+#faded fuchsia bag : 1 | drab crimson bag, drab coral bag
+#dull silver bag : 5 | muted turquoise bag, pale blue bag, clear lime bag, clear olive bag, muted orange bag
+#vibrant lime bag : 5 | light lavender bag, light olive bag, faded crimson bag, wavy crimson bag
+#light coral bag : 1 | light lavender bag, dotted red bag
+#dim olive bag : 5 | striped maroon bag
+#bright olive bag : 2 | shiny olive bag
+#muted white bag : 1 | plaid lime bag, dotted lime bag, dotted orange bag
+#striped salmon bag : 1 | faded yellow bag
+#shiny teal bag : 5 | dark tomato bag, dull crimson bag, dull green bag, plaid purple bag, striped cyan bag, plaid yellow bag, vibrant plum bag, striped beige bag
+#muted red bag : 4 | pale coral bag
+#muted crimson bag : 3 | faded turquoise bag
+#dark blue bag : 2 | pale gold bag, mirrored brown bag, faded gold bag
+#dull crimson bag : 1 | muted tomato bag, dark olive bag
+#dotted salmon bag : 3 | wavy beige bag, wavy gold bag, striped olive bag, dark chartreuse bag
+#posh olive bag : 5 | dotted violet bag, dotted lime bag, dull brown bag, bright brown bag
+#shiny red bag : 1 | mirrored yellow bag, pale maroon bag
+#bright white bag : 2 | plaid salmon bag, dim violet bag, light red bag, muted purple bag
+#faded tomato bag : 2 | pale black bag, striped black bag, vibrant fuchsia bag
+#pale beige bag : 3 | pale red bag, light white bag
+#muted turquoise bag : 5 | shiny tomato bag
+#pale olive bag : 4 | bright turquoise bag, mirrored plum bag
+#shiny plum bag : 5 | pale aqua bag, striped purple bag, dark maroon bag
+#posh tan bag : 1 | shiny indigo bag, bright purple bag
+#dull brown bag : 1 | dark magenta bag
+#wavy tan bag : 2 | dark magenta bag, pale maroon bag
+#faded olive bag : 2 | dark magenta bag, dim teal bag, dull turquoise bag
+#drab white bag : 5 | wavy violet bag
+#shiny lavender bag : 4 | shiny purple bag
+#wavy purple bag : 1 | plaid lavender bag
+#plaid salmon bag : 1 | dark violet bag, dark tan bag, vibrant fuchsia bag
+#clear white bag : 3 | dotted blue bag
+#light cyan bag : 2 | dotted blue bag, plaid green bag
+#wavy teal bag : 4 | wavy aqua bag, shiny lime bag
+#muted maroon bag : 5 | wavy aqua bag, plaid tan bag, dotted brown bag
+#plaid blue bag : 5 | wavy aqua bag, muted coral bag
+#wavy cyan bag : 2 | mirrored maroon bag, mirrored indigo bag, vibrant aqua bag
+#bright plum bag : 5 | clear salmon bag
+#light beige bag : 5 | clear salmon bag
+#plaid aqua bag : 2 | clear salmon bag
+#muted violet bag : 3 | bright yellow bag, vibrant lavender bag
+#dull blue bag : 2 | light violet bag
+#posh blue bag : 2 | drab coral bag
+#shiny turquoise bag : 3 | drab coral bag, drab purple bag
+#vibrant teal bag : 2 | plaid bronze bag, posh indigo bag
+#dull tan bag : 4 | dull magenta bag, wavy gold bag
+#dotted tomato bag : 5 | shiny maroon bag
+#bright purple bag : 5 | faded bronze bag, clear coral bag, plaid maroon bag
+#dull gray bag : 3 | dark blue bag, vibrant indigo bag, vibrant tan bag, wavy gray bag
+#dotted plum bag : 1 | dim teal bag
+#dotted orange bag : 4 | dim teal bag
