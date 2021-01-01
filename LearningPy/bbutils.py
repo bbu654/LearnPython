@@ -591,6 +591,7 @@ def day7bags():
     constChildLit='#'
     dedupe=[]
     mergeit=[]
+    bagkvp=[]
     path = f'day7bagrules.txt'
     file1 = open(path, 'r')
     while True:
@@ -606,11 +607,9 @@ def day7bags():
             root=line.split(' contain ')
             poproot=root[0]
             bagroot=root[1].split(', ')
-            for bagchild in bagroot:
-                #if str(bagchild).__contains__('bags'):
-                #    str(bagchild).replace('bags','bag')
+            for bagchild in bagroot:                                                        #if str(bagchild).__contains__('bags'):                #    str(bagchild).replace('bags','bag')
                 ptemp0=f'{constChildLit}{str(bagchild[2:])}'
-                ptemp1=f'{ptemp0} : {str(bagchild[0])}'
+                ptemp1=f'{ptemp0}'#' : {str(bagchild[0])}'
                 dedupe.append(ptemp1)
                 if countline>42:
                     breakpoint
@@ -623,8 +622,10 @@ def day7bags():
                             break
                     else:
                         mergeit.append(f'{ptemp1} | {poproot}')   #if indexofMergeit == []:                        #    indexofMergeit = 0                        #if mergeit.__contains__(ptemp0):                        #if indexofMergeit == 0: # or indexofMergeit == []:                                    #else:                    #ptemp3=mergeit[i]
+                        bagkvp.append(f'{ptemp0}')
                 else:    
                     mergeit.append(f'{ptemp1} | {poproot}')
+                    bagkvp.append(f'{ptemp0}')            
             if line.__contains__(','):
                 countcommas=line.count(',') +1
             else:
@@ -632,6 +633,7 @@ def day7bags():
             if countcommas > largestline:
                 largestline=countcommas
             totalcommas+=countcommas            #bagchild = bagroot.split()            #Bag = namedtuple('Bag', dedupe)
+
     ntstr=  """
             # Basic example
             >>> Point = namedtuple('Point', ['x', 'y'])
@@ -645,13 +647,27 @@ def day7bags():
             33
             >>> p                       # readable __repr__ with a name=value style
             Point(x=11, y=22)"""
+    #need to keep trak where we are at all get_top_n_items_from_list
+    #When are we done
+    WriteMergit(mergeit)
+    countbags=0
+    usedbagsstr='shiny gold bag,'
+    mergechild= 'shiny gold bag'
+    masterliststr=str(mergeit[bagkvp.index(f'{constChildLit}{mergechild}')])
+    MASTERLIST=masterliststr.split('| ')[1].split(', ')
+    for bagidx,bagval in enumerate(MASTERLIST):
+        usedbagsstr,countbags=drilldownbags(bagval,usedbagsstr,countbags,bagkvp,mergeit,constChildLit)
+    return countline,largestline,totalcommas,countbags    
+def WriteMergit(mergeit):
     file2=open('text.txt','w')
-    for i in mergeit:
-        file2.write(i + '\n')
-    return countline,largestline,totalcommas
-def drilldownbags(mergechild, usedbagsstr,countbags,bagkvp)#bagkvp=shiny gold bag,146#ABD 1 4 clear blue bag
+    for i in mergeit: file2.write(i + '\n')
+    
+def drilldownbags(mergechild, usedbagsstr,countbags,bagkvp,mergeit,constChildLit):
+    #bagkvp=shiny gold bag,146#ABD 1 4 clear blue bag
     #use mergit to get all shiny gold bag
-    shinygoldindex= mergeit.index('#shiny gold bag : 146 | clear blue bag, bright coral bag, muted cyan bag, pale blue bag, dim maroon bag, light gray bag')
+    shinygoldindex= bagkvp.index(f'#{mergechild}')#mergeit.index('#shiny gold bag : 146 | clear blue bag, bright coral bag, muted cyan bag, pale blue bag, dim maroon bag, light gray bag')
+    usedbagsstr+=f'{mergechild}, '
+    countbags+=1
     sgb=str(mergeit[shinygoldindex])
     ss1=sgb.split('| ')
     ss9=str(ss1[1])
@@ -661,17 +677,24 @@ def drilldownbags(mergechild, usedbagsstr,countbags,bagkvp)#bagkvp=shiny gold ba
     for bagidx, bagdict in enumerate(ss2):
         st3=str(bagdict)
         ss3.append(f'{constChildLit}{st3}')    #        sn1= bagidx
-    for childidx, childval in enumerate(ss3):
-        for mergidx,mergval in enumerate(mergeit):
-            #mergval has each single element of the mergeit
-            mergstr = str(mergval)
-            mergstr1= mergstr.split('| ')
-            mergstr2= str(mergstr1[1])
-            mergstr3=mergstr2.split(', ')
-            if mergstr3.__contains__('#shiny gold bag'):
-                countbags+=1
-                ss4.append(mergstr3)
-
+    for childidx, childval in enumerate(ss3):#just get it from bagkvp
+        #for mergidx,mergval in enumerate(mergeit): #need another subroutine
+        for tmpidx,tmpval in enumerate(bagkvp):
+            if str(tmpval) == childval:
+                tempw=str(mergeit[bagkvp.index(f'{childval}')])
+                #me rgval has each single element of the mergeit
+                #mergstr = str(mergval)
+                mergstr1= tempw.split('| ')
+                mergstr2= str(mergstr1[1])
+                mergstr3=mergstr2.split(', ')
+                if mergstr3.__contains__(f'{childval}'):
+                    if not usedbagsstr.__contains__(mergstr3):
+                        countbags+=1
+                        ss4.append(mergstr3)
+                        usedbagsstr+=f'{mergstr3}, '
+    else:
+        tempp=0#douhave the balls to recusivelly call this thing    
+    return usedbagsstr,countbags
 def day6answers():
     countline=0
     countanswers=0
