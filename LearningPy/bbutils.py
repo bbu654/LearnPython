@@ -592,6 +592,8 @@ def day7bags():
     dedupe=[]
     mergeit=[]
     bagkvp=[]
+    nextones=[]
+    deadends=[]
     path = f'day7bagrules.txt'
     file1 = open(path, 'r')
     while True:
@@ -649,20 +651,23 @@ def day7bags():
             Point(x=11, y=22)"""
     #need to keep trak where we are at all get_top_n_items_from_list
     #When are we done
-    WriteMergit(mergeit)
+    WriteMergit(mergeit,bagkvp)
     countbags=0
     usedbagsstr='shiny gold bag,'
     mergechild= 'shiny gold bag'
     masterliststr=str(mergeit[bagkvp.index(f'{constChildLit}{mergechild}')])
     MASTERLIST=masterliststr.split('| ')[1].split(', ')
+  # for tempaaaa in MASTERLIST: nextones.append(f'{constChildLit}{str(tempaaaa)}')
     for bagidx,bagval in enumerate(MASTERLIST):
-        usedbagsstr,countbags=drilldownbags(bagval,usedbagsstr,countbags,bagkvp,mergeit,constChildLit)
+        usedbagsstr,countbags,nextones,deadends=drilldownbags(bagval,usedbagsstr,countbags,bagkvp,mergeit,nextones,deadends,constChildLit)
     return countline,largestline,totalcommas,countbags    
-def WriteMergit(mergeit):
-    file2=open('text.txt','w')
-    for i in mergeit: file2.write(i + '\n')
+def WriteMergit(mergeit, bagkvp):
+    file2=open('mergeit.txt','w')
+    for ik in mergeit: file2.write(ik + '\n')
+    file3 =open('bagkvp.txt','w')
+    for ji in bagkvp: file3.write(ji + '\n')
     
-def drilldownbags(mergechild, usedbagsstr,countbags,bagkvp,mergeit,constChildLit):
+def drilldownbags(mergechild, usedbagsstr,countbags,bagkvp,mergeit,nextones,deadends,constChildLit):
     #bagkvp=shiny gold bag,146#ABD 1 4 clear blue bag
     #use mergit to get all shiny gold bag
     shinygoldindex= bagkvp.index(f'#{mergechild}')#mergeit.index('#shiny gold bag : 146 | clear blue bag, bright coral bag, muted cyan bag, pale blue bag, dim maroon bag, light gray bag')
@@ -672,29 +677,41 @@ def drilldownbags(mergechild, usedbagsstr,countbags,bagkvp,mergeit,constChildLit
     ss1=sgb.split('| ')
     ss9=str(ss1[1])
     ss2=ss9.split(', ')
+    #for tempaaaa in ss2: nextones.append(f'{constChildLit}{str(tempaaaa)}')
     ss3=[]
     ss4=[]
     for bagidx, bagdict in enumerate(ss2):
         st3=str(bagdict)
         ss3.append(f'{constChildLit}{st3}')    #        sn1= bagidx
+        #nextones.append(f'{constChildLit}{str(st3)}')
     for childidx, childval in enumerate(ss3):#just get it from bagkvp
         #for mergidx,mergval in enumerate(mergeit): #need another subroutine
-        for tmpidx,tmpval in enumerate(bagkvp):
-            if str(tmpval) == childval:
-                tempw=str(mergeit[bagkvp.index(f'{childval}')])
+        if bagkvp.__contains__(childval):
+            tempw=str(mergeit[bagkvp.index(f'{childval}')])
+            nextones.append(str(childval))
+        #for tmpidx,tmpval in enumerate(bagkvp):
+            #if str(tmpval) == childval:
+             #   tempw=str(mergeit[bagkvp.index(f'{childval}')])
                 #me rgval has each single element of the mergeit
                 #mergstr = str(mergval)
-                mergstr1= tempw.split('| ')
-                mergstr2= str(mergstr1[1])
-                mergstr3=mergstr2.split(', ')
-                if mergstr3.__contains__(f'{childval}'):
-                    if not usedbagsstr.__contains__(mergstr3):
+            mergstr1= tempw.split('| ')
+            mergstr2= str(mergstr1[1])
+            mergstr3=mergstr2.split(', ')
+            for tempx in mergstr3:
+                if bagkvp.__contains__(f'{tempx}'):
+                    if not usedbagsstr.__contains__(tempx):
                         countbags+=1
-                        ss4.append(mergstr3)
-                        usedbagsstr+=f'{mergstr3}, '
+                        ss4.append(tempx)
+                        usedbagsstr+=f'{tempx}, '
+                        if nextones.__contains__(tempx): nextones.remove(tempx)
+                    else:
+                        deadends.append(f'{tempx}, ')                    
+                else:
+                    deadends.append(f'{tempx}, ')
+                        #nextones.remove(tempx)
     else:
         tempp=0#douhave the balls to recusivelly call this thing    
-    return usedbagsstr,countbags
+    return usedbagsstr,countbags,nextones
 def day6answers():
     countline=0
     countanswers=0
