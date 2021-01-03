@@ -183,6 +183,7 @@ shorty.append(f'day3={pobbu}, day4={bb.day4passports()}')
 shorty.append(f'day5={bb.day5SeatNumbers()[0]}')
 shorty.append(f'day6={bb.day6answers()}')
 shorty.append(f'day7={bb.day7bags()}')
+shorty.append(f'day8={bb.day8infloopacc()}')
 if False:
     bb.day3rdlineAdventOfCode()
 #123456789
