@@ -60,7 +60,7 @@ shorty.append(whiley.userange(4,6))
 if __name__ == '__main__':
     a = [1, 5, 2, 1, 9, 1, 5, 10]
     shorty.append(F'a={a};;;    ')
-    shorty.append(f'list(dedupe(a)={list(bb.dedupe(a))}{bb.DeepDiveOnCollections}')
+    shorty.append(f'list(dedupe(a)={list(bb.dedupe(a))}')#{bb.DeepDiveOnCollections}')
 collection_list = []
 print(collection_list,end='    ')
 list123 = [1,2,3,4,5]
@@ -183,7 +183,28 @@ shorty.append(f'day3={pobbu}, day4={bb.day4passports()}')
 shorty.append(f'day5={bb.day5SeatNumbers()[0]}')
 shorty.append(f'day6={bb.day6answers()}')
 shorty.append(f'day7={bb.day7bags()}')
-shorty.append(f'day8={bb.day8infloopacc()}')
+nopcount=0
+jmpcount=-1
+Limit=2000
+popaccum=Limit+1
+while   popaccum > Limit:
+    popaccum=bb.day8infloopacc(nopcount,jmpcount,Limit) 
+    nopcount+=1
+    if nopcount > 61 : break
+else:
+    shorty.append(f'day8={popaccum}')
+if popaccum < Limit:    shorty.append(f'day8={popaccum}')
+nopcount=-1
+jmpcount=0
+while   popaccum > Limit:
+    popaccum=bb.day8infloopacc(nopcount,jmpcount,Limit) 
+    jmpcount+=1
+    if jmpcount > 226: break
+else:
+    shorty.append(f'day8={popaccum}')
+if popaccum < Limit:    shorty.append(f'day8={popaccum}')
+shorty.append(f'day 9={bb.day9xmascipher()}')
+    #226
 if False:
     bb.day3rdlineAdventOfCode()
 #123456789
