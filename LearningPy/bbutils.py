@@ -3,8 +3,9 @@ import pkgutil
 import random
 import logging                          #from thread_safe_print import thread_safe_print
 import threading
-from collections import defaultdict, namedtuple
+from collections import defaultdict, namedtuple, deque
 import binarytree
+import debugpy
 import prettyprint
 import itertools
 def printit():
@@ -472,141 +473,203 @@ def dedupe(items):
     #    print(f'list(dedupe(a)={list(dedupe(a))}')
 listyearsum2020=[1567,1223,1758,1842,1933,1898,1409,1058,1533,1417,1032,1634,1477,1394,1888,1972,1237,1390,1677,1546,1302,1070,1369,1455,1065,1924,1593,1131,1064,1346,1914,1129,1830,1450,1278,1740,1809,1176,1734,1102,1807,1982,1603,1736,2008,1980,1905,1633,1732,1350,1865,1988,1805,1998,1152,1046,1870,1557,1789,1766,1945,1359,1002,1126,1719,1497,1296,1560,1936,1929,1464,2005,1281,618,1257,1107,1632,1688,1964,1803,1360,1384,1889,1411,1328,1452,1868,1515,1586,1631,1618,1087,1710,1094,1774,1295,1700,1636,1230,1421,1910,1522,1366,1144,1757,1493,1316,1103,687,1371,1720,1155,1559,1900,989,1367,1999,1066,1773,1787,1402,1047,1806,1956,1219,1555,1307,1419,1706,1884,1109,1181,2010,1298,1730,1078,1848,1398,1687,2007,1550,1664,1225,1079,1698,350,1222,1377,1977,1510,1571,1630,1029,1379,1942,1949,1249,1829,1297,1530,1607,1324,1069,1476,928,1039,1855,1644,1454,1310,1172,547,1034,1878,1479,1457,1319,1810,1759,1439,1851,545,1470,2003,1908,1564,1491,1174,1301,1689,1276,1781,1392,1499,1962,1653,1823,1381,1827,1974]
 DeepDiveOnCollections= """
-        In this tutorial we will explore and master the most common and important data structures 
-        in Python by performing a variety of operations with them. 
-        A Collection is a container variable that is used to store some number of objects, 
-        where objects can be of the same type or different.
-        List
-        List is an ordered set of elements that can be of different types. 
-        Lists are defined using square brackets or using the list literal. 
-        You can also create a list of identical values ​​using multiplication.
-        As said above, lists can contain variables of different type. 
-        However, lists usually are used to store variables of same time to imitate behavior of arrays.
-        
-        To get the length of list, use the len() function. In Python, 
-        you do not need to explicitly specify the size of a list while
-        creating. Length is calculated in constant time.
-        To access a specific list item or assign value to it, 
-        we refer to the element by index where first element 
-        has index of 0. To access an item from back, 
-        use negative index [-1]:
-        Accessing a nonexistent index results in an error:
-        Error Index: list index out of range !
-        Using the in operator, we can check if an object exists 
-        in the list. 
-        Result of operation returns a bool value:
-        You can also use slices to access a particular range of 
-        values of given list:
-        It is important to note that when using a slice, 
-        a new list gets created:
-        number_list[:] is number_list = false
-        We can iterate over list items using the for loop. Often it is 
-        necessary to get the index of the current element during 
-        iteration. To do this, you can use the enumerate function, 
-                which returns the index and the current element:
-        As lists are a mutable data structures, we can add and remove 
-        items. To add item to list, use .append() method:
-        If you need to expand the list with another list, 
-        you can use the .extend() method, which adds the 
-        transferred list to the end of your list:
-        
-        You can use the del keyword to remove an item from the list:
-        To find the minimum and maximum or calculate the sum of 
-        all elements, we can use the built-in functions min, max, sum:
-        It is often required to convert the list to a string, 
-        for this you can use the str.join() method:
-        Often we need to sort the list. There are two ways to sort 
-        a list in Python.
-        sorted()- the standard function, which returns the 
-        new list obtained by sorting the original:
-        .sort ()- the list method, which sorts list itself. 
-        For sorting, the Timsort algorithm is used. O(n log n) 
-        for worst case:
-        If we need to sort in reverse order, pass reverse=True as argument:
-        Dictionary
-        Dictionary allows you to store data in key-value format. 
-        Use the curly braces literal or just call dict() to define 
-        a dictionary. If we want to add data to dictionary while 
-        defining it, we write the key-value through a colon.
-        Access to the value by key is carried out for constant time 
-        and it does not depend on the size of the dictionary.
-        If you access element by key that does not exist, 
-        Python will throw a KeyError error, but it is often useful to try 
-        to get the value from the dictionary, and if there is no key, 
-        return some standard value. For such purposes we can use 
-        a built-in get() method.
-        Using the in operator, we can check if an object exists in the dictionary. 
-        Result of operation returns a bool value:
-        As dictionary is a mutable data structure, we can add and remove elements from it. 
-        We can add item to dictionary simply using key access. 
-        To remove the key and value from the dictionary, you can use the 
-        del keyword as with lists:
-        We can also add some key-value to the dictionary using can 
-        the built-in update() method, which takes another dictionary 
-        and extends our dictionary and also updates values of the original 
-        dictionary in the case of identical keys.
-        To remove the key-value from the dictionary and return the value 
-        at the same time, we use the pop method:
-        Sometimes it is required to check if a key exists in the dictionary, 
-        and in case of failure add this new key-value pair. 
-        For such situations we use setdefault() method:
-        Using a for loop, we can iterate over dictionary keys:
-        To iterate not by keys, but by keys and values ​​at once, 
-        we can use the method items():
-        The values() ​​method, which returns the values ​​logically:
-        Set
-        Set is an unordered collection of unique objects. 
-        Sets are mutable and are most often used to remove duplicates 
-        and all kinds of entry checks.
-        You can use the set literal to declare an empty set or use curly braces 
-        to declare the set and add some elements there at the time of declaration:
-        To check whether an object is contained in a set, we use in keyword. 
-        The check is performed in constant time. Each element of the structure 
-        is hashed by analogy with dictionaries. Based on the key received 
-        from the hash function, the object is searched.
-        To add an element to the set we use the add() method. 
-        The remove() method is used to remove a specific element:
-        Sets in Python support standard set operations — such as union, 
-        difference, intersection, and symmetric difference.
-        NOTE: all mentioned collections and their methods, 
-        functions are ones that are mostly used in practice. 
-        There are more of them.
-        Wrapping Up
-        Want to learn more? Refer to this link:
-        The Python Standard Library - Python 3.8.2 documentation
-        While The Python Language Reference describes the exact syntax 
-        and semantics of the Python language, this library…
-        docs.python.org
-        Kamoliddin Nabijonov
+    In this tutorial we will explore and master the most common and important data structures in Python 
+    by performing a variety of operations with them. 
+    A Collection is a container variable that is used to store some number of objects, 
+    where objects can be of the same type or different.
+    List
+    List is an ordered set of elements that can be of different types. x=[] or list(x)
+    You can also create a list of identical values ​​using multiplication.
+    As said above, lists can contain variables of different type. 
+    However, lists usually are used to store variables of same time to imitate behavior of arrays.
+    To get the length of list, use the len() function. In Python, 
+    you do not need to explicitly specify the size of a list while creating.
+    Length is calculated in constant time.
+    To access a specific list item or assign value to it, 
+    we refer to the element by index where first element 
+    has index of 0. To access an item from back, 
+    use negative index [-1]:
+    Accessing a nonexistent index results in an error:
+    Error Index: list index out of range !
+    Using the in operator, we can check if an object exists in the list. 
+    Result of operation returns a bool value:
+    You can also use slices to access a particular range of 
+    values of given list:
+    It is important to note that when using a slice, 
+    a new list gets created:
+    number_list[:] is number_list = false
+    We can iterate over list items using the for loop. Often it is 
+    necessary to get the index of the current element during 
+    iteration. To do this, you can use the enumerate function, 
+            which returns the index and the current element:
+    As lists are a mutable data structures, we can add and remove 
+    items. To add item to list, use .append() method:
+    If you need to expand the list with another list, 
+    you can use the .extend() method, which adds the 
+    transferred list to the end of your list:
+    
+    You can use the del keyword to remove an item from the list:
+    To find the minimum and maximum or calculate the sum of 
+    all elements, we can use the built-in functions min, max, sum:
+    It is often required to convert the list to a string, 
+    for this you can use the str.join() method:
+    Often we need to sort the list. There are two ways to sort 
+    a list in Python.
+    sorted()- the standard function, which returns the 
+    new list obtained by sorting the original:
+    .sort ()- the list method, which sorts list itself. 
+    For sorting, the Timsort algorithm is used. O(n log n) 
+    for worst case:
+    If we need to sort in reverse order, pass reverse=True as argument:
+    Dictionary
+    Dictionary allows you to store data in key-value format. 
+    Use the curly braces literal or just call dict() to define 
+    a dictionary. If we want to add data to dictionary while 
+    defining it, we write the key-value through a colon.
+    Access to the value by key is carried out for constant time 
+    and it does not depend on the size of the dictionary.
+    If you access element by key that does not exist, 
+    Python will throw a KeyError error, but it is often useful to try 
+    to get the value from the dictionary, and if there is no key, 
+    return some standard value. For such purposes we can use 
+    a built-in get() method.
+    Using the in operator, we can check if an object exists in the dictionary. 
+    Result of operation returns a bool value:
+    As dictionary is a mutable data structure, we can add and remove elements from it. 
+    We can add item to dictionary simply using key access. 
+    To remove the key and value from the dictionary, you can use the 
+    del keyword as with lists:
+    We can also add some key-value to the dictionary using can 
+    the built-in update() method, which takes another dictionary 
+    and extends our dictionary and also updates values of the original 
+    dictionary in the case of identical keys.
+    To remove the key-value from the dictionary and return the value 
+    at the same time, we use the pop method:
+    Sometimes it is required to check if a key exists in the dictionary, 
+    and in case of failure add this new key-value pair. 
+    For such situations we use setdefault() method:
+    Using a for loop, we can iterate over dictionary keys:
+    To iterate not by keys, but by keys and values ​​at once, 
+    we can use the method items():
+    The values() ​​method, which returns the values ​​logically:
+    Set
+    Set is an unordered collection of unique objects. 
+    Sets are mutable and are most often used to remove duplicates 
+    and all kinds of entry checks.
+    You can use the set literal to declare an empty set or use curly braces 
+    to declare the set and add some elements there at the time of declaration:
+    To check whether an object is contained in a set, we use in keyword. 
+    The check is performed in constant time. Each element of the structure 
+    is hashed by analogy with dictionaries. Based on the key received 
+    from the hash function, the object is searched.
+    To add an element to the set we use the add() method. 
+    The remove() method is used to remove a specific element:
+    Sets in Python support standard set operations — such as union, 
+    difference, intersection, and symmetric difference.
+    NOTE: all mentioned collections and their methods, 
+    functions are ones that are mostly used in practice. 
+    There are more of them.
+    Wrapping Up
+    Want to learn more? Refer to this link:
+    The Python Standard Library - Python 3.8.2 documentation
+    While The Python Language Reference describes the exact syntax 
+    and semantics of the Python language, this library…
+    docs.python.org
+    Kamoliddin Nabijonov
             """
            # print(f'DeepDiveOnCollections={DeepDiveOnCollections}')
         #output:
 #a=[1, 5, 2, 1, 9, 1, 5, 10]
 #list(dedupe(a)=[1, 5, 2, 9, 10]
-def day8infloopacc():
-    path = f'day8infloopacc.txt'
-    file8= open(path, 'r')
+def foundsum(day9,asize,control,pbool):
+    for pidx in range(asize):
+        for oidx in range(pidx+1,asize): #this wont work    ap9=int(day9[pidx+cidx])    ao9=int(day9[oidx+cidx])    aa9=int(day9[cidx+asize])
+            if pidx==oidx:
+                lkd=0
+            elif day9[pidx+control] + day9[oidx+control] == day9[asize+control]:
+                pbool=True
+                return pbool
+            else:
+                lkd=1
+    #else:        if not pbool: return False        else: lkd=0
+
+    return pbool
+def day9xmascipher():
+    debugpy.debug_this_thread()
+    path = 'day9xmascipher.txt'
+    day9=[]
+    asize=25            #de=deque([0]*asize,asize)
+    with open(path, 'r') as file9:
+        while line:=file9.readline().strip():
+            day9.append(int(line))
+        #day9 = file9.read().splitlines()            #for idx in range(asize):    #    de.appendleft(day9[idx])           
+    upperrangA=len(day9)-(asize+1)    #    1000-26=974
+    lastnumit=day9[999]
+    pbool=False        #    firsttime=True#controller for 0+25 to len(day9) 1689 is too low
+    for cidx in range(upperrangA):    #ans's[index] is 25-999 & cidx0-974
+        if cidx == 145: 
+            debugpy.breakpoint()
+        #if cidx >0 and not pbool:
+        #    print(f'day9^^^{cidx}^^^{day9[(cidx-1)+asize]}',end='    ')
+        pbool=False
+        if not foundsum(day9,asize,cidx,False):
+            return cidx,day9[cidx+asize]
+    return day9[upperrangA]
+def day8infloopacc(nopcount,jmpcount,Limit):
+    jmpycount=0
+    nopycount=0
     accum=0
     linenum=0
+    notunique=[]
+    unicorn=[]
+    FOUND=False
+    path = f'day8infloopacc.txt'
+    file8= open(path, 'r')
     lines = [line.strip() for line in file8.readlines() if line.strip()]
     file8.close()
-    print()
+
+    for pidx,pline in enumerate(lines): 
+        pops= pline.split()[0]
+        if pops  == 'jmp':
+            jmpycount+=1
+            if jmpycount == jmpcount:
+                lines[pidx].replace('jmp','nop')
+        elif pops == 'nop':
+            nopycount+=1
+            if nopycount == nopcount:
+                lines[pidx].replace('nop','jmp')
+        #if pline in unicorn:
+        #    if pline.split()[0] == 'jmp':
+        #        notunique.append(pline)
+        #else:
+        #    unicorn.append(pline)
+    #print()
+    notunique=[]
+    unicorn=[]
     while True:        #for linenum,line in enumerate(lines):
+        if accum > Limit: break
         ops,acc = lines[linenum].split(' ')
         if ops == 'acc':
             linenum+=1
             accum+= int(acc)
-            print(f'()={ops}{acc},accln={linenum},accum={accum}', end='    ')
+            #print(f'()={ops}{acc},accln={linenum},accum={accum}', end='    ')
         elif ops == 'jmp':
             linenum+=int(acc)
-            print(f'()={ops}{acc},jmpto={linenum},accum={accum}', end='    ')
-            if linenum> len(lines) or linenum < 0 or accum > 10000:
+            #if linenum in unicorn:
+            #    print(f'()={ops}{acc},jmpto={linenum},accum={accum}', end='***********************    ')
+            #   # break
+            #else:
+            #    unicorn.append(linenum)
+            #print(f'()={ops}{acc},jmpto={linenum},accum={accum}', end='    ')
+            if linenum> len(lines) or linenum < 0: # or accum > 6000:
                 break
             else:
                 continue
         else:
             linenum+=1
-            print(f'()={ops}{acc},nopln={linenum},accum={accum}', end='    ')
+            #print(f'()={ops}{acc},nopln={linenum},accum={accum}', end='    ')
+    #if accum < 1000000:
+    return accum
 def day7bags():
     countline=0
     totalcommas=0
