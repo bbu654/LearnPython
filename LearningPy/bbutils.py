@@ -581,6 +581,31 @@ DeepDiveOnCollections= """
         #output:
 #a=[1, 5, 2, 1, 9, 1, 5, 10]
 #list(dedupe(a)=[1, 5, 2, 9, 10]
+def fillseats(lines):
+    mline=[]
+    tlines=[]
+    for line in lines:
+        for i in range(len(line)):
+            if line[i]=='L':
+                mline.append('M')
+            else:
+                mline.append(line[i])
+        else:
+            tlines.append(mline)
+    return tlines
+def day11seatchart():
+    path = f'day11seatchart.txt'
+    day11seats=[]
+    tlines=[]
+    with open(path, 'r') as file11:
+        for line in file11.readlines():
+            day11seats.append(line.rsplit())
+    tlines=fillseats(day11seats)
+    for lidx, line in enumerate(day11seats):
+        if lidx % 5 == 0: 
+            print(f'{str(line)[2:10]}', end='  ')
+    
+    return 6969
 def builditntheywillcome(numbers,num3,startnum,endnum):
     numbintwc=[]           #all possible between start and end
     changed=[]
@@ -614,7 +639,7 @@ def day10Joltages():
             numbers.append(int(line.rstrip()))#=input.readlines().splitlines()    #numbers = [int(n) for n in day10]
     numbers.sort()
     num3=[]
-    print(numbers)
+    #print(numbers)
     one1=0
     three3=0
     for i in range(1,len(numbers)):             #        print(f'{(numbers[i] if i%4==0 else "")}',end='')        print(f'{(numbers[i] if i >88 else "")}',end='')
