@@ -178,11 +178,11 @@ for yearindex, yearobj in enumerate(bb.listyearsum2020):
 adventofcode1stday="Advent of Code *bbu654 9*  :year 2020  That's the right answer! You are one gold star closer to saving your vacation. You have completed Day 1 thru 5.1!" 
 print(f'adventofcode1stday={adventofcode1stday}') #Too Low=935
 pobbu = bb.day3AdventOfCode(1) * 44996864#bb.day3AdventOfCode(3) * bb.day3AdventOfCode(5) * bb.day3AdventOfCode(7)
-shorty.append(f'day2AdventOfCode={bb.day2AdventOfCode()}')
-shorty.append(f'day3={pobbu}, day4={bb.day4passports()}')
-shorty.append(f'day5={bb.day5SeatNumbers()[0]}')
-shorty.append(f'day6={bb.day6answers()}')
-shorty.append(f'day7={bb.day7bags()}')
+#shorty.append(f'day2AdventOfCode={bb.day2AdventOfCode()}')
+#shorty.append(f'day3={pobbu}, day4={bb.day4passports()}')
+#shorty.append(f'day5={bb.day5SeatNumbers()[0]}')
+#shorty.append(f'day6={bb.day6answers()}')
+#shorty.append(f'day7={bb.day7bags()}')
 nopcount=0
 jmpcount=-1
 Limit=2000
@@ -203,11 +203,12 @@ while   popaccum > Limit:
 else:
     shorty.append(f'day8={popaccum}')
 if popaccum < Limit:    shorty.append(f'day8={popaccum}')
-shorty.append(f'day 9={bb.day9xmascipher()}')
-    #226
+shorty.append(f"'day2AdventOfCode=342', 'day3=1574890240, day4=131', 'day5=6', 'day6=3117', 'day7=(595, 4, 1515, 239)',")
+shorty.append(f'day 9=(586, 466456641, 55732936)')#'day 9={bb.day9xmascipher()}')
+shorty.append(f'day10youhoo!={bb.day10Joltages()}')   
 if False:
     bb.day3rdlineAdventOfCode()
-#123456789
+#123456789 #226
 pp2.pprint(shorty) 
     #pp2.pprint(bb.day5SeatNumbers().left)
 if False:

@@ -581,6 +581,87 @@ DeepDiveOnCollections= """
         #output:
 #a=[1, 5, 2, 1, 9, 1, 5, 10]
 #list(dedupe(a)=[1, 5, 2, 9, 10]
+def builditntheywillcome(numbers,num3,startnum,endnum):
+    numbintwc=[]           #all possible between start and end
+    changed=[]
+    same=[]
+    for jnum in range(startnum,endnum):
+        if jnum == startnum or jnum == startnum+3 or jnum == startnum+6 or jnum == startnum+9:
+            same.append(numbers[jnum])#dont change it ever
+            changed.append(numbers[jnum])
+        else:
+            changed.append(0)#change 
+            same.append(numbers[jnum])#same
+def day10Joltprt2(numbers,num3,one1,three3):
+    startnum=0
+    endnum=0
+    for jindx, jnum in enumerate(numbers):
+        if jindx==0:
+            startnum=jindx
+        elif jnum-numbers[jindx-1]>1:    #Three!What about 2 threes in a row?
+            endnum=jindx
+            numbintwc=builditntheywillcome(numbers,num3,startnum,endnum)
+        """ (((((((((((((((((((((2 ^ 7) * 4) * 16) * 16) * 4) * 4) * 4) * 16) * 16) * 4) * 16) * 4) * 16) * 16) * 4) * 8) * 4) * 8) * 16) * 4) * 2) * 
+        18446744073709551645
+        16295147905179352830000 
+        2024782584832"""
+    return one1*three3,((one1**3)-one1)*((three3**3)-three3)
+def day10Joltages():
+    path = f'day10Joltages.txt'
+    numbers=[0]
+    with open(path, 'r') as input:
+        for line in input.readlines():
+            numbers.append(int(line.rstrip()))#=input.readlines().splitlines()    #numbers = [int(n) for n in day10]
+    numbers.sort()
+    num3=[]
+    print(numbers)
+    one1=0
+    three3=0
+    for i in range(1,len(numbers)):             #        print(f'{(numbers[i] if i%4==0 else "")}',end='')        print(f'{(numbers[i] if i >88 else "")}',end='')
+        if numbers[i] - numbers[i-1] == 1:
+            one1+=1
+        else:
+            three3+=1
+            num3.append(numbers[i])
+    else:
+        onem=one1-1
+        return one1*(three3+1),(((2**onem)+(three3+1)))  #day10Joltprt2(numbers,num3,one1,three3+1)        #[0, 1, 2, 3, 6, 7, 8, 9, 10, 13, 14, 17, 18, 19, 20, 21, 24, 27, 28, 29, 30, 31, 34, 35, 36, 39, 40, 41, 42, 43, 46, 49, 50, 51, 54, 57, 58, 59, 60, 61, 64, 65, 66, 67, 68, 71, 72, 73, 76, 77, 78, 79, 80, 83, 84, 87, 88, 89, 90, 91, 94, 95, 96, 97, 98, 101, 104, 105, 108, 111, 112, 113, 114, 117, 118, 119, 122, 123, 124, 125, 128, 131, 132, 133, 134, 135, 138, 139, 142, 145, 146, 147, 148, 149, 153]
+    lkd=0
+    
+
+def sumofsums(day9,cntlidx,psum,begin1):
+    sumofs=0
+    for oidx in range(begin1,cntlidx-1):
+        sumofs+=day9[oidx]
+        if sumofs > psum:
+            return begin1,oidx,False
+        elif sumofs == psum:
+            return begin1,oidx,True 
+
+def day9part2(day9,cntlidx,psum):
+    sumsp=[]
+    begin1=0
+    for pidx in range(cntlidx):        #for oidx in range(pidx+1,cntlidx):
+        sumsp.append(day9[pidx]+day9[pidx+1])
+    sumequal= True
+    #while sumequal:
+    for pidx in range(begin1,cntlidx-1):
+        begin1,end1,sumequal=sumofsums(day9,cntlidx,psum,pidx)
+        if sumequal:     return min(day9[begin1:end1]) + max(day9[begin1:end1])    #    break
+    #tmp1=day9[begin1] 55732936
+    #tmp2=day9[begin1+1]
+    #tmp3=day9[end1]
+    #icntr=0
+    #for oidx in range(begin1,end1):
+    #    if day9[oidx] < day9[oidx+1]:
+    #        if icntr<((end1 - begin1) / 2):
+    #            begin1=oidx
+    #        else:
+    #            end1=oidx
+    #            #break
+    #    icntr+=1
+    #    print(f'{day9[oidx]}',end='    ')
+    #return day9[begin1]+day9[end1]
 def foundsum(day9,asize,control,pbool):
     for pidx in range(asize):
         for oidx in range(pidx+1,asize): #this wont work    ap9=int(day9[pidx+cidx])    ao9=int(day9[oidx+cidx])    aa9=int(day9[cidx+asize])
@@ -592,7 +673,7 @@ def foundsum(day9,asize,control,pbool):
             else:
                 lkd=1
     #else:        if not pbool: return False        else: lkd=0
-
+    #18527440    24097807    20804499    29896884    21250506    22674194    25441452    23472142    23804453    35735535    37205496    36695485    26983955    25254094    25584276    34697022 
     return pbool
 def day9xmascipher():
     debugpy.debug_this_thread()
@@ -613,7 +694,7 @@ def day9xmascipher():
         #    print(f'day9^^^{cidx}^^^{day9[(cidx-1)+asize]}',end='    ')
         pbool=False
         if not foundsum(day9,asize,cidx,False):
-            return cidx,day9[cidx+asize]
+            return cidx,day9[cidx+asize],day9part2(day9,cidx,day9[cidx+asize])
     return day9[upperrangA]
 def day8infloopacc(nopcount,jmpcount,Limit):
     jmpycount=0
