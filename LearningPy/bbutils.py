@@ -584,27 +584,82 @@ DeepDiveOnCollections= """
 def fillseats(lines):
     mline=[]
     tlines=[]
-    for line in lines:
-        for i in range(len(line)):
-            if line[i]=='L':
+    zero0=0
+    intline=[]
+    
+    rows, cols = (99, 97) 
+    intlines = [[0 for i in range(cols)] for j in range(rows)] 
+    #print(arr) 
+    #for init1 in range(99):
+    #    for init2 in range(97):
+    #        intlines[init1,init2]=0
+    count=0
+    for irow,line in enumerate(lines):
+        kline=str(line)
+        for icol in range(cols):
+            if icol>0 and irow>0 and icol<cols and irow <rows:
+                for x in range(-1,2):
+                    for y in range(-1,2)
+                        if lines[irow+x][icol+x] == '#':
+                            bagtotal+=1
+                        if lines[irow+x][icol+y] == '#':
+                            bagtotal+=1
+                        if lines[irow+y][icol+x] == '#':
+                            bagtotal+=1
+                        if lines[irow+y][icol+y] == '#':
+                            bagtotal+=1
+            #for j in range(len(i)):
+            #need to copy like we are doingrules
+            if lidx == 0:#row=0
+                #don't check -1
+                lkd=0
+                if icol ==0:
+                    kld=0
+                    
+                    if kline[i+1] == 'L':
+                        if lines[lidx][i] == 'L':
+                            if lines[lidx+1][i+1]=='L':
+                    #don't check -1
+            if kline[i]=='L':
                 mline.append('M')
+            
             else:
-                mline.append(line[i])
+                #if count == 0:
+                #    print(f'kline[i]={kline[i]}')
+                if kline[i] == "[" or kline[i] == "'" or kline[i] == "]":
+                    kld=0
+                else:
+                    mline.append(kline[i])
+                    count+=1
         else:
-            tlines.append(mline)
+            sline=str('')
+            for x in mline: 
+                sline += x 
+            tlines.append(sline)
+            count=0
     return tlines
 def day11seatchart():
     path = f'day11seatchart.txt'
-    day11seats=[]
+    day11seats=[]          # $
     tlines=[]
+    rules = """All decisions are based on the number of occupied seats 
+        adjacent to a given seat (one of the eight positions 
+        immediately up, down, left, right, or diagonal from the seat). 
+        The following rules are applied to every seat simultaneously:
+        If a seat is empty (L) and there are no occupied seats adjacent 
+        to it, the seat becomes occupied.  If a seat is occupied (#) 
+        and four or more seats adjacent to it are also occupied, 
+        the seat becomes empty.  Otherwise, the seat's state does not 
+        change.  Floor (.) never changes; seats don't move, and nobody sits on the floor. """
+
     with open(path, 'r') as file11:
         for line in file11.readlines():
             day11seats.append(line.rsplit())
     tlines=fillseats(day11seats)
-    for lidx, line in enumerate(day11seats):
+    for lidx, line in enumerate(tlines):
         if lidx % 5 == 0: 
             print(f'{str(line)[2:10]}', end='  ')
-    
+    print(rules)
     return 6969
 def builditntheywillcome(numbers,num3,startnum,endnum):
     numbintwc=[]           #all possible between start and end
