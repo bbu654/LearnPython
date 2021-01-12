@@ -205,7 +205,7 @@ else:
 if popaccum < Limit:    shorty.append(f'day8={popaccum}')
 shorty.append(f"'day2AdventOfCode=342', 'day3=1574890240, day4=131', 'day5=6', 'day6=3117', 'day7=(595, 4, 1515, 239)',")
 shorty.append(f'day 9=(586, 466456641, 55732936)')#'day 9={bb.day9xmascipher()}')
-shorty.append(f'day10youhoo!={bb.day10Joltages()}')  
+shorty.append(f'day10youhoo!={bb.day10Joltages()}')   
 shorty.append(f'day11seatchart={bb.day11seatchart()}') 
 if False:
     bb.day3rdlineAdventOfCode()
