@@ -581,6 +581,62 @@ DeepDiveOnCollections= """
         #output:
 #a=[1, 5, 2, 1, 9, 1, 5, 10]
 #list(dedupe(a)=[1, 5, 2, 9, 10]
+def neighbours(ferry, row, col):
+    occupied_seats = 0
+    for i in range(max(row - 1, 0), min(len(ferry), row + 2)):
+        for j in range(max(col - 1, 0), min(len(ferry[0]), col + 2)):
+            if (i != row or j != col) and ferry[i][j] == '#':
+                occupied_seats += 1
+    return occupied_seats
+
+def next_generation(ferry):
+    next_ferry = []
+    rows = len(ferry)
+    cols = len(ferry[0])
+    
+    for row in range(rows):
+        next_row = []
+        for col in range(cols):
+            if ferry[row][col] == '.':
+                next_row.append('.')
+            elif ferry[row][col] == 'L':
+                next_row.append('#' if neighbours(ferry, row, col) == 0 else 'L')
+            elif ferry[row][col] == '#':
+                next_row.append('#' if neighbours(ferry, row, col) < 4 else 'L')
+        next_ferry.append(''.join(next_row))
+    return next_ferry
+def day11seatchart():
+    path = f'day11seatchart.txt'
+    ferry=[]          #    tlines=[]
+    rules = """All decisions are based on the number of occupied seats 
+        adjacent to a given seat (one of the eight positions 
+        immediately up, down, left, right, or diagonal from the seat). 
+        The following rules are applied to every seat simultaneously:
+        If a seat is empty (L) and there are no occupied seats adjacent 
+        to it, the seat becomes occupied.  If a seat is occupied (#) 
+        and four or more seats adjacent to it are also occupied, 
+        the seat becomes empty.  Otherwise, the seat's state does not 
+        change.  Floor (.) never changes; seats don't move, and nobody sits on the floor. """
+
+    with open(path, 'r') as file11:
+        line = file11.read()
+            #for line in lines:
+        lines=str(line)
+        ferry=lines.strip().split('\n')        
+            #    ferry = input.strip().split('\n')
+    print(f'{ferry[0]}{ferry[1]}')
+    iteration = 0
+    print(f'{rules}')
+    while True:
+        next_ferry = next_generation(ferry)
+        tpass=sum(row.count('#') for row in ferry)
+        if ferry == next_ferry:
+            return tpass
+        ferry = next_ferry
+        print(f'iteration={iteration},total passengers={tpass}')
+        iteration += 1
+        if iteration > 200:
+            break
 def fillseats(lines):
     mline=[]
     tlines=[]
@@ -599,7 +655,7 @@ def fillseats(lines):
         for icol in range(cols):
             if icol>0 and irow>0 and icol<cols and irow <rows:
                 for x in range(-1,2):
-                    for y in range(-1,2)
+                    for y in range(-1,2):
                         if lines[irow+x][icol+x] == '#':
                             bagtotal+=1
                         if lines[irow+x][icol+y] == '#':
@@ -610,26 +666,27 @@ def fillseats(lines):
                             bagtotal+=1
             #for j in range(len(i)):
             #need to copy like we are doingrules
-            if lidx == 0:#row=0
+            if irow == 0:#row=0
                 #don't check -1
                 lkd=0
                 if icol ==0:
                     kld=0
                     
-                    if kline[i+1] == 'L':
-                        if lines[lidx][i] == 'L':
-                            if lines[lidx+1][i+1]=='L':
+                    if kline[icol+1] == 'L':
+                        if lines[irow][icol] == 'L':
+                            if lines[irow+1][icol+1]=='L':
+                                kld=0
                     #don't check -1
-            if kline[i]=='L':
+            if kline[icol]=='L':
                 mline.append('M')
             
             else:
                 #if count == 0:
                 #    print(f'kline[i]={kline[i]}')
-                if kline[i] == "[" or kline[i] == "'" or kline[i] == "]":
+                if kline[icol] == "[" or kline[icol] == "'" or kline[icol] == "]":
                     kld=0
                 else:
-                    mline.append(kline[i])
+                    mline.append(kline[icol])
                     count+=1
         else:
             sline=str('')
@@ -638,7 +695,7 @@ def fillseats(lines):
             tlines.append(sline)
             count=0
     return tlines
-def day11seatchart():
+def solve():
     path = f'day11seatchart.txt'
     day11seats=[]          # $
     tlines=[]
@@ -654,7 +711,7 @@ def day11seatchart():
 
     with open(path, 'r') as file11:
         for line in file11.readlines():
-            day11seats.append(line.rsplit())
+            day11seats.append(str(line).rsplit())
     tlines=fillseats(day11seats)
     for lidx, line in enumerate(tlines):
         if lidx % 5 == 0: 
