@@ -25,40 +25,63 @@ horCardSlots=7
 DISPLAYSURF = pygame.display.set_mode((width,height))
 DISPLAYSURF.fill(WHITE)
 
-pygame.display.set_caption("Display some stuff")
-#istring=os.path.join("images","1.png")
-shorty=[] 
-courtx=[]
-courty=[]
+pygame.display.set_caption("Display some stuff")        #istring=os.path.join("images","1.png")     shorty=[] courtx=[]courty=[]
 setOfNumbers = list(range(1,53))
-#while len(setOfNumbers) < 53:
-#    setOfNumbers.add(random.randint(1, 52))
-#!random.shuffle(setOfNumbers)
+random.shuffle(setOfNumbers)
 print(setOfNumbers)
+#while len(setOfNumbers) < 53:          #    setOfNumbers.add(random.randint(1, 52))        #!random.shuffle(setOfNumbers)      print(setOfNumbers)
 x = 12; # x coordnate of image
-y = 70; # y coordinate of image
-card_widtht=card_width+x
-i=0#1
-for j,k in enumerate(setOfNumbers):
-#while i<53:
-    y_modifier= i//(horCardSlots+1)
-    #if i==horCardSlots+1 or y_modifier==0:
-    y_modifier=y_modifier+1    
-    #y_modifier=y_modifier+1
-    shorty.append(y_modifier)
-    x_modifier=i%(horCardSlots+1)
+y = 70; # y coordinate of image         card_widtht=card_width+x            i=0#1
+for j,k in enumerate(setOfNumbers):     #while i<53:
+    y_modifier= (j//(horCardSlots+1)) +1    #if i==horCardSlots+1 or y_modifier==0:         y_modifier=y_modifier+1             #y_modifier=y_modifier+1
+    x_modifier=j%(horCardSlots+1)       #shorty.append(y_modifier)
     newx=(x*x_modifier) + x#initial_left_width
     newx=newx+(card_width*(x_modifier))
     lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/images/{str(k)}.png"
     PenguinImage = pygame.image.load(lit1).convert()
-    DISPLAYSURF.blit(PenguinImage, (newx,y*y_modifier))
-    courtx.append(newx)
-    courty.append(y*y_modifier)
-    i=i+1
-#DISPLAYSURF.blit(PenguinImage, ( x,y)  ) # paint to screen
-print(courtx)
-print(courty)
+    DISPLAYSURF.blit(PenguinImage, (newx,y*y_modifier))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
 pygame.display.flip() # paint screen one time
+running = True 
+# Beginning Game Loop       TODO: NEED FREECELL RULES Valid and Invalid moves!
+fcrules=""" XPOS==12, 236, 460, 684, 908, 1132, 1356, 1580
+FreeCell Solitaire Rules
+FreeCell SolitaireThanks to Microsoft's inclusion of a version of the game in Windows 95, Freecell solitaire has become one of the world's most popular solitaires. Unlike Klondike (probably the best-known solitaire game), Freecell is quite winnable. In fact, the vast majority of Freecell hands can be solved.
+
+Freecell is an "open" solitaire, so-called because all of the cards are visible at the start of a game. It is a descendant of earlier games such as "Eight Off" and "Baker's Game".
+
+
+Freecell Rules
+Number of Decks: 1
+
+Initial Layout: Cards are dealt face-up into eight columns. The first four columns each contain seven cards, and the last four contain six cards each. Space is set aside for four foundation piles and four "free cells" -- holding stations where cards may be temporarily stored during play.
+
+Object: The object of the game is to move the four aces, as they appear, to the foundations, and build each up in suit from ace to king (A-2-3-4-5-6-7-8-9-10-J-Q-K).
+
+Play: Only the top (exposed) card of each tableau pile is available for play. It may be moved to a foundation pile, a free cell, or to another tableau pile. Within the tableau, cards are built down in sequence and alternating in color. Any card may be moved into an empty space. Blocks of cards may not be moved, unless the requisite number of free cells and/or tableau spaces are availabe to allow each individual card to be moved. If you fill all four foundation piles, you win.
+
+
+
+
+"""
+while running:
+    pygame.display.update()
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            running = False
+            sys.exit()
+        elif event.type == MOUSEBUTTONDOWN:
+            popx,popy=event.pos     #            popy=event.y
+            geopop=0
+        elif event.type == MOUSEBUTTONUP:
+            popx,popy=event.pos     #            popy=event.y
+            geopop=0
+        elif event.type == MOUSEMOTION:
+            popx,popy=event.pos     #            popy=event.y
+            geopop=0
+    FramePerSec.tick(FPS)
+pygame.quit()
+#DISPLAYSURF.blit(PenguinImage, ( x,y)  ) # paint to screen     print(courtx)               print(courty)
+#loop over, quit pygame
 #print(shorty) 
 # Creating Lines and Shapes         asurf = pygame.image.load(os.path.join('images', '1.png'))
 #pygame.draw.line(DISPLAYSURF, BLUE, (150,130), (130,170))
@@ -68,16 +91,4 @@ pygame.display.flip() # paint screen one time
 #pygame.draw.circle(DISPLAYSURF, BLACK, (200,50), 30)
 #pygame.draw.rect(DISPLAYSURF, RED, (100, 200, 100, 50), 2)
 #pygame.draw.rect(DISPLAYSURF, BLACK, (110, 260, 80, 5))
-running = True 
-# Beginning Game Loop
-while running:
-    pygame.display.update()
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            running = False
-            sys.exit()
-   
-    FramePerSec.tick(FPS)
-
-#loop over, quite pygame
-pygame.quit()
+print(fcrules)
