@@ -15,12 +15,13 @@ RED   = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-card_width =200
+card_width =212
 card_height=292
+
 # Setup a 300x300 pixel display with caption
-width = 1800
+width = 1860
 height =800
-horCardSlots=8
+horCardSlots=7
 DISPLAYSURF = pygame.display.set_mode((width,height))
 DISPLAYSURF.fill(WHITE)
 
@@ -36,23 +37,27 @@ setOfNumbers = list(range(1,53))
 print(setOfNumbers)
 x = 12; # x coordnate of image
 y = 70; # y coordinate of image
-i=1
-for j in setOfNumbers:
+card_widtht=card_width+x
+i=0#1
+for j,k in enumerate(setOfNumbers):
 #while i<53:
     y_modifier= i//(horCardSlots+1)
-    if i==horCardSlots+1:
-        y_modifier=y_modifier+1    
-    y_modifier=y_modifier+1
+    #if i==horCardSlots+1 or y_modifier==0:
+    y_modifier=y_modifier+1    
+    #y_modifier=y_modifier+1
     shorty.append(y_modifier)
     x_modifier=i%(horCardSlots+1)
-    newx=(x*x_modifier)
-    newx=newx+(card_width*(x_modifier-1))
-    lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/images/{str(j)}.png"
+    newx=(x*x_modifier) + x#initial_left_width
+    newx=newx+(card_width*(x_modifier))
+    lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/images/{str(k)}.png"
     PenguinImage = pygame.image.load(lit1).convert()
     DISPLAYSURF.blit(PenguinImage, (newx,y*y_modifier))
+    courtx.append(newx)
+    courty.append(y*y_modifier)
     i=i+1
 #DISPLAYSURF.blit(PenguinImage, ( x,y)  ) # paint to screen
-
+print(courtx)
+print(courty)
 pygame.display.flip() # paint screen one time
 #print(shorty) 
 # Creating Lines and Shapes         asurf = pygame.image.load(os.path.join('images', '1.png'))
