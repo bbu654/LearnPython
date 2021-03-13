@@ -17,22 +17,41 @@ TableA=[]
 n = 24 #rows
 m = 8 #cols
 TableB=[[0] * m for i in range(n)]
+Discard=[0,0,0,0,0,0,0,0]
+def GetFaceValue(realval):
+    if realval < 14:
+        return realval # realval less than 14
+    elif realval < 27: # realval greater than or equal 14 and less than 27
+        return (realval - 13)
+    elif realval < 40: # realval greater than or equal 27 and  less than 40
+        return (realval - 26)
+    else             : # realval greater than or equal 39 and  less than 53
+        return (realval - 26)
 
 def IsSolvable(setOfNumbers):
-    for i,j in enumerate(setOfNumbers):
-        y_modifier= (j//(horCardSlots)) #+1    #if i==horCardSlots+1 or y_modifier==0:         y_modifier=y_modifier+1             #y_modifier=y_modifier+1    
-        x_modifier=(j%(horCardSlots))       #shorty.append(y_modifier) #!    newx=(x*x_modifier) + x#initial_left_width    newx=newx+(card_width*(x_modifier))    #shorty.append(YPOS[y_modifier-1])
+    for o,p in enumerate(setOfNumbers):
+        y_modifier= (o//(horCardSlots)) #+1    #if i==horCardSlots+1 or y_modifier==0:         y_modifier=y_modifier+1             #y_modifier=y_modifier+1    
+        x_modifier=(o%(horCardSlots))       #shorty.append(y_modifier) #!    newx=(x*x_modifier) + x#initial_left_width    newx=newx+(card_width*(x_modifier))    #shorty.append(YPOS[y_modifier-1])
         #lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(k)}.png"
         #PenguinImage = pygame.image.load(lit1).convert()
-        TableB[x_modifier][y_modifier]=k
-        if x_modifier==0:         col0.append(k)    
-        if x_modifier==1:         col1.append(k)    
-        if x_modifier==2:         col2.append(k)    
-        if x_modifier==3:         col3.append(k)    
-        if x_modifier==4:         col4.append(k)    
-        if x_modifier==5:         col5.append(k)    
-        if x_modifier==6:         col6.append(k)    
-        if x_modifier==7:         col7.append(k)    
+        if not p in TableB:
+            TableB[x_modifier][y_modifier]=p
+        if x_modifier==0 and not p in col0:
+            col0.append(p)    
+        if x_modifier==1 and not p in col1:
+            col1.append(p)    
+        if x_modifier==2 and not p in col2:
+            col2.append(p)    
+        if x_modifier==3 and not p in col3:
+            col3.append(p)    
+        if x_modifier==4 and not p in col4:
+            col4.append(p)    
+        if x_modifier==5 and not p in col5:
+            col5.append(p)    
+        if x_modifier==6 and not p in col6:
+            col6.append(p)    
+        if x_modifier==7 and not p in col7:
+            col7.append(p)    
         #DISPLAYSURF.blit(PenguinImage, (XPOS[x_modifier],YPOS[y_modifier]))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
     TableA.append(col0)
     TableA.append(col1)
@@ -42,8 +61,99 @@ def IsSolvable(setOfNumbers):
     TableA.append(col5)
     TableA.append(col6)
     TableA.append(col7)
-    
-    return False 
+    return True
+def CheckDiscard(Discard,col0,col1,col2,col3,col4,col5,col6,col7):    
+    aces=[1,14,27,40]
+    twos=[2,15,28,41]
+    jack=[11,24,37,50]
+    quen=[12,25,38,51]
+    king=[13,26,39,52]
+    #Discard=[0,0,0,0,0,0,0,0]
+    #Quantify auto card move to ace(foundation)-area == Discard[4-7]
+        #if three ace(foundation)-area cards are gt> the other pull_fc=threefc#8,4,9,10=8
+    fvDiscard1=GetFaceValue(Discard[4])
+    fvDiscard2=GetFaceValue(Discard[5])
+    fvDiscard3=GetFaceValue(Discard[6])
+    fvDiscard4=GetFaceValue(Discard[7])
+    MinDiscard=min(fvDiscard1,fvDiscard2,fvDiscard3,fvDiscard4)
+    #check each colx[lengthcolx]==Discard[4-7]+1 if Discard[4-7] >0     #TODO: blit from col0-7 and discard
+    for sub in range(4,8):
+        if Discard[sub] > 0:
+            if   col0[len(col0) - 1] == Discard[sub] + 1:
+                Discard[sub]= col0[len(col0) - 1]
+                col0.pop(len(col0) - 1)
+            elif col1[len(col1) - 1] == Discard[sub] + 1:
+                Discard[sub]= col1[len(col1) - 1]
+                col1.pop(len(col1) - 1)
+            elif col2[len(col2) - 1] == Discard[sub] + 1:
+                Discard[sub]= col2[len(col2) - 1]
+                col2.pop(len(col2) - 1)
+            elif col3[len(col3) - 1] == Discard[sub] + 1:
+                Discard[sub]= col3[len(col3) - 1]
+                col3.pop(len(col3) - 1)
+            elif col4[len(col4) - 1] == Discard[sub] + 1:
+                Discard[sub]= col4[len(col4) - 1]
+                col4.pop(len(col4) - 1)
+            elif col5[len(col5) - 1] == Discard[sub] + 1:
+                Discard[sub]= col5[len(col5) - 1]
+                col5.pop(len(col5) - 1)
+            elif col6[len(col6) - 1] == Discard[sub] + 1:
+                Discard[sub]= col6[len(col6) - 1]
+                col6.pop(len(col6) - 1)
+            elif col7[len(col7) - 1] == Discard[sub] + 1:
+                Discard[sub]= col7[len(col7) - 1]
+                col7.pop(len(col7) - 1)
+            else:
+                continue
+        elif col0[len(col0) -1] in aces: #Discard[sub]==0
+            Discard[sub]=col0[len(col0) - 1]
+            col0.pop(len(col0) - 1)
+        elif col1[len(col1) -1] in aces: #Discard[sub]==0
+            Discard[sub]=col1[len(col1) - 1]
+            col1.pop(len(col1) - 1)
+        elif col2[len(col2) -1] in aces: #Discard[sub]==0
+            Discard[sub]=col2[len(col2) - 1]
+            col2.pop(len(col2) - 1)
+        elif col3[len(col3) -1] in aces: #Discard[sub]==0
+            Discard[sub]=col3[len(col3) - 1]
+            col3.pop(len(col3) - 1)
+        elif col4[len(col4) -1] in aces: #Discard[sub]==0
+            Discard[sub]=col4[len(col4) - 1]
+            col4.pop(len(col4) - 1)
+        elif col5[len(col5) -1] in aces: #Discard[sub]==0
+            Discard[sub]=col5[len(col5) - 1]
+            col5.pop(len(col5) - 1)
+        elif col6[len(col6) -1] in aces: #Discard[sub]==0
+            Discard[sub]=col6[len(col6) - 1]
+            col6.pop(len(col6) - 1)
+        elif col7[len(col7) -1] in aces: #Discard[sub]==0
+            Discard[sub]=col7[len(col7) - 1]
+            col7.pop(len(col7) - 1)
+        else:
+            continue
+    #lengthcol0=len(col0) - 1
+    #if col0[lengthcol0] in aces:
+    #    if   Discard[4]==0:
+    #         Discard[4]=col0[lengthcol0] 
+    #    elif Discard[5]==0:
+    #         Discard[5]=col0[lengthcol0]
+    #    elif Discard[6]==0:
+    #         Discard[6]=col0[lengthcol0]
+    #    else:
+    #         Discard[7]=col0[lengthcol0]
+    #    col0.pop(lengthcol0)
+    #lengthcol1=len(col1) - 1
+    #if col1[lengthcol1] in aces:        
+    #    if Discard[4]==0:
+    #        Discard[4]=col1[lengthcol1]
+    #    elif Discard[5]==0:
+    #        Discard[5]=col1[lengthcol1]
+    #    elif Discard[6]==0:
+    #        Discard[6]=col1[lengthcol1]
+    #    else:
+    #        Discard[7]=col1[lengthcol1]
+    #    col1.pop(lengthcol1) #pop
+    return Discard,col0,col1,col2,col3,col4,col5,col6,col7
 # Initialize program
 pygame.init()
  
@@ -83,8 +193,12 @@ DISPLAYSURF.fill(WHITE)
 shorty = []
 pygame.display.set_caption("Display some stuff")        #istring=os.path.join("images","1.png")     shorty=[] courtx=[]courty=[]
 #       loop until issovable is true
-while not IsSolvable(setOfNumbers:=random.shuffle(list(range(1,53)))):
+setOfNumbers = list(range(1,53)) 
+random.shuffle(setOfNumbers)
+while not IsSolvable(setOfNumbers):
     print(setOfNumbers)  #setOfNumbers = list(range(1,53)) #random.shuffle(setOfNumbers)    #print(setOfNumbers)
+    setOfNumbers = list(range(1,53)) 
+    random.shuffle(setOfNumbers)
 #while len(setOfNumbers) < 53:          #    setOfNumbers.add(random.randint(1, 52))        #!random.shuffle(setOfNumbers)      print(setOfNumbers)
 x = 12; # x coordnate of image
 y = 70; # y coordinate of image         card_widtht=card_width+x            i=0#1
@@ -94,28 +208,60 @@ for j,k in enumerate(setOfNumbers):     #while i<53:
     x_modifier=(j%(horCardSlots))       #shorty.append(y_modifier) #!    newx=(x*x_modifier) + x#initial_left_width    newx=newx+(card_width*(x_modifier))    #shorty.append(YPOS[y_modifier-1])
     lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(k)}.png"
     PenguinImage = pygame.image.load(lit1).convert()
-    TableB[x_modifier][y_modifier]=k
-    if x_modifier==0:         col0.append(k)    
-    if x_modifier==1:         col1.append(k)    
-    if x_modifier==2:         col2.append(k)    
-    if x_modifier==3:         col3.append(k)    
-    if x_modifier==4:         col4.append(k)    
-    if x_modifier==5:         col5.append(k)    
-    if x_modifier==6:         col6.append(k)    
-    if x_modifier==7:         col7.append(k)    
-    DISPLAYSURF.blit(PenguinImage, (XPOS[x_modifier],YPOS[y_modifier]))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
-TableA.append(col0)
-TableA.append(col1)
-TableA.append(col2)
-TableA.append(col3)
-TableA.append(col4)
-TableA.append(col5)
-TableA.append(col6)
-TableA.append(col7)
+    #TableB[x_modifier][y_modifier]=k
+    #if x_modifier==0:         col0.append(k)    
+    #if x_modifier==1:         col1.append(k)    
+    #if x_modifier==2:         col2.append(k)    
+    #if x_modifier==3:         col3.append(k)    
+    #if x_modifier==4:         col4.append(k)    
+    #if x_modifier==5:         col5.append(k)    
+    #if x_modifier==6:         col6.append(k)    
+    #if x_modifier==7:         col7.append(k)    
+    aces=[1,14,27,40]
+    if not k in TableB:
+        TableB[x_modifier][y_modifier]=k
+    if x_modifier==0 and not k in col0:
+        col0.append(k)    
+    if x_modifier==1 and not k in col1:
+        col1.append(k)    
+    if x_modifier==2 and not k in col2:
+        col2.append(k)    
+    if x_modifier==3 and not k in col3:
+        col3.append(k)    
+    if x_modifier==4 and not k in col4:
+        col4.append(k)    
+    if x_modifier==5 and not k in col5:
+        col5.append(k)    
+    if x_modifier==6 and not k in col6:
+        col6.append(k)    
+    if x_modifier==7 and not k in col7:
+        col7.append(k)    
+    if j > 43 and k in aces:
+        continue
+    else:
+        DISPLAYSURF.blit(PenguinImage, (XPOS[x_modifier],YPOS[y_modifier]))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
+#TableA.append(col0)
+#TableA.append(col1)
+#TableA.append(col2)
+#TableA.append(col3)
+#TableA.append(col4)
+#TableA.append(col5)
+#TableA.append(col6)
+#TableA.append(col7)
 print(f'****////*\\\\****    TableA(0,0)={TableA[0][0]}     TableA={TableA}')
 print(f'TableB={TableB}')
-pygame.display.flip() # paint screen one time
+Discard,col0,col1,col2,col3,col4,col5,col6,col7 = CheckDiscard(Discard,col0,col1,col2,col3,col4,col5,col6,col7)
 running = True 
+IsThereADiscard = False
+for g,h in enumerate(Discard):
+    if h > 0:
+        IsThereADiscard = True
+        lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(h)}.png"
+    else:
+        lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(53)}.png"
+    PenguinImage = pygame.image.load(lit1).convert()
+    DISPLAYSURF.blit(PenguinImage, (XPOS[g],600))     
+pygame.display.flip() # paint screen one time
 # Beginning Game Loop       TODO: NEED FREECELL RULES Valid and Invalid moves!
 fcrules="""
 FreeCell Solitaire Rules
@@ -133,6 +279,7 @@ unless the requisite number of free cells and/or tableau spaces are availabe to 
 If you fill all four foundation piles, you win.
 """
 #print(fcrules)
+print("col 0-7:")
 print(col0,col1,col2,col3,col4,col5,col6,col7)
 while running:
     pygame.display.update()
