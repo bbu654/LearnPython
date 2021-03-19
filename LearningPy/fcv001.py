@@ -1,6 +1,6 @@
 import pygame, sys, random, os
 from pygame.locals import *
-
+from collections import namedtuple
 
 horCardSlots=8
 XPOS = [12, 236, 460, 684, 908, 1132, 1356, 1580]
@@ -14,9 +14,21 @@ col5=[]
 col6=[]
 col7=[]
 TableA=[]
+# Declaring namedtuple()   
+BeginPos = namedtuple('BeginPos',['beginx','beginy'])   
+EndPos = namedtuple('EndPos',['endx','endy'])         
+# Adding values   
+Begpos = BeginPos('1500','19')   
+Enditp = EndPos('1200','144')      
+# Access using index   
+print ("The Begin (DragStart) Position beginy using index (Begpos[1]) is: {Begpos[1]}",end ="")   
+print (Begpos[1])   
+      
+# Access using name    
+print (f"The End (Drop) Position endx using keyname (Enditp.endx) is: {Enditp.endx}", end = "")   #print (Enditp.endx) 
 n = 24 #rows
 m = 8 #cols
-TableB=[[0] * m for i in range(n)]
+TableB=[[0] * n for i in range(m)]
 Discard=[0,0,0,0,0,0,0,0]
 def GetFaceValue(realval):
     if realval < 14:
@@ -27,6 +39,11 @@ def GetFaceValue(realval):
         return (realval - 26)
     else             : # realval greater than or equal 39 and  less than 53
         return (realval - 26)
+def IsValidMove(deck,beginAddr,endAddr):
+    # TODO: Convert screen addr to a card or set of cards put up last-card then prev card until at beginAddr
+    if Discard[0]==0:
+        bosco,joseph=beginAddr   
+        endax,enday =endAddr
 
 def IsSolvable(setOfNumbers):
     for o,p in enumerate(setOfNumbers):
@@ -76,7 +93,7 @@ def CheckDiscard(Discard,col0,col1,col2,col3,col4,col5,col6,col7):
     fvDiscard3=GetFaceValue(Discard[6])
     fvDiscard4=GetFaceValue(Discard[7])
     MinDiscard=min(fvDiscard1,fvDiscard2,fvDiscard3,fvDiscard4)
-    #check each colx[lengthcolx]==Discard[4-7]+1 if Discard[4-7] >0     #TODO: blit from col0-7 and discard
+    #check each colx[lengthcolx]==Discard[4-7]+1 if Discard[4-7] >0     #TODO: blit from col0-7 and discard; Hint
     for sub in range(4,8):
         if Discard[sub] > 0:
             if   col0[len(col0) - 1] == Discard[sub] + 1:
@@ -289,10 +306,15 @@ while running:
             sys.exit()
         elif event.type == MOUSEBUTTONDOWN:
             popx,popy=event.pos     #            popy=event.y
-            print(f'mousedown @ {popx},{popy}')
+            #BeginPos = namedtuple('BeginPos',['beginx','beginy'])   
+            Begpos = BeginPos(popx,popy)   
+            
+            print(f'mous down @ {Begpos[0]},{Begpos[1]}')
         elif event.type == MOUSEBUTTONUP:
+            #EndPos = namedtuple('EndPos',['endx','endy'])         
             popx,popy=event.pos     #            popy=event.y
-            print(f'mouseup   @ {popx},{popy}')
+            Enditp = EndPos(popx,popy)
+            print(f'mous up   @ {Enditp.endx},{Enditp.endy}')
         elif event.type == MOUSEMOTION:
             popx,popy=event.pos     #            popy=event.y
             print(f'mouseMove @ {popx},{popy}')
