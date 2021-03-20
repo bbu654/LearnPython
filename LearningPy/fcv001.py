@@ -5,6 +5,7 @@ from collections import namedtuple
 horCardSlots=8
 XPOS = [12, 236, 460, 684, 908, 1132, 1356, 1580]
 YPOS = [70, 140, 210, 280, 350, 420, 490]
+DPOS = 600
 col0=[]
 col1=[]
 col2=[]
@@ -21,7 +22,7 @@ EndPos = namedtuple('EndPos',['endx','endy'])
 Begpos = BeginPos('1500','19')   
 Enditp = EndPos('1200','144')      
 # Access using index   
-print ("The Begin (DragStart) Position beginy using index (Begpos[1]) is: {Begpos[1]}",end ="")   
+print (f"The Begin (DragStart) Position beginy using index (Begpos[1]) is: {Begpos[1]}",end ="")   
 print (Begpos[1])   
       
 # Access using name    
@@ -41,10 +42,55 @@ def GetFaceValue(realval):
         return (realval - 26)
 def IsValidMove(deck,beginAddr,endAddr):
     # TODO: Convert screen addr to a card or set of cards put up last-card then prev card until at beginAddr
-    if Discard[0]==0:
-        bosco,joseph=beginAddr   
-        endax,enday =endAddr
+    #if Discard[0]==0:
+        #   Convert bosco, joseph to TableA?
+    bosco,joseph=beginAddr   
+    endax,enday =endAddr
+    CardBegx=0
+    CardBegy=0
+    CardEndx=0
+    CardEndy=0
+    lastCardInCol = len(XPOS) - 1
+    lastCardInRow = len(YPOS) - 1
 
+
+    #739, 474
+    for xsub in range(lastCardInCol):
+        if bosco > XPOS[xsub] and bosco <=XPOS[xsub + 1]:
+            CardBegx=xsub
+            break
+    else:
+        CardBegx=lastCardInCol
+
+    for ysub in range(lastCardInRow):
+        if joseph > YPOS[ysub] and joseph <=YPOS[ysub + 1]:
+            CardBegy=ysub
+            break
+    else:
+        CardBegy=lastCardInRow
+    for xsub in range(lastCardInCol):
+        if endax > XPOS[xsub] and endax <=XPOS[xsub + 1]:
+            CardEndx=xsub
+            break
+    else:
+        CardEndx=lastCardInCol
+    for ysub in range(lastCardInRow):
+        if enday > YPOS[ysub] and enday <=YPOS[ysub + 1]:
+            CardEndy=ysub
+            break
+    else: 
+        CardEndy=lastCardInRow 
+    if enday > DPOS:
+        CardEndy=lastCardInRow+1
+    if  CardEndy==lastCardInRow+1 or  CardBegy==lastCardInRow+1:
+        # TODO: process Discard-Row
+        suck=0
+
+
+
+
+    return True, CardBegx, CardBegy, CardEndx, CardEndy
+    
 def IsSolvable(setOfNumbers):
     for o,p in enumerate(setOfNumbers):
         y_modifier= (o//(horCardSlots)) #+1    #if i==horCardSlots+1 or y_modifier==0:         y_modifier=y_modifier+1             #y_modifier=y_modifier+1    
@@ -79,7 +125,7 @@ def IsSolvable(setOfNumbers):
     TableA.append(col6)
     TableA.append(col7)
     return True
-def CheckDiscard(Discard,col0,col1,col2,col3,col4,col5,col6,col7):    
+def CheckDiscard(Discard,TableA):   #,col0,col1,col2,col3,col4,col5,col6,col7):    
     aces=[1,14,27,40]
     twos=[2,15,28,41]
     jack=[11,24,37,50]
@@ -95,82 +141,91 @@ def CheckDiscard(Discard,col0,col1,col2,col3,col4,col5,col6,col7):
     MinDiscard=min(fvDiscard1,fvDiscard2,fvDiscard3,fvDiscard4)
     #check each colx[lengthcolx]==Discard[4-7]+1 if Discard[4-7] >0     #TODO: blit from col0-7 and discard; Hint
     for sub in range(4,8):
-        if Discard[sub] > 0:
-            if   col0[len(col0) - 1] == Discard[sub] + 1:
-                Discard[sub]= col0[len(col0) - 1]
-                col0.pop(len(col0) - 1)
-            elif col1[len(col1) - 1] == Discard[sub] + 1:
-                Discard[sub]= col1[len(col1) - 1]
-                col1.pop(len(col1) - 1)
-            elif col2[len(col2) - 1] == Discard[sub] + 1:
-                Discard[sub]= col2[len(col2) - 1]
-                col2.pop(len(col2) - 1)
-            elif col3[len(col3) - 1] == Discard[sub] + 1:
-                Discard[sub]= col3[len(col3) - 1]
-                col3.pop(len(col3) - 1)
-            elif col4[len(col4) - 1] == Discard[sub] + 1:
-                Discard[sub]= col4[len(col4) - 1]
-                col4.pop(len(col4) - 1)
-            elif col5[len(col5) - 1] == Discard[sub] + 1:
-                Discard[sub]= col5[len(col5) - 1]
-                col5.pop(len(col5) - 1)
-            elif col6[len(col6) - 1] == Discard[sub] + 1:
-                Discard[sub]= col6[len(col6) - 1]
-                col6.pop(len(col6) - 1)
-            elif col7[len(col7) - 1] == Discard[sub] + 1:
-                Discard[sub]= col7[len(col7) - 1]
-                col7.pop(len(col7) - 1)
-            else:
-                continue
-        elif col0[len(col0) -1] in aces: #Discard[sub]==0
-            Discard[sub]=col0[len(col0) - 1]
-            col0.pop(len(col0) - 1)
-        elif col1[len(col1) -1] in aces: #Discard[sub]==0
-            Discard[sub]=col1[len(col1) - 1]
-            col1.pop(len(col1) - 1)
-        elif col2[len(col2) -1] in aces: #Discard[sub]==0
-            Discard[sub]=col2[len(col2) - 1]
-            col2.pop(len(col2) - 1)
-        elif col3[len(col3) -1] in aces: #Discard[sub]==0
-            Discard[sub]=col3[len(col3) - 1]
-            col3.pop(len(col3) - 1)
-        elif col4[len(col4) -1] in aces: #Discard[sub]==0
-            Discard[sub]=col4[len(col4) - 1]
-            col4.pop(len(col4) - 1)
-        elif col5[len(col5) -1] in aces: #Discard[sub]==0
-            Discard[sub]=col5[len(col5) - 1]
-            col5.pop(len(col5) - 1)
-        elif col6[len(col6) -1] in aces: #Discard[sub]==0
-            Discard[sub]=col6[len(col6) - 1]
-            col6.pop(len(col6) - 1)
-        elif col7[len(col7) -1] in aces: #Discard[sub]==0
-            Discard[sub]=col7[len(col7) - 1]
-            col7.pop(len(col7) - 1)
-        else:
-            continue
-    #lengthcol0=len(col0) - 1
-    #if col0[lengthcol0] in aces:
-    #    if   Discard[4]==0:
-    #         Discard[4]=col0[lengthcol0] 
-    #    elif Discard[5]==0:
-    #         Discard[5]=col0[lengthcol0]
-    #    elif Discard[6]==0:
-    #         Discard[6]=col0[lengthcol0]
-    #    else:
-    #         Discard[7]=col0[lengthcol0]
-    #    col0.pop(lengthcol0)
-    #lengthcol1=len(col1) - 1
-    #if col1[lengthcol1] in aces:        
-    #    if Discard[4]==0:
-    #        Discard[4]=col1[lengthcol1]
-    #    elif Discard[5]==0:
-    #        Discard[5]=col1[lengthcol1]
-    #    elif Discard[6]==0:
-    #        Discard[6]=col1[lengthcol1]
-    #    else:
-    #        Discard[7]=col1[lengthcol1]
-    #    col1.pop(lengthcol1) #pop
-    return Discard,col0,col1,col2,col3,col4,col5,col6,col7
+        for gog in range(8):                                            #gog is 0 thru 7  is colx
+            lastCardInColumn = len(TableA[gog]) - 1
+            if Discard[sub] > 0:                                        
+                if TableA[gog][lastCardInColumn] == Discard[sub] + 1:
+                    Discard[sub] = TableA[gog].pop(lastCardInColumn)                           #del TableA[gog][lastCardInColumn]
+                else: 
+                    continue
+            elif TableA[gog][lastCardInColumn] in aces:
+                Discard[sub] = TableA[gog].pop(lastCardInColumn)                
+    return Discard,TableA   #,col0,col1,col2,col3,col4,col5,col6,col7            
+            #    if   col0[len(col0) - 1] == Discard[sub] + 1:           
+            #        Discard[sub]= col0[len(col0) - 1]                   
+            #        col0.pop(len(col0) - 1)                             
+            #    elif col1[len(col1) - 1] == Discard[sub] + 1:           
+            #        Discard[sub]= col1[len(col1) - 1]                   
+            #        col1.pop(len(col1) - 1)                             
+            #    elif col2[len(col2) - 1] == Discard[sub] + 1:
+            #        Discard[sub]= col2[len(col2) - 1]
+            #        col2.pop(len(col2) - 1)
+            #    elif col3[len(col3) - 1] == Discard[sub] + 1:
+            #        Discard[sub]= col3[len(col3) - 1]
+            #        col3.pop(len(col3) - 1)
+            #    elif col4[len(col4) - 1] == Discard[sub] + 1:
+            #        Discard[sub]= col4[len(col4) - 1]
+            #        col4.pop(len(col4) - 1)
+            #    elif col5[len(col5) - 1] == Discard[sub] + 1:
+            #        Discard[sub]= col5[len(col5) - 1]
+            #        col5.pop(len(col5) - 1)
+            #    elif col6[len(col6) - 1] == Discard[sub] + 1:
+            #        Discard[sub]= col6[len(col6) - 1]
+            #        col6.pop(len(col6) - 1)
+            #    elif col7[len(col7) - 1] == Discard[sub] + 1:
+            #        Discard[sub]= col7[len(col7) - 1]
+            #        col7.pop(len(col7) - 1)
+            #    else:
+            #        continue
+            #elif col0[len(col0) -1] in aces: #Discard[sub]==0
+            #    Discard[sub]=col0[len(col0) - 1]
+            #    col0.pop(len(col0) - 1)
+            #elif col1[len(col1) -1] in aces: #Discard[sub]==0
+            #    Discard[sub]=col1[len(col1) - 1]
+            #    col1.pop(len(col1) - 1)
+            #elif col2[len(col2) -1] in aces: #Discard[sub]==0
+            #    Discard[sub]=col2[len(col2) - 1]
+            #    col2.pop(len(col2) - 1)
+            #elif col3[len(col3) -1] in aces: #Discard[sub]==0
+            #    Discard[sub]=col3[len(col3) - 1]
+            #    col3.pop(len(col3) - 1)
+            #elif col4[len(col4) -1] in aces: #Discard[sub]==0
+            #    Discard[sub]=col4[len(col4) - 1]
+            #    col4.pop(len(col4) - 1)
+            #elif col5[len(col5) -1] in aces: #Discard[sub]==0
+            #    Discard[sub]=col5[len(col5) - 1]
+            #    col5.pop(len(col5) - 1)
+            #elif col6[len(col6) -1] in aces: #Discard[sub]==0
+            #    Discard[sub]=col6[len(col6) - 1]
+            #    col6.pop(len(col6) - 1)
+            #elif col7[len(col7) -1] in aces: #Discard[sub]==0
+            #    Discard[sub]=col7[len(col7) - 1]
+            #    col7.pop(len(col7) - 1)
+            #else:
+            #    continue
+            #lengthcol0=len(col0) - 1                   TableA=
+            #if col0[lengthcol0] in aces:
+            #    if   Discard[4]==0:
+            #         Discard[4]=col0[lengthcol0] 
+            #    elif Discard[5]==0:
+            #         Discard[5]=col0[lengthcol0]
+            #    elif Discard[6]==0:
+            #         Discard[6]=col0[lengthcol0]
+            #    else:
+            #         Discard[7]=col0[lengthcol0]
+            #    col0.pop(lengthcol0)
+            #lengthcol1=len(col1) - 1
+            #if col1[lengthcol1] in aces:        
+            #    if Discard[4]==0:
+            #        Discard[4]=col1[lengthcol1]
+            #    elif Discard[5]==0:
+            #        Discard[5]=col1[lengthcol1]
+            #    elif Discard[6]==0:
+            #        Discard[6]=col1[lengthcol1]
+            #    else:
+            #        Discard[7]=col1[lengthcol1]
+            #    col1.pop(lengthcol1) #pop
+    
 # Initialize program
 pygame.init()
  
@@ -190,21 +245,9 @@ pathrb=f'C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB'
 # Setup a 300x300 pixel display with caption
 width = 1860
 height =800
-#horCardSlots=8
-#XPOS = [12, 236, 460, 684, 908, 1132, 1356, 1580]
-#YPOS = [70, 140, 210, 280, 350, 420, 490]
-#col0=[]
-#col1=[]
-#col2=[]
-#col3=[]
-#col4=[]
-#col5=[]
-#col6=[]
-#col7=[]
-#TableA=[]
-#n = 24 #rows
-#m = 8 #cols
-#TableB=[[0] * m for i in range(n)]
+#horCardSlots=8     #XPOS = [12, 236, 460, 684, 908, 1132, 1356, 1580]      #YPOS = [70, 140, 210, 280, 350, 420, 490]
+#col0=[]            #col1=[]        #col2=[]        #col3=[]                #col4=[]        #col5=[]        #col6=[]        #col7=[]
+#TableA=[]          #n = 24 #rows   #m = 8 #cols    #TableB=[[0] * m for i in range(n)]
 DISPLAYSURF = pygame.display.set_mode((width,height))
 DISPLAYSURF.fill(WHITE)
 shorty = []
@@ -225,15 +268,9 @@ for j,k in enumerate(setOfNumbers):     #while i<53:
     x_modifier=(j%(horCardSlots))       #shorty.append(y_modifier) #!    newx=(x*x_modifier) + x#initial_left_width    newx=newx+(card_width*(x_modifier))    #shorty.append(YPOS[y_modifier-1])
     lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(k)}.png"
     PenguinImage = pygame.image.load(lit1).convert()
-    #TableB[x_modifier][y_modifier]=k
-    #if x_modifier==0:         col0.append(k)    
-    #if x_modifier==1:         col1.append(k)    
-    #if x_modifier==2:         col2.append(k)    
-    #if x_modifier==3:         col3.append(k)    
-    #if x_modifier==4:         col4.append(k)    
-    #if x_modifier==5:         col5.append(k)    
-    #if x_modifier==6:         col6.append(k)    
-    #if x_modifier==7:         col7.append(k)    
+    #if x_modifier==0:         col0.append(k)                   #if x_modifier==1:         col1.append(k)               #if x_modifier==2:         col2.append(k)    
+    #if x_modifier==3:         col3.append(k)                   #if x_modifier==4:         col4.append(k)               #if x_modifier==5:         col5.append(k)    
+    #if x_modifier==6:         col6.append(k)                   #if x_modifier==7:         col7.append(k)               #TableB[x_modifier][y_modifier]=k
     aces=[1,14,27,40]
     if not k in TableB:
         TableB[x_modifier][y_modifier]=k
@@ -257,17 +294,11 @@ for j,k in enumerate(setOfNumbers):     #while i<53:
         continue
     else:
         DISPLAYSURF.blit(PenguinImage, (XPOS[x_modifier],YPOS[y_modifier]))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
-#TableA.append(col0)
-#TableA.append(col1)
-#TableA.append(col2)
-#TableA.append(col3)
-#TableA.append(col4)
-#TableA.append(col5)
-#TableA.append(col6)
-#TableA.append(col7)
+#TableA.append(col0)                #TableA.append(col1)                #TableA.append(col2)                #TableA.append(col3)                
+#TableA.append(col5)                #TableA.append(col6)                #TableA.append(col7)                #TableA.append(col4)
 print(f'****////*\\\\****    TableA(0,0)={TableA[0][0]}     TableA={TableA}')
 print(f'TableB={TableB}')
-Discard,col0,col1,col2,col3,col4,col5,col6,col7 = CheckDiscard(Discard,col0,col1,col2,col3,col4,col5,col6,col7)
+Discard,TableA = CheckDiscard(Discard,TableA)   #,col0,col1,col2,col3,col4,col5,col6,col7)
 running = True 
 IsThereADiscard = False
 for g,h in enumerate(Discard):
@@ -277,7 +308,7 @@ for g,h in enumerate(Discard):
     else:
         lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(53)}.png"
     PenguinImage = pygame.image.load(lit1).convert()
-    DISPLAYSURF.blit(PenguinImage, (XPOS[g],600))     
+    DISPLAYSURF.blit(PenguinImage, (XPOS[g],DPOS))     
 pygame.display.flip() # paint screen one time
 # Beginning Game Loop       TODO: NEED FREECELL RULES Valid and Invalid moves!
 fcrules="""
@@ -312,9 +343,12 @@ while running:
             print(f'mous down @ {Begpos[0]},{Begpos[1]}')
         elif event.type == MOUSEBUTTONUP:
             #EndPos = namedtuple('EndPos',['endx','endy'])         
-            popx,popy=event.pos     #            popy=event.y
+            popx,popy=event.pos    
+            but1=event.button
             Enditp = EndPos(popx,popy)
-            print(f'mous up   @ {Enditp.endx},{Enditp.endy}')
+            if but1==1:
+                print(f'mous up   @ {Enditp.endx},{Enditp.endy}')
+                returnTrue, CardBegx, CardBegy, CardEndx, CardEndy=IsValidMove(TableA,Begpos,Enditp)
         elif event.type == MOUSEMOTION:
             popx,popy=event.pos     #            popy=event.y
             print(f'mouseMove @ {popx},{popy}')
@@ -343,13 +377,9 @@ while running:
 
 pygame.quit()
 #DISPLAYSURF.blit(PenguinImage, ( x,y)  ) # paint to screen     print(courtx)               print(courty)
-#loop over, quit pygame
-#print(shorty) 
+#loop over, quit pygame             #print(shorty) 
 # Creating Lines and Shapes         asurf = pygame.image.load(os.path.join('images', '1.png'))
-#pygame.draw.line(DISPLAYSURF, BLUE, (150,130), (130,170))
-#pygame.draw.line(DISPLAYSURF, BLUE, (150,130), (170,170))
-#pygame.draw.line(DISPLAYSURF, GREEN, (130,170), (170,170))
-#pygame.draw.circle(DISPLAYSURF, BLACK, (100,50), 30)
-#pygame.draw.circle(DISPLAYSURF, BLACK, (200,50), 30)
-#pygame.draw.rect(DISPLAYSURF, RED, (100, 200, 100, 50), 2)
+#pygame.draw.line(DISPLAYSURF, BLUE, (150,130), (130,170))          #pygame.draw.line(DISPLAYSURF, BLUE, (150,130), (170,170))
+#pygame.draw.line(DISPLAYSURF, GREEN, (130,170), (170,170))         #pygame.draw.circle(DISPLAYSURF, BLACK, (100,50), 30)
+#pygame.draw.circle(DISPLAYSURF, BLACK, (200,50), 30)               #pygame.draw.rect(DISPLAYSURF, RED, (100, 200, 100, 50), 2)
 #pygame.draw.rect(DISPLAYSURF, BLACK, (110, 260, 80, 5))
