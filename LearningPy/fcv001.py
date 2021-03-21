@@ -85,8 +85,11 @@ def IsValidMove(deck,beginAddr,endAddr):
     if  CardEndy==lastCardInRow+1 or  CardBegy==lastCardInRow+1:
         # TODO: process Discard-Row
         suck=0
-
-
+    #deck[CardBegx][CardBegy]
+    if deck[CardEndx][CardEndy]==0:
+        #Check if EmptySlots<= NumCardsInSelectedAJ69Cache:
+        #True Move them Else Don't Move
+        suck1=0
 
 
     return True, CardBegx, CardBegy, CardEndx, CardEndy
