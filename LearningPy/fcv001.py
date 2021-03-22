@@ -14,7 +14,7 @@ col4=[]
 col5=[]
 col6=[]
 col7=[]
-TableA=[]
+DeckTbl=[]
 # Declaring namedtuple()   
 BeginPos = namedtuple('BeginPos',['beginx','beginy'])   
 EndPos = namedtuple('EndPos',['endx','endy'])         
@@ -40,10 +40,10 @@ def GetFaceValue(realval):
         return (realval - 26)
     else             : # realval greater than or equal 39 and  less than 53
         return (realval - 26)
-def IsValidMove(deck,beginAddr,endAddr):
+def IsValidMove(Discard, DeckTbl, beginAddr, endAddr):
     # TODO: Convert screen addr to a card or set of cards put up last-card then prev card until at beginAddr
     #if Discard[0]==0:
-        #   Convert bosco, joseph to TableA?
+        #   Convert bosco, joseph to DeckTbl?
     bosco,joseph=beginAddr   
     endax,enday =endAddr
     CardBegx=0
@@ -86,13 +86,13 @@ def IsValidMove(deck,beginAddr,endAddr):
         # TODO: process Discard-Row
         suck=0
     #deck[CardBegx][CardBegy]
-    if deck[CardEndx][CardEndy]==0:
+    if DeckTbl[CardEndx][CardEndy]==0:
         #Check if EmptySlots<= NumCardsInSelectedAJ69Cache:
         #True Move them Else Don't Move
         suck1=0
 
 
-    return True, CardBegx, CardBegy, CardEndx, CardEndy
+    return True, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy    #Discard,deck,beginAddr,endAddr
     
 def IsSolvable(setOfNumbers):
     for o,p in enumerate(setOfNumbers):
@@ -119,16 +119,16 @@ def IsSolvable(setOfNumbers):
         if x_modifier==7 and not p in col7:
             col7.append(p)    
         #DISPLAYSURF.blit(PenguinImage, (XPOS[x_modifier],YPOS[y_modifier]))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
-    TableA.append(col0)
-    TableA.append(col1)
-    TableA.append(col2)
-    TableA.append(col3)
-    TableA.append(col4)
-    TableA.append(col5)
-    TableA.append(col6)
-    TableA.append(col7)
+    DeckTbl.append(col0)
+    DeckTbl.append(col1)
+    DeckTbl.append(col2)
+    DeckTbl.append(col3)
+    DeckTbl.append(col4)
+    DeckTbl.append(col5)
+    DeckTbl.append(col6)
+    DeckTbl.append(col7)
     return True
-def CheckDiscard(Discard,TableA):   #,col0,col1,col2,col3,col4,col5,col6,col7):    
+def CheckDiscard(Discard,DeckTbl):   #,col0,col1,col2,col3,col4,col5,col6,col7):    
     aces=[1,14,27,40]
     twos=[2,15,28,41]
     jack=[11,24,37,50]
@@ -145,15 +145,15 @@ def CheckDiscard(Discard,TableA):   #,col0,col1,col2,col3,col4,col5,col6,col7):
     #check each colx[lengthcolx]==Discard[4-7]+1 if Discard[4-7] >0     #TODO: blit from col0-7 and discard; Hint
     for sub in range(4,8):
         for gog in range(8):                                            #gog is 0 thru 7  is colx
-            lastCardInColumn = len(TableA[gog]) - 1
+            lastCardInColumn = len(DeckTbl[gog]) - 1
             if Discard[sub] > 0:                                        
-                if TableA[gog][lastCardInColumn] == Discard[sub] + 1:
-                    Discard[sub] = TableA[gog].pop(lastCardInColumn)                           #del TableA[gog][lastCardInColumn]
+                if DeckTbl[gog][lastCardInColumn] == Discard[sub] + 1:
+                    Discard[sub] = DeckTbl[gog].pop(lastCardInColumn)                           #del DeckTbl[gog][lastCardInColumn]
                 else: 
                     continue
-            elif TableA[gog][lastCardInColumn] in aces:
-                Discard[sub] = TableA[gog].pop(lastCardInColumn)                
-    return Discard,TableA   #,col0,col1,col2,col3,col4,col5,col6,col7            
+            elif DeckTbl[gog][lastCardInColumn] in aces:
+                Discard[sub] = DeckTbl[gog].pop(lastCardInColumn)                
+    return Discard, DeckTbl   #,col0,col1,col2,col3,col4,col5,col6,col7            
             #    if   col0[len(col0) - 1] == Discard[sub] + 1:           
             #        Discard[sub]= col0[len(col0) - 1]                   
             #        col0.pop(len(col0) - 1)                             
@@ -206,7 +206,7 @@ def CheckDiscard(Discard,TableA):   #,col0,col1,col2,col3,col4,col5,col6,col7):
             #    col7.pop(len(col7) - 1)
             #else:
             #    continue
-            #lengthcol0=len(col0) - 1                   TableA=
+            #lengthcol0=len(col0) - 1                   DeckTbl=
             #if col0[lengthcol0] in aces:
             #    if   Discard[4]==0:
             #         Discard[4]=col0[lengthcol0] 
@@ -250,7 +250,7 @@ width = 1860
 height =800
 #horCardSlots=8     #XPOS = [12, 236, 460, 684, 908, 1132, 1356, 1580]      #YPOS = [70, 140, 210, 280, 350, 420, 490]
 #col0=[]            #col1=[]        #col2=[]        #col3=[]                #col4=[]        #col5=[]        #col6=[]        #col7=[]
-#TableA=[]          #n = 24 #rows   #m = 8 #cols    #TableB=[[0] * m for i in range(n)]
+#DeckTbl=[]          #n = 24 #rows   #m = 8 #cols    #TableB=[[0] * m for i in range(n)]
 DISPLAYSURF = pygame.display.set_mode((width,height))
 DISPLAYSURF.fill(WHITE)
 shorty = []
@@ -297,11 +297,11 @@ for j,k in enumerate(setOfNumbers):     #while i<53:
         continue
     else:
         DISPLAYSURF.blit(PenguinImage, (XPOS[x_modifier],YPOS[y_modifier]))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
-#TableA.append(col0)                #TableA.append(col1)                #TableA.append(col2)                #TableA.append(col3)                
-#TableA.append(col5)                #TableA.append(col6)                #TableA.append(col7)                #TableA.append(col4)
-print(f'****////*\\\\****    TableA(0,0)={TableA[0][0]}     TableA={TableA}')
+#DeckTbl.append(col0)                #DeckTbl.append(col1)                #DeckTbl.append(col2)                #DeckTbl.append(col3)                
+#DeckTbl.append(col5)                #DeckTbl.append(col6)                #DeckTbl.append(col7)                #DeckTbl.append(col4)
+print(f'****////*\\\\****    DeckTbl(0,0)={DeckTbl[0][0]}     DeckTbl={DeckTbl}')
 print(f'TableB={TableB}')
-Discard,TableA = CheckDiscard(Discard,TableA)   #,col0,col1,col2,col3,col4,col5,col6,col7)
+Discard,DeckTbl = CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
 running = True 
 IsThereADiscard = False
 for g,h in enumerate(Discard):
@@ -351,7 +351,8 @@ while running:
             Enditp = EndPos(popx,popy)
             if but1==1:
                 print(f'mous up   @ {Enditp.endx},{Enditp.endy}')
-                returnTrue, CardBegx, CardBegy, CardEndx, CardEndy=IsValidMove(TableA,Begpos,Enditp)
+                returnTrue, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy=IsValidMove(Discard, DeckTbl, Begpos, Enditp)
+                #   returnTrue, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy    #Discard,deck,beginAddr,endAddr
         elif event.type == MOUSEMOTION:
             popx,popy=event.pos     #            popy=event.y
             print(f'mouseMove @ {popx},{popy}')
