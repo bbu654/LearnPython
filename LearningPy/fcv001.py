@@ -15,6 +15,7 @@ col5=[]
 col6=[]
 col7=[]
 DeckTbl=[]
+Status_Text=""
 # Declaring namedtuple()   
 BeginPos = namedtuple('BeginPos',['beginx','beginy'])   
 EndPos = namedtuple('EndPos',['endx','endy'])         
@@ -52,47 +53,78 @@ def IsValidMove(Discard, DeckTbl, beginAddr, endAddr):
     CardEndy=0
     lastCardInCol = len(XPOS) - 1
     lastCardInRow = len(YPOS) - 1
+    Status_Text=""
 
+    #739, 474  This still doesnt work!!!!!!!!!!!!!!!!!!         TEST outside card area
 
-    #739, 474
     for xsub in range(lastCardInCol):
         if bosco > XPOS[xsub] and bosco <=XPOS[xsub + 1]:
             CardBegx=xsub
             break
     else:
         CardBegx=lastCardInCol
-
-    for ysub in range(lastCardInRow):
+            #Dont forget to translate cardBeg, CardEndf=? into DeskTbl address
+    for ysub in range(lastCardInRow):   
         if joseph > YPOS[ysub] and joseph <=YPOS[ysub + 1]:
-            CardBegy=ysub
+            CardBegy=min(ysub, len(DeckTbl[CardBegx])-1)
             break
     else:
-        CardBegy=lastCardInRow
+        CardBegy=min(lastCardInRow, len(DeckTbl[CardBegx])-1)
     for xsub in range(lastCardInCol):
         if endax > XPOS[xsub] and endax <=XPOS[xsub + 1]:
             CardEndx=xsub
             break
     else:
         CardEndx=lastCardInCol
-    for ysub in range(lastCardInRow):
-        if enday > YPOS[ysub] and enday <=YPOS[ysub + 1]:
-            CardEndy=ysub
-            break
-    else: 
-        CardEndy=lastCardInRow 
+
+    #for ysub in range(lastCardInRow):           #    Don't need the y since it can only go on the end
+    #    if enday > YPOS[ysub] and enday <=YPOS[ysub + 1]:
+    #        CardEndy=ysub
+    #        break
+    #else: 
+
+    CardEndy=len(DeckTbl[CardEndx]) - 1 
+    if joseph > DPOS:
+        CardBegy=lastCardInRow+1
     if enday > DPOS:
         CardEndy=lastCardInRow+1
-    if  CardEndy==lastCardInRow+1 or  CardBegy==lastCardInRow+1:
+    EmptyColumn = [53]#=BackOfCard
+    #How do you check to see if thecard exists
+    if bosco < XPOS[0] or bosco > XPOS[lastCardInCol] + 204 or joseph < YPOS[0] or endax < XPOS[0] or endax > XPOS[lastCardInCol] + 204 or enday < YPOS[0]:
+        Status_Text = "No Card Selected"
+    if CardBegx > -1 and CardBegx < 8 and Status_Text == "":
+        pass
+    else:
+        Status_Text = Status_Text + f"Initial Position: InternalError: Deck Indices (X) are out of range"
+    if CardEndx > -1 and CardEndx < 8 and Status_Text == "":
+        pass
+    else:
+        Status_Text = Status_Text + f"Final  Position: InternalError: Deck Indices (X) are out of range"
+    if Status_Text == "":           #        pass        # TODO Dont del the last entry in a col                 # See above: if CardBegx > (len(DeckTbl[0])-1) or CardEndx > (len(DeckTbl[0])-1):                   sukc2=0
+        if  CardEndy==lastCardInRow+1 or  CardBegy==lastCardInRow+1:
         # TODO: process Discard-Row
-        suck=0
+            if CardBegx > 3 and CardBegy==lastCardInRow+1:
+                Status_Text = f"Can't move Foundation Cards"
+                suck=0
+            elif CardBegx < 4 and Discard[CardBegx]==0:
+                Status_Text = f"No card to move"
     #deck[CardBegx][CardBegy]
-    if DeckTbl[CardEndx][CardEndy]==0:
+        elif DeckTbl[CardBegx][CardBegy]==0:
+            Status_Text = f"No card to move"
+        elif DeckTbl[CardBegx][CardBegy] > 26 and DeckTbl[CardEndx][CardEndy] > 26:
+            Status_Text = "Same Black Suit"
+        elif DeckTbl[CardBegx][CardBegy] < 27 and DeckTbl[CardEndx][CardEndy] < 27:
+            Status_Text = "Same Red   Suit"
+        else:
+        #   elif DeckTbl[CardEndx][CardEndy]==0:
         #Check if EmptySlots<= NumCardsInSelectedAJ69Cache:
         #True Move them Else Don't Move
-        suck1=0
+            suck1=0
 
-
-    return True, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy    #Discard,deck,beginAddr,endAddr
+    if Status_Text == "":           #
+        return True,  Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr
+    else:
+        return False, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr
     
 def IsSolvable(setOfNumbers):
     for o,p in enumerate(setOfNumbers):
@@ -242,6 +274,15 @@ RED   = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+LIGHTGREY=(100,100,100)             #    screen = pg.display.set_mode((640, 480))
+font = pygame.font.Font(None, 32)       #    clock = pg.time.Clock()
+input_box = pygame.Rect(40, 10, 140, 32)   #    Rect(left, top, width, height) -> Rect
+color_inactive = pygame.Color('lightskyblue3')
+color_active = pygame.Color('dodgerblue2')
+color = color_inactive
+active = False
+text = ''
+done = False
 card_width =212
 card_height=292
 pathrb=f'C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB'
@@ -254,7 +295,7 @@ height =800
 DISPLAYSURF = pygame.display.set_mode((width,height))
 DISPLAYSURF.fill(WHITE)
 shorty = []
-pygame.display.set_caption("Display some stuff")        #istring=os.path.join("images","1.png")     shorty=[] courtx=[]courty=[]
+pygame.display.set_caption("Brice's Free Cell")        #istring=os.path.join("images","1.png")     shorty=[] courtx=[]courty=[]
 #       loop until issovable is true
 setOfNumbers = list(range(1,53)) 
 random.shuffle(setOfNumbers)
@@ -335,6 +376,7 @@ print(col0,col1,col2,col3,col4,col5,col6,col7)
 while running:
     pygame.display.update()
     for event in pygame.event.get():
+        Status_Text=""
         if event.type == QUIT:
             running = False
             sys.exit()
@@ -342,7 +384,7 @@ while running:
             popx,popy=event.pos     #            popy=event.y
             #BeginPos = namedtuple('BeginPos',['beginx','beginy'])   
             Begpos = BeginPos(popx,popy)   
-            
+            Status_Text=""
             print(f'mous down @ {Begpos[0]},{Begpos[1]}')
         elif event.type == MOUSEBUTTONUP:
             #EndPos = namedtuple('EndPos',['endx','endy'])         
@@ -351,7 +393,20 @@ while running:
             Enditp = EndPos(popx,popy)
             if but1==1:
                 print(f'mous up   @ {Enditp.endx},{Enditp.endy}')
-                returnTrue, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy=IsValidMove(Discard, DeckTbl, Begpos, Enditp)
+                Status_Text=""
+                returnTrue, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text=IsValidMove(Discard, DeckTbl, Begpos, Enditp)
+                if Status_Text!="":         #screen.fill((30, 30, 30))                      # Render the current text.
+                        #if 'click' in num1_button.handleEvent(event):
+                        #    if dice == 1:
+                        #        text = font.render("You Win!", 1, (0, 0, 0))
+                        #        screen.blit(text, (155, 255))
+                        txt_surface = font.render("                                     ", True, BLACK)
+                        txt_surface = font.render(Status_Text, True, BLACK)                 # Resize the box if the text is too long.
+                        width = max(200, txt_surface.get_width()+10)
+                        input_box.w = width                                                 # Blit the text.
+                        DISPLAYSURF.blit(txt_surface, (input_box.x+5, input_box.y+5))       # Blit the input_box rect.
+                        pygame.draw.rect(DISPLAYSURF, color, input_box, 2)
+
                 #   returnTrue, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy    #Discard,deck,beginAddr,endAddr
         elif event.type == MOUSEMOTION:
             popx,popy=event.pos     #            popy=event.y
