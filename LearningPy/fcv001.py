@@ -111,7 +111,9 @@ def IsValidMove(Discard, DeckTbl, beginAddr, endAddr):
             if CardBegx > 3 and CardBegy==lastCardInRow+1:
                 Status_Text = f"Can't move Foundation Cards"
                 suck=0
-            elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and Discard[CardEndx]==0:
+            elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and Discard[CardEndx]==0 and CardEndx < 4:
+                    Discard[CardEndx]=DeckTbl[CardBegx].pop(CardBegy-2)
+            elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and (DeckTbl[CardBegx][CardBegy] - Discard[CardEndx])==1 and CardEndx > 3:
                     Discard[CardEndx]=DeckTbl[CardBegx].pop(CardBegy-2)
             elif CardBegx < 4 and Discard[CardBegx]==0:
                 #else:
@@ -170,12 +172,8 @@ def IsValidMove(Discard, DeckTbl, beginAddr, endAddr):
         #Check if EmptySlots<= NumCardsInSelectedAJ69Cache:
         #True Move them Else Don't Move
                 suck1=0
-
-    if Status_Text == "":           #
-
-        return True,  Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr
-    else:
-        return False, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr
+    returnBool=Status_Text == ""            #    if Status_Text == "":           #
+    return returnBool,  Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr    else:        return False, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr
     
 def IsSolvable(setOfNumbers):
     for o,p in enumerate(setOfNumbers):
