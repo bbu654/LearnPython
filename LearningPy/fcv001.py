@@ -1,4 +1,5 @@
 import pygame, sys, random, os
+from pygame.joystick import get_count
 from pygame.locals import *
 from collections import namedtuple
 
@@ -6,6 +7,12 @@ horCardSlots=8
 XPOS = [12, 236, 460, 684, 908, 1132, 1356, 1580]
 YPOS = [70, 140, 210, 280, 350, 420, 490]
 DPOS = 600
+#      no zero, ace   2h
+Magic1 = (0,0,29,30,31,32,33,34,35,36,37,38,39,0,0,29,30,31,32,33,34,35,36,37,38,39,0,0, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,0,0, 3, 4, 5, 6, 7, 8, 9,10,11,12,13)
+Magic2 = (0,0,42,43,44,45,46,47,48,49,50,51,52,0,0,42,43,44,45,46,47,48,49,50,51,52,0,0,16,17,18,19,20,21,22,23,24,25,26,0,0,16,17,18,19,20,21,22,23,24,25,26)
+#Magic = ((0,0),(0,0),(29,42),(30,43),(31,44),(32,45),(33,46),(34,47),(35,48),(36,49),(37,50),(38,51),(39,52),(0,0),(29,42),(30,43),(31,44),(32,45),(33,46),(34,47),(35,48),(36,49),(37,50),(38,51),(39,52),(0,0),(3,16)(4,17),(5,18),(6,19),(7,20),(8,21),(9,22),(10,23),(11,24),(12,25),(13,26),(0,0),(3,16)(4,17),(5,18),(6,19),(7,20),(8,21),(9,22),(10,23),(11,24),(12,25),(13,26))
+print(f"Magic1={Magic1} And len(Magic1={len(Magic1)}")
+print(f"Magic2={Magic2} And len(Magic2={len(Magic2)}")
 col0=[]
 col1=[]
 col2=[]
@@ -24,8 +31,7 @@ Begpos = BeginPos('1500','19')
 Enditp = EndPos('1200','144')      
 # Access using index   
 print (f"The Begin (DragStart) Position beginy using index (Begpos[1]) is: {Begpos[1]}",end ="")   
-print (Begpos[1])   
-      
+print (Begpos[1])         
 # Access using name    
 print (f"The End (Drop) Position endx using keyname (Enditp.endx) is: {Enditp.endx}", end = "")   #print (Enditp.endx) 
 n = 24 #rows
@@ -77,18 +83,17 @@ def IsValidMove(Discard, DeckTbl, beginAddr, endAddr):
     else:
         CardEndx=lastCardInCol
 
+    CardEndy=len(DeckTbl[CardEndx]) - 1 
     #for ysub in range(lastCardInRow):           #    Don't need the y since it can only go on the end
     #    if enday > YPOS[ysub] and enday <=YPOS[ysub + 1]:
     #        CardEndy=ysub
     #        break
     #else: 
-
-    CardEndy=len(DeckTbl[CardEndx]) - 1 
     if joseph > DPOS:
         CardBegy=lastCardInRow+1
     if enday > DPOS:
         CardEndy=lastCardInRow+1
-    EmptyColumn = [53]#=BackOfCard
+    EmptyColumn = [0]#=BackOfCard
     #How do you check to see if thecard exists
     if bosco < XPOS[0] or bosco > XPOS[lastCardInCol] + 204 or joseph < YPOS[0] or endax < XPOS[0] or endax > XPOS[lastCardInCol] + 204 or enday < YPOS[0]:
         Status_Text = "No Card Selected"
@@ -107,7 +112,11 @@ def IsValidMove(Discard, DeckTbl, beginAddr, endAddr):
                 Status_Text = f"Can't move Foundation Cards"
                 suck=0
             elif CardBegx < 4 and Discard[CardBegx]==0:
-                Status_Text = f"No card to move"
+                if CardBegy!=lastCardInRow+1 and CardEndx==lastCardInRow+1 and Discard[CardEndx]==0:
+                    Discard[CardEndx]=DeckTbl[CardBegx].pop(CardBegy-2)
+                else:
+                    Status_Text = f"No card to move"
+
     #deck[CardBegx][CardBegy]
         elif DeckTbl[CardBegx][CardBegy]==0:
             Status_Text = f"No card to move"
@@ -116,12 +125,54 @@ def IsValidMove(Discard, DeckTbl, beginAddr, endAddr):
         elif DeckTbl[CardBegx][CardBegy] < 27 and DeckTbl[CardEndx][CardEndy] < 27:
             Status_Text = "Same Red   Suit"
         else:
+            print(f"Magic1[(DeckTbl[CardBegx][CardBegy])]={Magic1[(DeckTbl[CardBegx][CardBegy])]}")
+            print(f"Magic2[(DeckTbl[CardBegx][CardBegy])]={Magic2[(DeckTbl[CardBegx][CardBegy])]}")
+            print(f"DeckTbl[CardEndx][CardEndy]={DeckTbl[CardEndx][CardEndy]}")
+            if Status_Text == "" and (Magic1[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy] or Magic2[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy]):
+                #pass            #TODO: Need to check all cards under selected cardBegxy MOVE DeckTbl from cardbegxy cardendxy    
+                TempBegy=CardBegy
+                NumofFreeDiscardZeros=Discard[0:4].count(0)
+                NumofFreeDeckTblZeros=0
+                for pogo in range(8):
+                    if len(DeckTbl[pogo])==1 and DeckTbl[pogo][0]==0: 
+                        NumofFreeDeckTblZeros +=1
+                numofwhileLoops=1
+                lenOfBegCol =len(DeckTbl[CardBegx]) - 1
+                if TempBegy < lenOfBegCol: 
+                    numofwhileLoops=lenOfBegCol-TempBegy
+                    if numofwhileLoops > NumofFreeDiscardZeros + NumofFreeDeckTblZeros:
+                        Status_Text = "Not Enough Free Spaces for move"
+                    else:
+                        if lenOfBegCol==1:
+                            DeckTbl[CardEndx].append(DeckTbl[CardBegx][CardBegy])
+                            DeckTbl[CardBegx][CardBegy]=0
+                        else:
+                            for logo in range(numofwhileLoops):
+                                DeckTbl[CardEndx].append(DeckTbl[CardBegx].pop(TempBegy+logo))
+                else:
+                    if lenOfBegCol==1:
+                        DeckTbl[CardEndx].append(DeckTbl[CardBegx][CardBegy])
+                        DeckTbl[CardBegx][CardBegy]=0
+                    else:
+                        for logo in range(numofwhileLoops):
+                            Templogo=DeckTbl[CardBegx].pop(TempBegy+logo)
+                            DeckTbl[CardEndx].append(Templogo)
+
+                #while TempBegy < lenOfBegCol:
+                #    if 
+                #    TempBegy +=1
+                #        #check each one to see if we have enough space to move it
+                #else:
+                #    pass
+            else:
+                Status_Text = "Card out of Order"
         #   elif DeckTbl[CardEndx][CardEndy]==0:
         #Check if EmptySlots<= NumCardsInSelectedAJ69Cache:
         #True Move them Else Don't Move
-            suck1=0
+                suck1=0
 
     if Status_Text == "":           #
+
         return True,  Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr
     else:
         return False, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr
@@ -390,27 +441,54 @@ while running:
             #EndPos = namedtuple('EndPos',['endx','endy'])         
             popx,popy=event.pos    
             but1=event.button
+            countofAcesSkipped=0
             Enditp = EndPos(popx,popy)
             if but1==1:
                 print(f'mous up   @ {Enditp.endx},{Enditp.endy}')
                 Status_Text=""
                 returnTrue, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text=IsValidMove(Discard, DeckTbl, Begpos, Enditp)
-                if Status_Text!="":         #screen.fill((30, 30, 30))                      # Render the current text.
-                        #if 'click' in num1_button.handleEvent(event):
-                        #    if dice == 1:
-                        #        text = font.render("You Win!", 1, (0, 0, 0))
-                        #        screen.blit(text, (155, 255))
-                        txt_surface = font.render("                                     ", True, BLACK)
-                        txt_surface = font.render(Status_Text, True, BLACK)                 # Resize the box if the text is too long.
-                        width = max(200, txt_surface.get_width()+10)
-                        input_box.w = width                                                 # Blit the text.
-                        DISPLAYSURF.blit(txt_surface, (input_box.x+5, input_box.y+5))       # Blit the input_box rect.
-                        pygame.draw.rect(DISPLAYSURF, color, input_box, 2)
+                if Status_Text=="":         #screen.fill((30, 30, 30))                      # Render the current text.
+                    #pass            #TODO: Actually move the card(s)
+                    DISPLAYSURF.fill(WHITE)
+                    pygame.display.set_caption("Brice's Free Cell")
+                    for lick in range(8):
+                        for bick in range(len(DeckTbl[lick])):
+                            lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(DeckTbl[lick][bick])}.png"
+                            PenguinImage = pygame.image.load(lit1).convert()                 
+                            if bick ==len(DeckTbl[lick]) - 1 and DeckTbl[lick][bick]  in aces:
+                                countofAcesSkipped +=1
+                            else:
+                                DISPLAYSURF.blit(PenguinImage, (XPOS[lick],YPOS[bick]))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
+                    print(f"countofAcesSkipped={countofAcesSkipped}")
+                    Discard,DeckTbl = CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
+                    running = True 
+                    IsThereADiscard = False
+                    for g,h in enumerate(Discard):
+                        if h > 0:
+                            IsThereADiscard = True
+                            lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(h)}.png"
+                        else:
+                            lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(53)}.png"
+                        PenguinImage = pygame.image.load(lit1).convert()
+                        DISPLAYSURF.blit(PenguinImage, (XPOS[g],DPOS))     
+                    pygame.display.flip() # paint screen one time
+
+                else:
+                    #if 'click' in num1_button.handleEvent(event):
+                    #    if dice == 1:
+                    #        text = font.render("You Win!", 1, (0, 0, 0))
+                    #        screen.blit(text, (155, 255))
+                    txt_surface = font.render("                                     ", True, BLACK)
+                    txt_surface = font.render(Status_Text, True, BLACK)                 # Resize the box if the text is too long.
+                    width = max(200, txt_surface.get_width()+10)
+                    input_box.w = width                                                 # Blit the text.
+                    DISPLAYSURF.blit(txt_surface, (input_box.x+5, input_box.y+5))       # Blit the input_box rect.
+                    pygame.draw.rect(DISPLAYSURF, color, input_box, 2)
 
                 #   returnTrue, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy    #Discard,deck,beginAddr,endAddr
         elif event.type == MOUSEMOTION:
             popx,popy=event.pos     #            popy=event.y
-            print(f'mouseMove @ {popx},{popy}')
+            #print(f'mouseMove @ {popx},{popy}')
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT or event.key == ord('a'):
                 print('left;')
