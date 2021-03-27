@@ -21,7 +21,7 @@ col4=[]
 col5=[]
 col6=[]
 col7=[]
-DeckTbl=[]
+DeckTbl=[[7, 34, 41, 40, 42, 33, 8], [38, 20, 28, 24, 17, 49, 37], [44, 47, 6, 31, 2, 21, 26], [29, 27, 14, 1, 50, 15, 4], [12, 13, 32, 22, 30, 11], [52, 10, 23, 25, 46, 9], [48, 5, 51, 35, 36, 3], [18, 43, 19, 45, 39, 16]]
 Status_Text=""
 # Declaring namedtuple()   
 BeginPos = namedtuple('BeginPos',['beginx','beginy'])   
@@ -111,13 +111,27 @@ def IsValidMove(Discard, DeckTbl, beginAddr, endAddr):
             if CardBegx > 3 and CardBegy==lastCardInRow+1:
                 Status_Text = f"Can't move Foundation Cards"
                 suck=0
-            elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and Discard[CardEndx]==0 and CardEndx < 4:
-                    Discard[CardEndx]=DeckTbl[CardBegx].pop(CardBegy-2)
-            elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and (DeckTbl[CardBegx][CardBegy] - Discard[CardEndx])==1 and CardEndx > 3:
-                    Discard[CardEndx]=DeckTbl[CardBegx].pop(CardBegy-2)
-            elif CardBegx < 4 and Discard[CardBegx]==0:
-                #else:
+            elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and Discard[CardEndx]==0 and CardEndx < 4 and CardBegy > 0:
+                    Discard[CardEndx]=DeckTbl[CardBegx].pop(CardBegy)
+            elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and Discard[CardEndx]==0 and CardEndx < 4 and CardBegy == 0:
+                    Templike=DeckTbl[CardBegx][CardBegy]
+                    DeckTbl[CardBegx][CardBegy]=0
+                    Discard[CardEndx]=Templike
+            elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and (DeckTbl[CardBegx][CardBegy] - Discard[CardEndx])==1 and CardEndx > 3 and CardBegy > 0:
+                    Discard[CardEndx]=DeckTbl[CardBegx].pop(CardBegy)
+            elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and (DeckTbl[CardBegx][CardBegy] - Discard[CardEndx])==1 and CardEndx > 3 and CardBegy ==0:
+                    Templike=DeckTbl[CardBegx][CardBegy]
+                    DeckTbl[CardBegx][CardBegy]=0
+                    Discard[CardEndx]=Templike
+            elif CardBegx < 4:
+                if CardBegy == lastCardInRow+1 and CardEndy!=lastCardInRow+1 and Discard[CardBegx]==0:
                     Status_Text = f"No card to move"
+                elif CardBegy == lastCardInRow+1 and CardEndy!=lastCardInRow+1 and DeckTbl[CardEndx][CardEndy] == 0:
+                    DeckTbl[CardEndx][CardEndy]=Discard[CardBegx]
+                    Discard[CardBegx]=0
+                elif CardBegy == lastCardInRow+1 and CardEndy!=lastCardInRow+1 and (Magic1[Discard[CardBegx]]==DeckTbl[CardEndx][CardEndy] or Magic2[Discard[CardBegx]]==DeckTbl[CardEndx][CardEndy]):
+                    DeckTbl[CardEndx].Append(Discard[CardBegx])
+                    Discard[CardBegx]=0
 
     #deck[CardBegx][CardBegy]
         elif DeckTbl[CardBegx][CardBegy]==0:
@@ -127,8 +141,8 @@ def IsValidMove(Discard, DeckTbl, beginAddr, endAddr):
         elif DeckTbl[CardBegx][CardBegy] < 27 and DeckTbl[CardEndx][CardEndy] < 27:
             Status_Text = "Same Red   Suit"
         else:
-            print(f"Magic1[(DeckTbl[CardBegx][CardBegy])]={Magic1[(DeckTbl[CardBegx][CardBegy])]}")
-            print(f"Magic2[(DeckTbl[CardBegx][CardBegy])]={Magic2[(DeckTbl[CardBegx][CardBegy])]}")
+            print(f"Magic1[(DeckTbl[CardBegx][CardBegy])]={Magic1[(DeckTbl[CardBegx][CardBegy])]}",end="    ")
+            print(f"Magic2[(DeckTbl[CardBegx][CardBegy])]={Magic2[(DeckTbl[CardBegx][CardBegy])]}",end="    ")
             print(f"DeckTbl[CardEndx][CardEndy]={DeckTbl[CardEndx][CardEndy]}")
             if Status_Text == "" and (Magic1[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy] or Magic2[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy]):
                 #pass            #TODO: Need to check all cards under selected cardBegxy MOVE DeckTbl from cardbegxy cardendxy    
@@ -226,6 +240,7 @@ def CheckDiscard(Discard,DeckTbl):   #,col0,col1,col2,col3,col4,col5,col6,col7):
     #check each colx[lengthcolx]==Discard[4-7]+1 if Discard[4-7] >0     #TODO: blit from col0-7 and discard; Hint
     for sub in range(4,8):
         for gog in range(8):                                            #gog is 0 thru 7  is colx
+            if len(DeckTbl[gog])==0: DeckTbl[gog].append(0)#Fix Empty row
             lastCardInColumn = len(DeckTbl[gog]) - 1
             if Discard[sub] > 0:                                        
                 if DeckTbl[gog][lastCardInColumn] == Discard[sub] + 1:
@@ -346,47 +361,63 @@ DISPLAYSURF.fill(WHITE)
 shorty = []
 pygame.display.set_caption("Brice's Free Cell")        #istring=os.path.join("images","1.png")     shorty=[] courtx=[]courty=[]
 #       loop until issovable is true
-setOfNumbers = list(range(1,53)) 
-random.shuffle(setOfNumbers)
-while not IsSolvable(setOfNumbers):
-    print(setOfNumbers)  #setOfNumbers = list(range(1,53)) #random.shuffle(setOfNumbers)    #print(setOfNumbers)
+shoop=0
+if len(DeckTbl) > 0:
+    print(DeckTbl)
+else:
     setOfNumbers = list(range(1,53)) 
     random.shuffle(setOfNumbers)
+    while not IsSolvable(setOfNumbers):
+        print(setOfNumbers)  #setOfNumbers = list(range(1,53)) #random.shuffle(setOfNumbers)    #print(setOfNumbers)
+        setOfNumbers = list(range(1,53)) 
+        random.shuffle(setOfNumbers)
 #while len(setOfNumbers) < 53:          #    setOfNumbers.add(random.randint(1, 52))        #!random.shuffle(setOfNumbers)      print(setOfNumbers)
 x = 12; # x coordnate of image
 y = 70; # y coordinate of image         card_widtht=card_width+x            i=0#1
-#if IsSolvable(setOfNumbers):
-for j,k in enumerate(setOfNumbers):     #while i<53:    
-    y_modifier= (j//(horCardSlots)) #+1    #if i==horCardSlots+1 or y_modifier==0:         y_modifier=y_modifier+1             #y_modifier=y_modifier+1    
-    x_modifier=(j%(horCardSlots))       #shorty.append(y_modifier) #!    newx=(x*x_modifier) + x#initial_left_width    newx=newx+(card_width*(x_modifier))    #shorty.append(YPOS[y_modifier-1])
-    lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(k)}.png"
-    PenguinImage = pygame.image.load(lit1).convert()
-    #if x_modifier==0:         col0.append(k)                   #if x_modifier==1:         col1.append(k)               #if x_modifier==2:         col2.append(k)    
-    #if x_modifier==3:         col3.append(k)                   #if x_modifier==4:         col4.append(k)               #if x_modifier==5:         col5.append(k)    
-    #if x_modifier==6:         col6.append(k)                   #if x_modifier==7:         col7.append(k)               #TableB[x_modifier][y_modifier]=k
-    aces=[1,14,27,40]
-    if not k in TableB:
-        TableB[x_modifier][y_modifier]=k
-    if x_modifier==0 and not k in col0:
-        col0.append(k)    
-    if x_modifier==1 and not k in col1:
-        col1.append(k)    
-    if x_modifier==2 and not k in col2:
-        col2.append(k)    
-    if x_modifier==3 and not k in col3:
-        col3.append(k)    
-    if x_modifier==4 and not k in col4:
-        col4.append(k)    
-    if x_modifier==5 and not k in col5:
-        col5.append(k)    
-    if x_modifier==6 and not k in col6:
-        col6.append(k)    
-    if x_modifier==7 and not k in col7:
-        col7.append(k)    
-    if j > 43 and k in aces:
-        continue
-    else:
-        DISPLAYSURF.blit(PenguinImage, (XPOS[x_modifier],YPOS[y_modifier]))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
+aces=[1,14,27,40]                       #if IsSolvable(setOfNumbers):
+if len(DeckTbl) > 0:
+    for xxxx in range(8):
+        for yyyy in range(len(DeckTbl[xxxx])):
+            lit10=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(DeckTbl[xxxx][yyyy])}.png"
+            CardImage = pygame.image.load(lit10).convert()
+            if not DeckTbl[xxxx][yyyy] in TableB:      TableB[xxxx][yyyy]=DeckTbl[xxxx][yyyy]
+            if xxxx == 0 and not DeckTbl[xxxx][yyyy] in col0: col0.append(DeckTbl[xxxx][yyyy])
+            if xxxx == 1 and not DeckTbl[xxxx][yyyy] in col1: col1.append(DeckTbl[xxxx][yyyy])
+            if xxxx == 2 and not DeckTbl[xxxx][yyyy] in col2: col2.append(DeckTbl[xxxx][yyyy])
+            if xxxx == 3 and not DeckTbl[xxxx][yyyy] in col3: col3.append(DeckTbl[xxxx][yyyy])
+            if xxxx == 4 and not DeckTbl[xxxx][yyyy] in col4: col4.append(DeckTbl[xxxx][yyyy])
+            if xxxx == 5 and not DeckTbl[xxxx][yyyy] in col5: col5.append(DeckTbl[xxxx][yyyy])
+            if xxxx == 6 and not DeckTbl[xxxx][yyyy] in col6: col6.append(DeckTbl[xxxx][yyyy])
+            if xxxx == 7 and not DeckTbl[xxxx][yyyy] in col7: col7.append(DeckTbl[xxxx][yyyy])
+            if shoop > 43 and DeckTbl[xxxx][yyyy] in aces:
+                pass
+            else:
+                DISPLAYSURF.blit(CardImage, (XPOS[xxxx],YPOS[yyyy]))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
+
+else:
+    for j,k in enumerate(setOfNumbers):     #while i<53:    
+        y_modifier= (j//(horCardSlots)) #+1    #if i==horCardSlots+1 or y_modifier==0:         y_modifier=y_modifier+1             #y_modifier=y_modifier+1    
+        x_modifier=(j%(horCardSlots))       #shorty.append(y_modifier) #!    newx=(x*x_modifier) + x#initial_left_width    newx=newx+(card_width*(x_modifier))    #shorty.append(YPOS[y_modifier-1])
+        lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(k)}.png"
+        PenguinImage = pygame.image.load(lit1).convert()
+        #if x_modifier==0:         col0.append(k)                   #if x_modifier==1:         col1.append(k)               #if x_modifier==2:         col2.append(k)    
+        #if x_modifier==3:         col3.append(k)                   #if x_modifier==4:         col4.append(k)               #if x_modifier==5:         col5.append(k)    
+        #if x_modifier==6:         col6.append(k)                   #if x_modifier==7:         col7.append(k)               #TableB[x_modifier][y_modifier]=k
+        
+        if not k in TableB:
+            TableB[x_modifier][y_modifier]=k
+        if x_modifier==0 and not k in col0:            col0.append(k)    
+        if x_modifier==1 and not k in col1:            col1.append(k)    
+        if x_modifier==2 and not k in col2:            col2.append(k)    
+        if x_modifier==3 and not k in col3:            col3.append(k)    
+        if x_modifier==4 and not k in col4:            col4.append(k)    
+        if x_modifier==5 and not k in col5:            col5.append(k)    
+        if x_modifier==6 and not k in col6:            col6.append(k)    
+        if x_modifier==7 and not k in col7:            col7.append(k)    
+        if j > 43 and k in aces:
+            continue
+        else:
+            DISPLAYSURF.blit(PenguinImage, (XPOS[x_modifier],YPOS[y_modifier]))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
 #DeckTbl.append(col0)                #DeckTbl.append(col1)                #DeckTbl.append(col2)                #DeckTbl.append(col3)                
 #DeckTbl.append(col5)                #DeckTbl.append(col6)                #DeckTbl.append(col7)                #DeckTbl.append(col4)
 print(f'****////*\\\\****    DeckTbl(0,0)={DeckTbl[0][0]}     DeckTbl={DeckTbl}')
@@ -452,7 +483,10 @@ while running:
                     pygame.display.set_caption("Brice's Free Cell")
                     for lick in range(8):
                         for bick in range(len(DeckTbl[lick])):
-                            lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(DeckTbl[lick][bick])}.png"
+                            if DeckTbl[lick][bick] == 0:
+                                lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(53)}.png"
+                            else:
+                                lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(DeckTbl[lick][bick])}.png"
                             PenguinImage = pygame.image.load(lit1).convert()                 
                             if bick ==len(DeckTbl[lick]) - 1 and DeckTbl[lick][bick]  in aces:
                                 countofAcesSkipped +=1
