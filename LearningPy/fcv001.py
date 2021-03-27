@@ -111,10 +111,10 @@ def IsValidMove(Discard, DeckTbl, beginAddr, endAddr):
             if CardBegx > 3 and CardBegy==lastCardInRow+1:
                 Status_Text = f"Can't move Foundation Cards"
                 suck=0
-            elif CardBegx < 4 and Discard[CardBegx]==0:
-                if CardBegy!=lastCardInRow+1 and CardEndx==lastCardInRow+1 and Discard[CardEndx]==0:
+            elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and Discard[CardEndx]==0:
                     Discard[CardEndx]=DeckTbl[CardBegx].pop(CardBegy-2)
-                else:
+            elif CardBegx < 4 and Discard[CardBegx]==0:
+                #else:
                     Status_Text = f"No card to move"
 
     #deck[CardBegx][CardBegy]
@@ -442,6 +442,7 @@ while running:
             popx,popy=event.pos    
             but1=event.button
             countofAcesSkipped=0
+            CurrentBick=0
             Enditp = EndPos(popx,popy)
             if but1==1:
                 print(f'mous up   @ {Enditp.endx},{Enditp.endy}')
@@ -458,7 +459,13 @@ while running:
                             if bick ==len(DeckTbl[lick]) - 1 and DeckTbl[lick][bick]  in aces:
                                 countofAcesSkipped +=1
                             else:
-                                DISPLAYSURF.blit(PenguinImage, (XPOS[lick],YPOS[bick]))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
+                                #CurrentBick=bick       
+                                LastYPOS=len(YPOS)-1
+                                if bick > LastYPOS:
+                                    CurrentBick+=YPOS[LastYPOS]+(15*(bick - LastYPOS))
+                                    DISPLAYSURF.blit(PenguinImage, (XPOS[lick],CurrentBick))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
+                                else:
+                                    DISPLAYSURF.blit(PenguinImage, (XPOS[lick],YPOS[bick]))
                     print(f"countofAcesSkipped={countofAcesSkipped}")
                     Discard,DeckTbl = CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
                     running = True 
