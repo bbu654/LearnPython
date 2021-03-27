@@ -144,16 +144,62 @@ x = {'a': 1, 'b': 2}
 y = {'b': 3, 'c': 4}
 z = {**x, **y}
 print(z)
-{'c': 4, 'a': 1, 'b': 3}
+#{'c': 4, 'a': 1, 'b': 3}
 
 # In Python 2.x you could
 # use this:
 z = dict(x, **y)
 print(z)
-{'a': 1, 'c': 4, 'b': 3}
+#{'a': 1, 'c': 4, 'b': 3}
 
 # In these examples, Python merges dictionary keys in the order listed in the expression, overwriting 
 # duplicates from left to right.
 #
 # See: https://www.youtube.com/watch?v=Duexw08KaC8
 
+# The get() method on dicts
+# and its "default" argument
+
+name_for_userid = {
+    382: "Alice",
+    590: "Bob",
+    951: "Dilbert",
+}
+
+def greeting(userid):
+    return "Hi %s!" % name_for_userid.get(userid, "there")
+
+print(greeting(382))
+#"Hi Alice!"
+
+print(greeting(333333))
+#"Hi there!"
+"""
+When "get()" is called it checks if the given key exists in the dict.
+
+If it does exist, the value for that key is returned.
+
+If it does not exist then the value of the default argument is returned instead.
+
+— Dan Bader (realpython.com)"""
+
+# Why Python is Great: Namedtuples
+# Using namedtuple is way shorter than
+# defining a class manually:
+from collections import namedtuple
+Car = namedtuple('Car', 'color mileage')
+
+# Our new "Car" class works as expected:
+my_car = Car('red', 3812.4)
+my_car.color
+#'red'
+my_car.mileage
+#3812.4
+
+# We get a nice string repr for free:
+my_car
+#Car(color='red' , mileage=3812.4)
+
+# Like tuples, namedtuples are immutable:
+my_car.color = 'blue' 
+#AttributeError: "can't set attribute"
