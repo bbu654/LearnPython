@@ -130,7 +130,7 @@ def IsValidMove(Discard, DeckTbl, beginAddr, endAddr):
                     DeckTbl[CardEndx][CardEndy]=Discard[CardBegx]
                     Discard[CardBegx]=0
                 elif CardBegy == lastCardInRow+1 and CardEndy!=lastCardInRow+1 and (Magic1[Discard[CardBegx]]==DeckTbl[CardEndx][CardEndy] or Magic2[Discard[CardBegx]]==DeckTbl[CardEndx][CardEndy]):
-                    DeckTbl[CardEndx].Append(Discard[CardBegx])
+                    DeckTbl[CardEndx].append(Discard[CardBegx])
                     Discard[CardBegx]=0
 
     #deck[CardBegx][CardBegy]
