@@ -1,4 +1,4 @@
-import pygame, sys, random, os
+import pygame, sys, random, statistics, os
 from pygame.joystick import get_count
 from pygame.locals import *
 from collections import namedtuple
@@ -46,7 +46,7 @@ def GetFaceValue(realval):
     elif realval < 40: # realval greater than or equal 27 and  less than 40
         return (realval - 26)
     else             : # realval greater than or equal 39 and  less than 53
-        return (realval - 26)
+        return (realval - 39)
 def IsValidMove(Discard, DeckTbl, beginAddr, endAddr):
     # TODO: Convert screen addr to a card or set of cards put up last-card then prev card until at beginAddr
     #if Discard[0]==0:
@@ -124,31 +124,35 @@ def IsValidMove(Discard, DeckTbl, beginAddr, endAddr):
                     DeckTbl[CardBegx][CardBegy]=0
                     Discard[CardEndx]=Templike
             elif CardBegx < 4:
-                if CardBegy == lastCardInRow+1 and CardEndy!=lastCardInRow+1 and Discard[CardBegx]==0:
+                if   CardBegy == lastCardInRow+1 and CardEndy != lastCardInRow+1 and Discard[CardBegx]==0:
                     Status_Text = f"No card to move"
-                elif CardBegy == lastCardInRow+1 and CardEndy!=lastCardInRow+1 and DeckTbl[CardEndx][CardEndy] == 0:
+                elif CardBegy == lastCardInRow+1 and CardEndy != lastCardInRow+1 and DeckTbl[CardEndx][CardEndy] == 0:
                     DeckTbl[CardEndx][CardEndy]=Discard[CardBegx]
                     Discard[CardBegx]=0
-                elif CardBegy == lastCardInRow+1 and CardEndy!=lastCardInRow+1 and (Magic1[Discard[CardBegx]]==DeckTbl[CardEndx][CardEndy] or Magic2[Discard[CardBegx]]==DeckTbl[CardEndx][CardEndy]):
+                elif CardBegy == lastCardInRow+1 and CardEndy != lastCardInRow+1 and (Magic1[Discard[CardBegx]]==DeckTbl[CardEndx][CardEndy] or Magic2[Discard[CardBegx]]==DeckTbl[CardEndx][CardEndy]):
                     DeckTbl[CardEndx].append(Discard[CardBegx])
                     Discard[CardBegx]=0
-
+                elif CardBegy == lastCardInRow+1 and CardEndy == lastCardInRow+1 and Discard[CardBegx] == Discard[CardEndx]+1:
+                    Discard[CardEndx]=Discard[CardBegx]
+                    Discard[CardBegx]=0 
+                #TODO: Need to be able to move from discard 0-3 to discard 4-7 if appropriate
     #deck[CardBegx][CardBegy]
         elif DeckTbl[CardBegx][CardBegy]==0:
             Status_Text = f"No card to move"
         elif DeckTbl[CardBegx][CardBegy] > 26 and DeckTbl[CardEndx][CardEndy] > 26:
             Status_Text = "Same Black Suit"
-        elif DeckTbl[CardBegx][CardBegy] < 27 and DeckTbl[CardEndx][CardEndy] < 27:
+        elif DeckTbl[CardBegx][CardBegy] < 27 and DeckTbl[CardEndx][CardEndy] < 27 and DeckTbl[CardEndx][CardEndy] != 0:
             Status_Text = "Same Red   Suit"
         else:
             print(f"Magic1[(DeckTbl[CardBegx][CardBegy])]={Magic1[(DeckTbl[CardBegx][CardBegy])]}",end="    ")
             print(f"Magic2[(DeckTbl[CardBegx][CardBegy])]={Magic2[(DeckTbl[CardBegx][CardBegy])]}",end="    ")
             print(f"DeckTbl[CardEndx][CardEndy]={DeckTbl[CardEndx][CardEndy]}")
-            if Status_Text == "" and (Magic1[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy] or Magic2[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy]):
+            if Status_Text == "" and (DeckTbl[CardEndx][CardEndy]==0 or Magic1[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy] or Magic2[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy]):
                 #pass            #TODO: Need to check all cards under selected cardBegxy MOVE DeckTbl from cardbegxy cardendxy    
                 TempBegy=CardBegy
                 NumofFreeDiscardZeros=Discard[0:4].count(0)
                 NumofFreeDeckTblZeros=0
+                if len(DeckTbl[CardEndx])==1 and DeckTbl[CardEndx][CardEndy] == 0:    DeckTbl[CardEndx].pop(0)
                 for pogo in range(8):
                     if len(DeckTbl[pogo])==1 and DeckTbl[pogo][0]==0: 
                         NumofFreeDeckTblZeros +=1
@@ -229,20 +233,21 @@ def CheckDiscard(Discard,DeckTbl):   #,col0,col1,col2,col3,col4,col5,col6,col7):
     jack=[11,24,37,50]
     quen=[12,25,38,51]
     king=[13,26,39,52]
+    fvDiscard=[]
     #Discard=[0,0,0,0,0,0,0,0]
     #Quantify auto card move to ace(foundation)-area == Discard[4-7]
         #if three ace(foundation)-area cards are gt> the other pull_fc=threefc#8,4,9,10=8
-    fvDiscard1=GetFaceValue(Discard[4])
-    fvDiscard2=GetFaceValue(Discard[5])
-    fvDiscard3=GetFaceValue(Discard[6])
-    fvDiscard4=GetFaceValue(Discard[7])
-    MinDiscard=min(fvDiscard1,fvDiscard2,fvDiscard3,fvDiscard4)
+    fvDiscard.append(GetFaceValue(Discard[4]))
+    fvDiscard.append(GetFaceValue(Discard[5]))
+    fvDiscard.append(GetFaceValue(Discard[6]))
+    fvDiscard.append(GetFaceValue(Discard[7]))
+    MinDiscard=statistics.mean(fvDiscard)
     #check each colx[lengthcolx]==Discard[4-7]+1 if Discard[4-7] >0     #TODO: blit from col0-7 and discard; Hint
     for sub in range(4,8):
         for gog in range(8):                                            #gog is 0 thru 7  is colx
             if len(DeckTbl[gog])==0: DeckTbl[gog].append(0)#Fix Empty row
             lastCardInColumn = len(DeckTbl[gog]) - 1
-            if Discard[sub] > 0:                                        
+            if Discard[sub] > 0 and GetFaceValue(Discard[sub]) > MinDiscard+1:                                        
                 if DeckTbl[gog][lastCardInColumn] == Discard[sub] + 1:
                     Discard[sub] = DeckTbl[gog].pop(lastCardInColumn)                           #del DeckTbl[gog][lastCardInColumn]
                 else: 
@@ -481,6 +486,7 @@ while running:
                     #pass            #TODO: Actually move the card(s)
                     DISPLAYSURF.fill(WHITE)
                     pygame.display.set_caption("Brice's Free Cell")
+                    Discard,DeckTbl = CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
                     for lick in range(8):
                         for bick in range(len(DeckTbl[lick])):
                             if DeckTbl[lick][bick] == 0:
@@ -499,7 +505,8 @@ while running:
                                 else:
                                     DISPLAYSURF.blit(PenguinImage, (XPOS[lick],YPOS[bick]))
                     print(f"countofAcesSkipped={countofAcesSkipped}")
-                    Discard,DeckTbl = CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
+                    #Discard,DeckTbl = CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
+                    
                     running = True 
                     IsThereADiscard = False
                     for g,h in enumerate(Discard):
