@@ -5,8 +5,9 @@ from collections import namedtuple
 
 horCardSlots=8
 XPOS = [12, 236, 460, 684, 908, 1132, 1356, 1580]
-YPOS = [70, 140, 210, 280, 350, 420, 490]
-DPOS = 600
+YPOS = [70, 130, 200, 270, 340, 410, 480]
+SpaceBetweenCardY=60
+DPOS = 800
 #      no zero, ace   2h
 Magic1 = (0,0,29,30,31,32,33,34,35,36,37,38,39,0,0,29,30,31,32,33,34,35,36,37,38,39,0,0, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,0,0, 3, 4, 5, 6, 7, 8, 9,10,11,12,13)
 Magic2 = (0,0,42,43,44,45,46,47,48,49,50,51,52,0,0,42,43,44,45,46,47,48,49,50,51,52,0,0,16,17,18,19,20,21,22,23,24,25,26,0,0,16,17,18,19,20,21,22,23,24,25,26)
@@ -234,26 +235,31 @@ def CheckDiscard(Discard,DeckTbl):   #,col0,col1,col2,col3,col4,col5,col6,col7):
     quen=[12,25,38,51]
     king=[13,26,39,52]
     fvDiscard=[]
+    numofzerosinDiscard=0
     #Discard=[0,0,0,0,0,0,0,0]
     #Quantify auto card move to ace(foundation)-area == Discard[4-7]
         #if three ace(foundation)-area cards are gt> the other pull_fc=threefc#8,4,9,10=8
-    fvDiscard.append(GetFaceValue(Discard[4]))
-    fvDiscard.append(GetFaceValue(Discard[5]))
-    fvDiscard.append(GetFaceValue(Discard[6]))
-    fvDiscard.append(GetFaceValue(Discard[7]))
-    MinDiscard=statistics.mean(fvDiscard)
-    #check each colx[lengthcolx]==Discard[4-7]+1 if Discard[4-7] >0     #TODO: blit from col0-7 and discard; Hint
+    for ick in range(4,8):
+        fvDiscard.append(GetFaceValue(Discard[ick]))
+        if Discard[ick] == 0:    numofzerosinDiscard += 1
+    else:
+        if numofzerosinDiscard == 4:
+            numofzerosinDiscard -= 1
+    MinDiscard = sum(fvDiscard)/(len(fvDiscard) - numofzerosinDiscard)
+    if MinDiscard < 3:
+        MinDiscard=2                #    MinDiscard=statistics.mean(fvDiscard)
+    #check each colx[lengthcolx]==Discard[4-7]+1 if Discard[4-7] >0     #TODO: checkk if discard[sub] > 0
     for sub in range(4,8):
         for gog in range(8):                                            #gog is 0 thru 7  is colx
             if len(DeckTbl[gog])==0: DeckTbl[gog].append(0)#Fix Empty row
             lastCardInColumn = len(DeckTbl[gog]) - 1
-            if Discard[sub] > 0 and GetFaceValue(Discard[sub]) > MinDiscard+1:                                        
+            if Discard[sub] > 0 and GetFaceValue(Discard[sub]) <= MinDiscard:                                        
                 if DeckTbl[gog][lastCardInColumn] == Discard[sub] + 1:
                     Discard[sub] = DeckTbl[gog].pop(lastCardInColumn)                           #del DeckTbl[gog][lastCardInColumn]
                 else: 
                     continue
-            elif DeckTbl[gog][lastCardInColumn] in aces:
-                Discard[sub] = DeckTbl[gog].pop(lastCardInColumn)                
+            elif DeckTbl[gog][lastCardInColumn] in aces and Discard[sub] == 0:
+                    Discard[sub] = DeckTbl[gog].pop(lastCardInColumn)                
     return Discard, DeckTbl   #,col0,col1,col2,col3,col4,col5,col6,col7            
             #    if   col0[len(col0) - 1] == Discard[sub] + 1:           
             #        Discard[sub]= col0[len(col0) - 1]                   
@@ -357,7 +363,7 @@ card_height=292
 pathrb=f'C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB'
 # Setup a 300x300 pixel display with caption
 width = 1860
-height =800
+height =1000
 #horCardSlots=8     #XPOS = [12, 236, 460, 684, 908, 1132, 1356, 1580]      #YPOS = [70, 140, 210, 280, 350, 420, 490]
 #col0=[]            #col1=[]        #col2=[]        #col3=[]                #col4=[]        #col5=[]        #col6=[]        #col7=[]
 #DeckTbl=[]          #n = 24 #rows   #m = 8 #cols    #TableB=[[0] * m for i in range(n)]
@@ -500,7 +506,7 @@ while running:
                                 #CurrentBick=bick       
                                 LastYPOS=len(YPOS)-1
                                 if bick > LastYPOS:
-                                    CurrentBick+=YPOS[LastYPOS]+(15*(bick - LastYPOS))
+                                    CurrentBick+=YPOS[LastYPOS]+(SpaceBetweenCardY*(bick - LastYPOS))
                                     DISPLAYSURF.blit(PenguinImage, (XPOS[lick],CurrentBick))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
                                 else:
                                     DISPLAYSURF.blit(PenguinImage, (XPOS[lick],YPOS[bick]))
