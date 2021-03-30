@@ -14,6 +14,9 @@ Magic2 = (0,0,42,43,44,45,46,47,48,49,50,51,52,0,0,42,43,44,45,46,47,48,49,50,51
 #Magic = ((0,0),(0,0),(29,42),(30,43),(31,44),(32,45),(33,46),(34,47),(35,48),(36,49),(37,50),(38,51),(39,52),(0,0),(29,42),(30,43),(31,44),(32,45),(33,46),(34,47),(35,48),(36,49),(37,50),(38,51),(39,52),(0,0),(3,16)(4,17),(5,18),(6,19),(7,20),(8,21),(9,22),(10,23),(11,24),(12,25),(13,26),(0,0),(3,16)(4,17),(5,18),(6,19),(7,20),(8,21),(9,22),(10,23),(11,24),(12,25),(13,26))
 print(f"Magic1={Magic1} And len(Magic1={len(Magic1)}")
 print(f"Magic2={Magic2} And len(Magic2={len(Magic2)}")
+Magic3 = ("Zero","Ah","2h","3h","4h","5h","6h","7h","8h","9h","Th","Jh","Qh","Kh","Ad","2d","3d","4d","5d","6d","7d","8d","9d","Td","Jd","Qd","Kd","As","2s","3s","4s","5s","6s","7s","8s","9s","Ts","Js","Qs","Ks","Ac","2c","3c","4c","5c","6c","7c","8c","9c","Tc","Jc","Qc","Kc")
+king=[13,26,39,52]
+PrintMoves = []
 col0=[]
 col1=[]
 col2=[]
@@ -121,8 +124,9 @@ def IsValidMove(Discard, DeckTbl, beginAddr, endAddr):
             elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and (DeckTbl[CardBegx][CardBegy] - Discard[CardEndx])==1 and CardEndx > 3 and CardBegy > 0:
                     Discard[CardEndx]=DeckTbl[CardBegx].pop(CardBegy)
             elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and (DeckTbl[CardBegx][CardBegy] - Discard[CardEndx])==1 and CardEndx > 3 and CardBegy ==0:
+                    PrintMoves.append(f"move: DeckTbl[{CardBegx}][{CardBegy}]({DeckTbl[CardBegx][CardBegy]},{Magic3[DeckTbl[CardBegx][CardBegy]]} to Discard[{CardEndx}])")
                     Templike=DeckTbl[CardBegx][CardBegy]
-                    DeckTbl[CardBegx][CardBegy]=0
+                    DeckTbl[CardBegx][CardBegy]=0       #TODO: Does this really work
                     Discard[CardEndx]=Templike
             elif CardBegx < 4:
                 if   CardBegy == lastCardInRow+1 and CardEndy != lastCardInRow+1 and Discard[CardBegx]==0:
@@ -164,14 +168,14 @@ def IsValidMove(Discard, DeckTbl, beginAddr, endAddr):
                     if numofwhileLoops > NumofFreeDiscardZeros + NumofFreeDeckTblZeros:
                         Status_Text = "Not Enough Free Spaces for move"
                     else:
-                        if lenOfBegCol==1:
+                        if lenOfBegCol==0:
                             DeckTbl[CardEndx].append(DeckTbl[CardBegx][CardBegy])
                             DeckTbl[CardBegx][CardBegy]=0
                         else:
                             for logo in range(numofwhileLoops):
                                 DeckTbl[CardEndx].append(DeckTbl[CardBegx].pop(TempBegy+logo))
                 else:
-                    if lenOfBegCol==1:
+                    if lenOfBegCol==0:
                         DeckTbl[CardEndx].append(DeckTbl[CardBegx][CardBegy])
                         DeckTbl[CardBegx][CardBegy]=0
                     else:
@@ -233,7 +237,7 @@ def CheckDiscard(Discard,DeckTbl):   #,col0,col1,col2,col3,col4,col5,col6,col7):
     twos=[2,15,28,41]
     jack=[11,24,37,50]
     quen=[12,25,38,51]
-    king=[13,26,39,52]
+    
     fvDiscard=[]
     numofzerosinDiscard=0
     #Discard=[0,0,0,0,0,0,0,0]
@@ -255,11 +259,13 @@ def CheckDiscard(Discard,DeckTbl):   #,col0,col1,col2,col3,col4,col5,col6,col7):
             lastCardInColumn = len(DeckTbl[gog]) - 1
             if Discard[sub] > 0 and GetFaceValue(Discard[sub]) <= MinDiscard:                                        
                 if DeckTbl[gog][lastCardInColumn] == Discard[sub] + 1:
+                    PrintMoves.append(f"move: DeckTbl[{gog}][{lastCardInColumn}]({DeckTbl[gog][lastCardInColumn]},{Magic3[DeckTbl[gog][lastCardInColumn]]} to Discard[{sub}])")
                     Discard[sub] = DeckTbl[gog].pop(lastCardInColumn)                           #del DeckTbl[gog][lastCardInColumn]
                 else: 
                     continue
             elif DeckTbl[gog][lastCardInColumn] in aces and Discard[sub] == 0:
-                    Discard[sub] = DeckTbl[gog].pop(lastCardInColumn)                
+                PrintMoves.append(f"move: DeckTbl[{gog}][{lastCardInColumn}]({DeckTbl[gog][lastCardInColumn]},{Magic3[DeckTbl[gog][lastCardInColumn]]} to Discard[{sub}])")
+                Discard[sub] = DeckTbl[gog].pop(lastCardInColumn)                
     return Discard, DeckTbl   #,col0,col1,col2,col3,col4,col5,col6,col7            
             #    if   col0[len(col0) - 1] == Discard[sub] + 1:           
             #        Discard[sub]= col0[len(col0) - 1]                   
@@ -336,7 +342,7 @@ def CheckDiscard(Discard,DeckTbl):   #,col0,col1,col2,col3,col4,col5,col6,col7):
             #        Discard[7]=col1[lengthcol1]
             #    col1.pop(lengthcol1) #pop
     
-# Initialize program
+# Initialize program                #TODO: track each move the user makes
 pygame.init()
  
 # Assign FPS a value
@@ -469,6 +475,7 @@ while running:
     for event in pygame.event.get():
         Status_Text=""
         if event.type == QUIT:
+            print(PrintMoves)
             running = False
             sys.exit()
         elif event.type == MOUSEBUTTONDOWN:
@@ -522,7 +529,19 @@ while running:
                         else:
                             lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(53)}.png"
                         PenguinImage = pygame.image.load(lit1).convert()
-                        DISPLAYSURF.blit(PenguinImage, (XPOS[g],DPOS))     
+                        DISPLAYSURF.blit(PenguinImage, (XPOS[g],DPOS))   
+                    if Discard[4] in king and Discard[5] in king and Discard[6] in king and Discard[7] in king:
+                        Status_Text = "Congratulations! You Win!"
+                        txt_surface = font.render(Status_Text, True, BLACK)                 # Resize the box if the text is too long.
+                        width = max(200, txt_surface.get_width()+10)
+                        input_box.w = width                                                 # Blit the text.
+                        DISPLAYSURF.blit(txt_surface, (input_box.x+5, input_box.y+5))       # Blit the input_box rect.
+                        pygame.draw.rect(DISPLAYSURF, color, input_box, 2)
+                        lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(53)}.png"
+                        PenguinImage = pygame.image.load(lit1).convert()                 
+                        for lous in range(8):
+                            DISPLAYSURF.blit(PenguinImage, (XPOS[lous],YPOS[0]))
+                        
                     pygame.display.flip() # paint screen one time
 
                 else:
@@ -558,6 +577,7 @@ while running:
                 print('jump stop;')
 
             if event.key == ord('q'):
+                print(PrintMoves)
                 running = False  
                 pygame.quit()
                 sys.exit()
