@@ -164,7 +164,7 @@ def IsValidMove(Discard, DeckTbl, beginAddr, endAddr):
                 numofwhileLoops=1
                 lenOfBegCol =len(DeckTbl[CardBegx]) - 1
                 if TempBegy < lenOfBegCol: 
-                    numofwhileLoops=lenOfBegCol-TempBegy
+                    numofwhileLoops=lenOfBegCol-TempBegy    #7-x=3   ?-x=3-7?x=-3+7?01234567or12345678 sub=5 len(DeckTbl[CardBegx])-sub=8-5
                     if numofwhileLoops > NumofFreeDiscardZeros + NumofFreeDeckTblZeros:
                         Status_Text = "Not Enough Free Spaces for move"
                     else:
