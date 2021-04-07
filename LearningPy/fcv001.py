@@ -168,7 +168,7 @@ def IsValidMove(Discard, DeckTbl, beginAddr, endAddr):
                     if numofwhileLoops > NumofFreeDiscardZeros + NumofFreeDeckTblZeros:
                         Status_Text = "Not Enough Free Spaces for move"
                     else:
-                        if lenOfBegCol==0:
+                        if lenOfBegCol==0 or numofwhileLoops ==0:
                             DeckTbl[CardEndx].append(DeckTbl[CardBegx][CardBegy])
                             DeckTbl[CardBegx][CardBegy]=0
                         else:
@@ -341,7 +341,24 @@ def CheckDiscard(Discard,DeckTbl):   #,col0,col1,col2,col3,col4,col5,col6,col7):
             #    else:
             #        Discard[7]=col1[lengthcol1]
             #    col1.pop(lengthcol1) #pop
-    
+def HaveYouWon(Discard,DeckTbl,DISPLAYSURF):
+    won=True
+    for icl in range(8):
+        if len(DeckTbl[icl]) > 1:
+            for mcl in range(1,len(DeckTbl[icl])):#check prev and start with one
+                #if (DeckTbl[icl][mcl]==0 or Magic1[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy] or Magic2[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy]):
+                if DeckTbl[icl][mcl-1]==Magic1[DeckTbl[icl][mcl]] or DeckTbl[icl][mcl-1]==Magic2[DeckTbl[icl][mcl]]:
+                    pass
+                else:
+                    won=False
+                    break
+    if won or (Discard[4] in king and Discard[5] in king and Discard[6] in king and Discard[7] in king):
+        for pcl in range(8): DeckTbl[pcl]=[0]
+        for qcl in range(4): Discard[qcl]=0     #        Discard[1]=0        Discard[2]=0
+        for rcl in range(4,8): Discard[rcl]=king[rcl-4]
+        return True,DISPLAYSURF    
+    else:
+        return False,DISPLAYSURF
 # Initialize program                #TODO: track each move the user makes
 pygame.init()
  
@@ -350,12 +367,8 @@ FPS = 30
 FramePerSec = pygame.time.Clock()
  
 # Setting up color objects
-BLUE  = (0, 0, 255)
-RED   = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-LIGHTGREY=(100,100,100)             #    screen = pg.display.set_mode((640, 480))
+BLUE  = (0, 0, 255);             RED   = (255, 0, 0);           GREEN = (0, 255, 0)
+BLACK = (0, 0, 0);               WHITE = (255, 255, 255);       LIGHTGREY=(100,100,100)             #    screen = pg.display.set_mode((640, 480))
 font = pygame.font.Font(None, 32)       #    clock = pg.time.Clock()
 input_box = pygame.Rect(40, 10, 140, 32)   #    Rect(left, top, width, height) -> Rect
 color_inactive = pygame.Color('lightskyblue3')
@@ -495,11 +508,24 @@ while running:
                 print(f'mous up   @ {Enditp.endx},{Enditp.endy}')
                 Status_Text=""
                 returnTrue, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text=IsValidMove(Discard, DeckTbl, Begpos, Enditp)
-                if Status_Text=="":         #screen.fill((30, 30, 30))                      # Render the current text.
+                didyouwin,DISPLAYSURF= HaveYouWon(Discard,DeckTbl,DISPLAYSURF)
+                if Status_Text=="" or Status_Text=="Congratulations! You Win!":         #screen.fill((30, 30, 30))                      # Render the current text.
                     #pass            #TODO: Actually move the card(s)
                     DISPLAYSURF.fill(WHITE)
                     pygame.display.set_caption("Brice's Free Cell")
-                    Discard,DeckTbl = CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
+                    if didyouwin:
+                        Status_Text = "Congratulations! You Win!"
+                        txt_surface = font.render(Status_Text, True, BLACK)                 # Resize the box if the text is too long.
+                        width = max(200, txt_surface.get_width()+10)
+                        input_box.w = width                                                 # Blit the text.
+                        DISPLAYSURF.blit(txt_surface, (input_box.x+5, input_box.y+5))       # Blit the input_box rect.
+                        pygame.draw.rect(DISPLAYSURF, color, input_box, 2)
+                        lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(53)}.png"
+                        PenguinImage = pygame.image.load(lit1).convert()                 
+                        for lous in range(8):
+                            DISPLAYSURF.blit(PenguinImage, (XPOS[lous],YPOS[0]))
+                    else:
+                        Discard,DeckTbl = CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
                     for lick in range(8):
                         for bick in range(len(DeckTbl[lick])):
                             if DeckTbl[lick][bick] == 0:
@@ -529,21 +555,8 @@ while running:
                         else:
                             lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(53)}.png"
                         PenguinImage = pygame.image.load(lit1).convert()
-                        DISPLAYSURF.blit(PenguinImage, (XPOS[g],DPOS))   
-                    if Discard[4] in king and Discard[5] in king and Discard[6] in king and Discard[7] in king:
-                        Status_Text = "Congratulations! You Win!"
-                        txt_surface = font.render(Status_Text, True, BLACK)                 # Resize the box if the text is too long.
-                        width = max(200, txt_surface.get_width()+10)
-                        input_box.w = width                                                 # Blit the text.
-                        DISPLAYSURF.blit(txt_surface, (input_box.x+5, input_box.y+5))       # Blit the input_box rect.
-                        pygame.draw.rect(DISPLAYSURF, color, input_box, 2)
-                        lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(53)}.png"
-                        PenguinImage = pygame.image.load(lit1).convert()                 
-                        for lous in range(8):
-                            DISPLAYSURF.blit(PenguinImage, (XPOS[lous],YPOS[0]))
-                        
+                        DISPLAYSURF.blit(PenguinImage, (XPOS[g],DPOS))  
                     pygame.display.flip() # paint screen one time
-
                 else:
                     #if 'click' in num1_button.handleEvent(event):
                     #    if dice == 1:
