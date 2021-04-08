@@ -579,7 +579,7 @@ while running:
     pygame.display.update()
     DeckTbl,Discard,running,InitGame=screen.handleEvent(DeckTbl,Discard,running,InitGame)
     screen.FramePerSec.tick(screen.FPS)
-
+                #TODO: put discard at top of page b) merge discard into DeckTbl
 pygame.quit()
         # for jck in range(XCardSlots):
         #     for kck in range(len(DeckTbl[jck])):
