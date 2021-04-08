@@ -88,7 +88,7 @@ class deck:
         if xMod==5 and not xVal in col5:    col5.append(xVal)
         if xMod==6 and not xVal in col6:    col6.append(xVal)
         if xMod==7 and not xVal in col7:    col7.append(xVal)
-    def HaveYouWon(self,DeckTbl,Discard):
+    def HaveYouWon(self,DeckTbl,Discard,SCREEN):
         won=True
         for icl in range(8):
             if len(DeckTbl[icl]) > 1:
@@ -104,7 +104,7 @@ class deck:
             for qcl in range(4): Discard[qcl]=0     #        Discard[1]=0        Discard[2]=0
             for rcl in range(4,8): Discard[rcl]=king[rcl-4]
             #return True,DeckTbl,Discard        else:
-        return won,DeckTbl,Discard
+        return won,DeckTbl,Discard,SCREEN
     def CheckDiscard(self,DeckTbl,Discard):   #,col0,col1,col2,col3,col4,col5,col6,col7):    
         aces=[1,14,27,40]
         twos=[2,15,28,41]
@@ -224,7 +224,7 @@ class deck:
             return (realval - 26)
         else             : # realval greater than or equal 39 and  less than 53
             return (realval - 39)
-    def IsValidMove(self, Discard, DeckTbl, popx,popy, endAddr):
+    def IsValidMove(self, DeckTbl, Discard, popx,popy, endAddr,scrn):
        # TODO: Convert screen addr to a card or set of cards put up last-card then prev card until at beginAddr
        #if Discard[0]==0:
            #   Convert bosco, joseph to DeckTbl?
@@ -372,7 +372,7 @@ class deck:
            #True Move them Else Don't Move
                    suck1=0
        returnBool=Status_Text == ""            #    if Status_Text == "":           #
-       return returnBool,  Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr    else:        return False, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr
+       return returnBool, DeckTbl, Discard, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text, scrn    #Discard,deck,beginAddr,endAddr    else:        return False, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr
 
 # Setting up color objects
 class screan(pygame.sprite.Sprite):
@@ -413,10 +413,10 @@ class screan(pygame.sprite.Sprite):
         #self.Deck = deck(DeckTable,self.SCREEN)
         self.DEckTble=DeckTbl
         self.DISCard = Discard
-        self.DEckTble,Discard,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
+        DeckTbl,Discard,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,Discard,self.Status_Text,self.SCREEN)
     def fillScreen(self,DeckTbl,Discard,Status_Text,SCREEN):
         Status_Text="";     countofAcesSkipped=0;       CurrentBick=0
-        #returnTrue, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, self.Status_Text=Deck.IsValidMove(Discard, DeckTbl, self.Begpos, self.Enditp)
+        #returnTrue, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, self.Status_Text=Deck.IsVal idMove(Discard, DeckTbl, self.Begpos, self.Enditp)
         #didyouwin,self.SCREEN= self.Have YouWon(Discard,DeckTbl,self.SCREEN)
         if self.Status_Text=="" or self.Status_Text=="Congratulations! You Win!":         #screen.fill((30, 30, 30))                      # Render the current text.
             #pass            #TODO: Actually move the card(s)
@@ -479,7 +479,7 @@ class screan(pygame.sprite.Sprite):
             pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)
         
         return DeckTbl,Discard,Status_Text,SCREEN 
-    def handleEvent(self,running,InitGame):
+    def handleEvent(self,DeckTbl,Discard,running,InitGame):
         if not InitGame:
             InitGame=True       #SCREEN = pygame.display.set_mode(width,height)
             screen.SCREEN.fill(screen.WHITE)
@@ -497,9 +497,9 @@ class screan(pygame.sprite.Sprite):
                 self.ship=popy
                 self.Status_Text="";        print(f"mous down @ {popx},{popy}")
                 #TODO: check if there is a place to move card(s) and enough
-                #isvalidmove(Move=False)
+                #isv alidmove(Move=False)
             elif event.type == MOUSEBUTTONUP:
-                self.handleMouseUp(self.shit,self.ship,event)                #        InitGame=True;     
+                self.handleMouseUp(DeckTbl,Discard,self.shit,self.ship,event,Decl)                #        InitGame=True;     
             elif event.type == MOUSEMOTION:
                 qopx,qopy=event.pos     #            popy=event.y                #print(f'mouseMove @ {popx},{popy}')
             if event.type == pygame.KEYDOWN:
@@ -519,9 +519,9 @@ class screan(pygame.sprite.Sprite):
                     #sys.exit()
 
         self.FramePerSec.tick(self.FPS)
-        return running,InitGame
+        return DeckTbl,Discard,running,InitGame
            # pygame.quit()
-    def handleMouseUp(self,popx,popy,event):
+    def handleMouseUp(self,DeckTbl,Discard,popx,popy,event,Decl):
         opox,opoy = event.pos
         but1=event.button
         #shit=Begpos[0]
@@ -533,13 +533,14 @@ class screan(pygame.sprite.Sprite):
         if but1==1:
             print(f'mous up   @ {self.Enditp[0]},{self.Enditp[1]}')
             Status_Text=""
-            returnTrue, self.DISCard, self.DEckTble, CardBegx, CardBegy, CardEndx, CardEndy, self.Status_Text=self.Deck.IsValidMove(self.DISCard, self.DEckTble, popx,popy, self.Enditp)
-            didyouwin,self.SCREEN= self.Deck.HaveYouWon(self.DISCard,self.DEckTble,self.SCREEN)
+            returnTrue, DeckTbl, Discard, CardBegx, CardBegy, CardEndx, CardEndy, self.Status_Text,self=Decl.IsValidMove(DeckTbl,Discard, popx,popy, self.Enditp,self)
+            didyouwin,DeckTbl,Discard,self.SCREEN= Decl.HaveYouWon(DeckTbl,Discard,self.SCREEN)
             if self.Status_Text=="" or self.Status_Text=="Congratulations! You Win!":         #screen.fill((30, 30, 30))                      # Render the current text.
                 #pass            #TODO: Actually move the card(s)
                 self.SCREEN.fill(self.WHITE)
                 pygame.display.set_caption("Brice's Free Cell")
                 if didyouwin:
+                    DeckTbl,Discard,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,Discard,self.Status_Text,self.SCREEN)
                     self.Status_Text = "Congratulations! You Win!"
                     self.txt_surface = self.font.render(self.Status_Text, True, self.BLACK)                 # Resize the box if the text is too long.
                     tsWidth = max(200, self.txt_surface.get_width()+10)
@@ -551,16 +552,16 @@ class screan(pygame.sprite.Sprite):
                     for lous in range(8):
                         self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[0]))
                 else:
-                    self.DISCard,self.DEckTble = self.Deck.CheckDiscard(self.DISCard,self.DEckTble)   #,col0,col1,col2,col3,col4,col5,col6,col7)
-                
-            self.DEckTble,self.DISCard,self.Status_Text,self.SCREEN = self.fillScreen(self.DEckTble,self.DISCard,self.Status_Text,self.SCREEN)
+                    DeckTbl,Discard = Decl.CheckDiscard(DeckTbl,Discard,)   #,col0,col1,col2,col3,col4,col5,col6,col7)
+                    DeckTbl,Discard,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,Discard,self.Status_Text,self.SCREEN)
             
 #Deck=deck(DeckTable,Discard,SCREEN)
+DeclTbl=[]
 Decl=deck(DeckTable)
 
 screen=screan(Decl.DeckTbl,Decl.Discard)
-DeclTbl=[]
-print(f"screen={type(screen)}, DeckTable={DeckTable}, Decl.DeckTbl={Decl.DeckTbl}, col0={col0}")
+
+print(f"{type(screen)=}, {DeckTable=}, {Decl.DeckTbl=}, {col0=}")
 DeclTbl.append(col0);       DeclTbl.append(col1)
 DeclTbl.append(col2);       DeclTbl.append(col3)
 DeclTbl.append(col4);       DeclTbl.append(col5)
@@ -573,11 +574,12 @@ while running:
     if not InitGame:
         InitGame=True       #SCREEN = pygame.display.set_mode(width,height)
         screen.SCREEN.fill(screen.WHITE)
-        DeckTbl,Discard,screen.Status_Text,screen.SCREEN = screen.fillScreen(DeckTbl,Discard,screen.Status_Text,screen.SCREEN)
+        DeckTbl,Discard,screen.Status_Text,screen.SCREEN = screen.fillScreen(Decl.DeckTbl,Decl.Discard,screen.Status_Text,screen.SCREEN)
+        Discard=Decl.Discard;    DeckTbl=Decl.DeckTbl
     pygame.display.update()
     DeckTbl,Discard,running,InitGame=screen.handleEvent(DeckTbl,Discard,running,InitGame)
     screen.FramePerSec.tick(screen.FPS)
-
+                #TODO: put discard at top of page b) merge discard into DeckTbl
 pygame.quit()
         # for jck in range(XCardSlots):
         #     for kck in range(len(DeckTbl[jck])):
