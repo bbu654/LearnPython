@@ -14,7 +14,7 @@ global Discard, DeckTbl
 Discard=[0,0,0,0,0,0,0,0]
 DeckTbl = []
 XPOS = [12, 236, 460, 684, 908, 1132, 1356, 1580]
-YPOS = [70, 130, 200, 270, 340, 410, 480];  DPOS = 800
+YPOS = [0, 70, 130, 200, 270, 340, 410, 480, 550];  DPOS = 69; EPOS=1804
 #      no zero, ace   2h
 Magic1 = (0,0,29,30,31,32,33,34,35,36,37,38,39,0,0,29,30,31,32,33,34,35,36,37,38,39,0,0, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,0,0, 3, 4, 5, 6, 7, 8, 9,10,11,12,13)
 Magic2 = (0,0,42,43,44,45,46,47,48,49,50,51,52,0,0,42,43,44,45,46,47,48,49,50,51,52,0,0,16,17,18,19,20,21,22,23,24,25,26,0,0,16,17,18,19,20,21,22,23,24,25,26)
@@ -62,7 +62,7 @@ class deck:
         for o,p in enumerate(self.cards):
             y_modifier= (o//(XCardSlots)) #+1    #if i==horCardSlots+1 or y_modifier==0:         y_modifier=y_modifier+1             #y_modifier=y_modifier+1    
             x_modifier=(o%(XCardSlots))       #shorty.append(y_modifier) #!    newx=(x*x_modifier) + x#initial_left_width    newx=newx+(card_width*(x_modifier))    #shorty.append(YPOS[y_modifier-1])
-            #lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(k)}.png"
+            #lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(k)}.pn g"
             #PenguinImage = pygame.image.load(lit1).convert()
             if not p in TableB:                TableB[x_modifier][y_modifier]=p
             self.fillColx(x_modifier,p)
@@ -269,9 +269,9 @@ class deck:
        #        CardEndy=ysub
        #        break
        #else: 
-       if joseph > DPOS:
+       if joseph <= DPOS:
            CardBegy=lastCardInRow+1
-       if enday > DPOS:
+       if enday  <= DPOS:
            CardEndy=lastCardInRow+1
        EmptyColumn = [0]#=BackOfCard
        #How do you check to see if thecard exists
@@ -422,6 +422,7 @@ class screan(pygame.sprite.Sprite):
             #pass            #TODO: Actually move the card(s)
             self.SCREEN.fill(self.WHITE)
             pygame.display.set_caption("Brice's Free Cell")
+            pygame.draw.line(self.SCREEN, self.RED, (XPOS[0],DPOS), (EPOS,DPOS))
             #if didyouwin:
             #    self.Status_Text = "Congratulations! You Win!"
             #    self.txt_surface = self.font.render(self.Status_Text, True, self.BLACK)                 # Resize the box if the text is too long.
@@ -429,12 +430,21 @@ class screan(pygame.sprite.Sprite):
             #    self.input_box.w = self.tsWidth                                                 # Blit the text.
             #    self.SCREEN.blit(self.txt_surface, (self.input_box.x+5, self.input_box.y+5))       # Blit the input_box rect.
             #    pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)
-            #    lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(53)}.png"
+            #    lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(53)} .p ng"
             #    PenguinImage = pygame.image.load(lit1).convert()                 
             #    for lous in range(8):
             #        self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[0]))
             #else:
             #    Discard,DeckTbl = self.CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
+            for g,h in enumerate(Discard):
+                if h > 0:
+                    IsThereADiscard = True
+                    lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(h)}.png"
+                else:
+                    lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(53)}.png"
+                PenguinImage = pygame.image.load(lit1).convert()
+                self.SCREEN.blit(PenguinImage, (XPOS[g],1))  
+            
             for lick in range(8):
                 for bick in range(len(DeckTbl[lick])):
                     if DeckTbl[lick][bick] == 0:
@@ -448,23 +458,15 @@ class screan(pygame.sprite.Sprite):
                         #CurrentBick=bick       
                         LastYPOS=len(YPOS)-1
                         if bick > LastYPOS:
-                            CurrentBick+=YPOS[LastYPOS]+(SpaceBetweenCardY*(bick - LastYPOS))
+                            CurrentBick+=YPOS[LastYPOS]+(SpaceBetweenCardY*(bick - LastYPOS)+SpaceBetweenCardY)
                             self.SCREEN.blit(PenguinImage, (XPOS[lick],CurrentBick))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
                         else:
-                            self.SCREEN.blit(PenguinImage, (XPOS[lick],YPOS[bick]))
+                            self.SCREEN.blit(PenguinImage, (XPOS[lick],YPOS[bick+1]))
             print(f"countofAcesSkipped={countofAcesSkipped}")
             #Discard,DeckTbl = CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
             
             running = True 
             IsThereADiscard = False
-            for g,h in enumerate(Discard):
-                if h > 0:
-                    IsThereADiscard = True
-                    lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(h)}.png"
-                else:
-                    lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(53)}.png"
-                PenguinImage = pygame.image.load(lit1).convert()
-                self.SCREEN.blit(PenguinImage, (XPOS[g],DPOS))  
             pygame.display.flip() # paint screen one time
         else:
             #if 'click' in num1_button.handle Event(event):
@@ -542,15 +544,16 @@ class screan(pygame.sprite.Sprite):
                 if didyouwin:
                     DeckTbl,Discard,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,Discard,self.Status_Text,self.SCREEN)
                     self.Status_Text = "Congratulations! You Win!"
-                    self.txt_surface = self.font.render(self.Status_Text, True, self.BLACK)                 # Resize the box if the text is too long.
+                    self.txt_surface = self.font.render(self.Status_Text, True, self.RED)                 # Resize the box if the text is too long.
                     tsWidth = max(200, self.txt_surface.get_width()+10)
                     self.input_box.w = tsWidth                                                 # Blit the text.
-                    self.SCREEN.blit(self.txt_surface, (self.input_box.x+5, self.input_box.y+5))       # Blit the input_box rect.
+                    self.input_box.y += 392
+                    self.SCREEN.blit(self.txt_surface, (XPOS[0] + 32, YPOS[6] ))       #self.input_box.y+5 Blit the input_box rect.
                     pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)
                     lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(53)}.png"
                     PenguinImage = pygame.image.load(lit1).convert()                 
                     for lous in range(8):
-                        self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[0]))
+                        self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[1]))
                 else:
                     DeckTbl,Discard = Decl.CheckDiscard(DeckTbl,Discard,)   #,col0,col1,col2,col3,col4,col5,col6,col7)
                     DeckTbl,Discard,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,Discard,self.Status_Text,self.SCREEN)
@@ -584,7 +587,7 @@ pygame.quit()
         # for jck in range(XCardSlots):
         #     for kck in range(len(DeckTbl[jck])):
         #         j+=1
-        #         lit1=f"{pathrb}{str(DeckTbl[jck][kck])}.png"
+        #         lit1=f"{pathrb}{str(DeckTbl[jck][kck])}.p ng"
         #         if j > 43 and DeckTbl[jck][kck] in aces:
         #             pass
         #         else:
