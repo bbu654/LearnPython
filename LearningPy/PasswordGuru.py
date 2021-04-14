@@ -420,6 +420,9 @@ class ThetimeitmoduleA:
     # • "==" evaluates to True if the objects #   referred to by the variables are equal
 import contextlib
 
+def myfunc(a, b):
+    return a + b
+
 @contextlib.contextmanager
 def file_hanlder(file_name,file_mode):
     file = open(file_name,file_mode)
@@ -432,3 +435,11 @@ if __name__ == "__main__":
        f.write("Test")
 
    print(f.closed)
+
+# Functions are first-class citizens in Python:# They can be passed as arguments to other functions,# returned as values from other functions, and# assigned to variables and stored in data structures.
+if __name__ == "__main__":
+    funcs = [myfunc]
+    funcs[0]
+    #<function myfunc at 0x107012230>
+    funcs[0](2, 3)
+    #5

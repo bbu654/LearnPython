@@ -444,6 +444,8 @@ class screan(pygame.sprite.Sprite):
             self.SCREEN.fill(self.WHITE)
             pygame.display.set_caption("Brice's Free Cell")
             pygame.draw.line(self.SCREEN, self.RED, (XPOS[0],DPOS), (EPOS,DPOS))
+            xxx,yyy,SCREEN = self.getScreenSize(SCREEN)
+            print(f"{xxx=}, {yyy=}, {SCREEN=}")    #xxx=1860, yyy=1000, SCREEN=<Surface(1860x1000x32 SW)>
             #if didyouwin:
             #    self.Status_Text = "Congratulations! You Win!"
             #    self.txt_surface = self.font.render(self.Status_Text, True, self.BLACK)                 # Resize the box if the text is too long.
@@ -502,6 +504,10 @@ class screan(pygame.sprite.Sprite):
             pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)
         
         return DeckTbl,Status_Text,SCREEN 
+    def getScreenSize(self,SCREEN):
+        self.scrn = SCREEN
+        xxx, yyy = self.scrn.get_size()
+        return xxx,yyy,SCREEN
     def handleEvent(self,DeckTbl,running,InitGame):
         if not InitGame:
             InitGame=True       #SCREEN = pygame.display.set_mode(width,height)
