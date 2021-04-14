@@ -115,62 +115,61 @@ class Animal:
 
         out_sound = self.sound if sound is None else sound
         print(self.says_str.format(name=self.name, sound=out_sound))
-    #reStructured Text Example
-    """Gets and prints the spreadsheet's header columns
+        #reStructured Text Example
+        """Gets and prints the spreadsheet's header columns
 
-    :param file_loc: The file location of the spreadsheet
-    :type file_loc: str
-    :param print_cols: A flag used to print the columns to the console
-        (default is False)
-    :type print_cols: bool
-    :returns: a list of strings representing the header columns
-    :rtype: list
-    """
-    # Different ways to test multiple
-# flags at once in Python
-x, y, z = 0, 1, 0
+        :param file_loc: The file location of the spreadsheet
+        :type file_loc: str
+        :param print_cols: A flag used to print the columns to the console
+            (default is False)
+        :type print_cols: bool
+        :returns: a list of strings representing the header columns
+        :rtype: list
+        """
+class rest1:
+    
+    def test_multiple_flags_at_once():    # Different ways to test multiple # flags at once in Python
+        x, y, z = 0, 1, 0
 
-if x == 1 or y == 1 or z == 1:
-    print('passed')
+        if x == 1 or y == 1 or z == 1:
+            print('passed')
 
-if 1 in (x, y, z):
-    print('passed')
+        if 1 in (x, y, z):
+            print('passed')
+        # These only test for truthiness:
+        if x or y or z:
+            print('passed')
 
-# These only test for truthiness:
-if x or y or z:
-    print('passed')
+        if any((x, y, z)):
+            print('passed')
+    def Merging_two_dicts():
+        """🐍PyTricks]: Merging two dicts in Python 3.5+ with a single expression      bbu654      Dan at Real Python <info@realpython.com>    Sat, Mar 20 at 9:53 AM"""
+        # How to merge two dictionaries in Python 3.5+
 
-if any((x, y, z)):
-    print('passed')
+        x = {'a': 1, 'b': 2}
+        y = {'b': 3, 'c': 4}
+        z = {**x, **y}
+        print(z)
+        #{'c': 4, 'a': 1, 'b': 3}
 
-"""🐍PyTricks]: Merging two dicts in Python 3.5+ with a single expression      bbu654      Dan at Real Python <info@realpython.com>    Sat, Mar 20 at 9:53 AM"""
-# How to merge two dictionaries in Python 3.5+
+        # In Python 2.x you could
+        # use this:
+        z = dict(x, **y)
+        print(z)
+        #{'a': 1, 'c': 4, 'b': 3}
 
-x = {'a': 1, 'b': 2}
-y = {'b': 3, 'c': 4}
-z = {**x, **y}
-print(z)
-#{'c': 4, 'a': 1, 'b': 3}
+        # In these examples, Python merges dictionary keys in the order listed in the expression, overwriting 
+        # duplicates from left to right.
+        #
+        # See: https://www.youtube.com/watch?v=Duexw08KaC8
 
-# In Python 2.x you could
-# use this:
-z = dict(x, **y)
-print(z)
-#{'a': 1, 'c': 4, 'b': 3}
-
-# In these examples, Python merges dictionary keys in the order listed in the expression, overwriting 
-# duplicates from left to right.
-#
-# See: https://www.youtube.com/watch?v=Duexw08KaC8
-
-# The get() method on dicts
-# and its "default" argument
+        # The get() method on dicts and its "default" argument
 
 name_for_userid = {
-    382: "Alice",
-    590: "Bob",
-    951: "Dilbert",
-}
+            382: "Alice",
+            590: "Bob",
+            951: "Dilbert",
+            }
 
 def greeting(userid):
     return "Hi %s!" % name_for_userid.get(userid, "there")
@@ -181,119 +180,103 @@ print(greeting(382))
 print(greeting(333333))
 #"Hi there!"
 """
-When "get()" is called it checks if the given key exists in the dict.
-If it does exist, the value for that key is returned.
-If it does not exist then the value of the default argument is returned instead.
-— Dan Bader (realpython.com)"""
+    When "get()" is called it checks if the given key exists in the dict.
+    If it does exist, the value for that key is returned.
+    If it does not exist then the value of the default argument is returned instead.
+    — Dan Bader (realpython.com)"""
 
-# Why Python is Great: Namedtuples
-# Using namedtuple is way shorter than
-# defining a class manually:
-Car = namedtuple('Car', 'color mileage')
+def useNamedTuples():    # Why Python is Great: Namedtuples
+    # Using namedtuple is way shorter than# defining a class manually:
+    Car = namedtuple('Car', 'color mileage')
 
-# Our new "Car" class works as expected:
-my_car = Car('red', 3812.4)
-my_car.color            #'red'
-my_car.mileage          #3812.4
-my_car                  # We get a nice string repr for free:
-#Car(color='red' , mileage=3812.4)
-# Like tuples, namedtuples are immutable:
-my_car.color = 'blue'   #AttributeError: "can't set attribute"
+    # Our new "Car" class works as expected:
+    my_car = Car('red', 3812.4)
+    my_car.color            #'red'
+    my_car.mileage          #3812.4
+    print(my_car)                  # We get a nice string repr for free:
+        #Car(color='red' , mileage=3812.4)
+        # Like tuples, namedtuples are immutable:
+    my_car.color = 'blue'   #AttributeError: "can't set attribute"
+def ZenOfPython():
+    """
+    If you open a Python interpreter, and type "import this", as you know, it prints:
+    The Zen of Python, by Tim Peters
+    Beautiful is better than ugly.
+    Explicit is better than implicit.
+    Simple is better than complex.
+    Complex is better than complicated.
+    Flat is better than nested.
+    Sparse is better than dense.
+    Readability counts.
+    Special cases aren't special enough to break the rules.
+    Although practicality beats purity.
+    Errors should never pass silently.
+    Unless explicitly silenced.
+    In the face of ambiguity, refuse the temptation to guess.
+    There should be one-- and preferably only one --obvious way to do it.
+    Although that way may not be obvious at first unless you're Dutch.
+    Now is better than never.
+    Although never is often better than right now.
+    If the implementation is hard to explain, it's a bad idea.
+    If the implementation is easy to explain, it may be a good idea.
+    Namespaces are one honking great idea -- let's do more of those!
+    In the python source(Lib/this.py) this text is generated by a curious piece of code:
+    """
+    xs = """Gur Mra bs Clguba, ol Gvz Crgref
+    Ornhgvshy vf orggre guna htyl.
+    Rkcyvpvg vf orggre guna vzcyvpvg.
+    Fvzcyr vf orggre guna pbzcyrk.
+    Pbzcyrk vf orggre guna pbzcyvpngrq.
+    Syng vf orggre guna arfgrq.
+    Fcnefr vf orggre guna qrafr.
+    Ernqnovyvgl pbhagf.
+    Fcrpvny pnfrf nera'g fcrpvny rabhtu gb oernx gur ehyrf.
+    Nygubhtu cenpgvpnyvgl orngf chevgl.
+    Reebef fubhyq arire cnff fvyragyl.
+    Hayrff rkcyvpvgyl fvyraprq.
+    Va gur snpr bs nzovthvgl, ershfr gur grzcgngvba gb thrff.
+    Gurer fubhyq or bar-- naq cersrenoyl bayl bar --boivbhf jnl gb qb vg.
+    Nygubhtu gung jnl znl abg or boivbhf ng svefg hayrff lbh'er Qhgpu.
+    Abj vf orggre guna arire.
+    Nygubhtu arire vf bsgra orggre guna *evtug* abj.
+    Vs gur vzcyrzragngvba vf uneq gb rkcynva, vg'f n onq vqrn.
+    Vs gur vzcyrzragngvba vf rnfl gb rkcynva, vg znl or n tbbq vqrn.
+    Anzrfcnprf ner bar ubaxvat terng vqrn -- yrg'f qb zber bs gubfr!"""
+    d = {}
+    for c in (65, 97):
+        for i in range(26):
+            d[chr(i+c)] = chr((i+13) % 26 + c)
+    print( "".join([d.get(c, c) for c in xs]))
+    #(as an alternative to the "pprint" module)
 
-"""
-If you open a Python interpreter, and type "import this", as you know, it prints:
+    # The standard string repr for dicts is hard to read:
+    my_mapping = {'a': 23, 'b': 42, 'c': 0xc0ffee}
+    print(my_mapping)
+    #{'b': 42, 'c': 12648430. 'a': 23}  # 😞
+    # The "json" module can do a much better job:
+    print(json.dumps(my_mapping, indent=4, sort_keys=True))
+    #{
+    #    "a": 23,
+    #    "b": 42,
+    #    "c": 12648430
+    #}
+    # Note this only works with dicts containing
+    # primitive types (check out the "pprint" module):
+    json.dumps({all: 'yup'})    #TypeError: keys must be a string
+    #In most cases I'd stick to the built-in "pprint" module though :-)
 
-The Zen of Python, by Tim Peters
-
-Beautiful is better than ugly.
-Explicit is better than implicit.
-Simple is better than complex.
-Complex is better than complicated.
-Flat is better than nested.
-Sparse is better than dense.
-Readability counts.
-Special cases aren't special enough to break the rules.
-Although practicality beats purity.
-Errors should never pass silently.
-Unless explicitly silenced.
-In the face of ambiguity, refuse the temptation to guess.
-There should be one-- and preferably only one --obvious way to do it.
-Although that way may not be obvious at first unless you're Dutch.
-Now is better than never.
-Although never is often better than right now.
-If the implementation is hard to explain, it's a bad idea.
-If the implementation is easy to explain, it may be a good idea.
-Namespaces are one honking great idea -- let's do more of those!
-
-In the python source(Lib/this.py) this text is generated by a curious piece of code:
-"""
-xs = """Gur Mra bs Clguba, ol Gvz Crgref
-
-Ornhgvshy vf orggre guna htyl.
-Rkcyvpvg vf orggre guna vzcyvpvg.
-Fvzcyr vf orggre guna pbzcyrk.
-Pbzcyrk vf orggre guna pbzcyvpngrq.
-Syng vf orggre guna arfgrq.
-Fcnefr vf orggre guna qrafr.
-Ernqnovyvgl pbhagf.
-Fcrpvny pnfrf nera'g fcrpvny rabhtu gb oernx gur ehyrf.
-Nygubhtu cenpgvpnyvgl orngf chevgl.
-Reebef fubhyq arire cnff fvyragyl.
-Hayrff rkcyvpvgyl fvyraprq.
-Va gur snpr bs nzovthvgl, ershfr gur grzcgngvba gb thrff.
-Gurer fubhyq or bar-- naq cersrenoyl bayl bar --boivbhf jnl gb qb vg.
-Nygubhtu gung jnl znl abg or boivbhf ng svefg hayrff lbh'er Qhgpu.
-Abj vf orggre guna arire.
-Nygubhtu arire vf bsgra orggre guna *evtug* abj.
-Vs gur vzcyrzragngvba vf uneq gb rkcynva, vg'f n onq vqrn.
-Vs gur vzcyrzragngvba vf rnfl gb rkcynva, vg znl or n tbbq vqrn.
-Anzrfcnprf ner bar ubaxvat terng vqrn -- yrg'f qb zber bs gubfr!"""
-
-d = {}
-for c in (65, 97):
-    for i in range(26):
-        d[chr(i+c)] = chr((i+13) % 26 + c)
-
-print( "".join([d.get(c, c) for c in xs]))
-
-#(as an alternative to the "pprint" module)
-
-# The standard string repr for dicts is hard to read:
-my_mapping = {'a': 23, 'b': 42, 'c': 0xc0ffee}
-print(my_mapping)
-#{'b': 42, 'c': 12648430. 'a': 23}  # 😞
-
-# The "json" module can do a much better job:
-
-print(json.dumps(my_mapping, indent=4, sort_keys=True))
-#{
-#    "a": 23,
-#    "b": 42,
-#    "c": 12648430
-#}
-
-# Note this only works with dicts containing
-# primitive types (check out the "pprint" module):
-json.dumps({all: 'yup'})    #TypeError: keys must be a string
-#In most cases I'd stick to the built-in "pprint" module though :-)
-
-#— Dan
-#! -------------------------------------------------------------!
-# Why Python Is Great:
-# Function argument unpacking
-
+        #— Dan
+        #! -------------------------------------------------------------!
+        # Why Python Is Great:
+        # Function argument unpacking
 def myfunc(x, y, z):
     print(x, y, z)
-
 tuple_vec = (1, 0, 1)
 dict_vec = {'x': 1, 'y': 0, 'z': 1}
-
 myfunc(*tuple_vec)
 #1, 0, 1
-
 myfunc(**dict_vec)
 #1, 0, 1
-
 #////////////////***********Stop Writing Classes************\\\\\\\\\\\\\\\\\\\
 Talk1 = {"Title":"Stop Writing Classes","Author":"Jack Diederich","Link":"https://www.youtube.com/watch?v=o9pEzgHorH0","Summary":"Classes are great but they are also overused.  This talk will describe examples of class overuse taken from real world code and refactor the unnecessary classes, exceptions, and modules out of them."}
 #Wrong:
@@ -316,21 +299,18 @@ MuffinAPI.request = API(key='SECRET-API-KEY').call
 # and used in  a function like this:
 MuffinAPI.request(('mailings','stats'),{'id':1})
 
-
-
-
 MUFFIN_API= url='https://api.webservice.com/%s/%s'
 MUFFIN_API_KEY = 'SECRET-API-KEY'
-
-def request(noun,verb,**params):
-    try:        #get_article()
-        headers = {'apikey':MUFFIN_API_KEY}
-        request = urllib.Request((MUFFIN_API % (noun,verb)), urllib.urlencode(params), headers)
-        raise LookupError()
-        return json.loads(urllib.urlopen(request).read())
-        #services.crawler.crawlerexceptions.ArticleNotFoundException
-    except SyntaxError:#ArticleNotFound
-        pass
+class newAPI:
+    def request(noun,verb,**params):
+        try:        #get_article()
+            headers = {'apikey':MUFFIN_API_KEY}
+            request = urllib.Request((MUFFIN_API % (noun,verb)), urllib.urlencode(params), headers)
+            raise LookupError()
+            return json.loads(urllib.urlopen(request).read())
+            #services.crawler.crawlerexceptions.ArticleNotFoundException
+        except SyntaxError:#ArticleNotFound
+            pass
 import heapq
 class Heap(object):
     def __init__(self,data=None,key=lambda x:None):
@@ -349,10 +329,14 @@ class Heap(object):
 class Flow(object):
     pass
 class Storage(object):
-    def put(self,data): _abstract()
-    def get(self): _abstract()
-def _abstract(): raise NotImplementedError
-#rewrite to OAuth2 only:
+    def put(self,data): 
+        _abstract()
+    def get(self): 
+        _abstract()
+def _abstract(): 
+    pass
+
+    #rewrite to OAuth2 only:
 link2=f"http://github.com/jackdied/python-foauth2"    #132 SLOC, 3 Classes
 class Cell(object):
     def __init__(self,x,y,alive=True):
@@ -372,46 +356,79 @@ class Board(object):
         for (x,y), cell in self.cells.items():
             if len( cell.neighbors)> 3:
                 cell.next = False
-#////////////////////******************Connors game of life implementaion
-def neighbors(point):
-    x , y = point
-    yield x + 1, y    
-    yield x - 1, y    
-    yield x, y + 1
-    yield x, y - 1
-    yield x + 1, y + 1
-    yield x + 1, y - 1
-    yield x - 1, y + 1
-    yield x - 1, y - 1
-def advance(board):
-    newstate = set()
-    recalc = board | set(itertools.chain(*map(neighbors, board)))    
-    for point in recalc:
-        count = sum((neigh in board) for neigh in neighbors(point))
-        if count == 3 or (count==2 and point in neighbors):
-            newstate.add(point)
-    return newstate
-glider = set([(0 , 0), (1 , 0), (2 , 0), (0 , 1), (1 , 2)])
-for i in range(1000):
-    glider = advance(glider)
-print(glider)
+class GameOfLife():
+    #////////////////////******************Connors game of life implementaion
+    def neighbors(point):
+        x , y = point
+        yield x + 1, y    
+        yield x - 1, y    
+        yield x, y + 1
+        yield x, y - 1
+        yield x + 1, y + 1
+        yield x + 1, y - 1
+        yield x - 1, y + 1
+        yield x - 1, y - 1
+    def advance(board):
+        #pointa= 
+        #neighbors1 = neighbors(pointa)
+        newstate = set()
+        recalc = board | set(itertools.chain(*map(GameOfLife.neighbors, board)))    
+        for point in recalc:
+            count = sum((neigh in board) for neigh in GameOfLife.neighbors(point))
+            if count == 3 or (count==2 and point in GameOfLife.neighbors):
+                newstate.add(point)
+        return newstate
+    glider = set([(0 , 0), (1 , 0), (2 , 0), (0 , 1), (1 , 2)])
+    for i in range(1000):
+        glider = advance(glider)
+    print(glider)
         
 import timeit
-def Thetimeitmodule():
-    strTimeit=f" The 'timeit' module lets you measure the execution time of small bits of Python code."
-    timeit.timeit('"-".join(str(n) for n in range(100))',   number=10000)
-                #0.3412662749997253
-    timeit.timeit('"-".join([str(n) for n in range(100)])', number=10000)
-                #0.2996307989997149
-    timeit.timeit('"-".join(map(str, range(100)))',         number=10000)
-                #0.24581470699922647    
-    # Why Python Is Great:    # In-place value swapping
-    # Let's say we want to swap the values of a and b...
-    a = 23
-    b = 42
-    # The "classic" way to do it with a temporary variable:
-    tmp = a
-    a = b
-    b = tmp
-    # Python also lets us use this short-hand:
-    a, b = b, a
+class ThetimeitmoduleA:
+    def Thetimeitmodule():
+        strTimeit=f" The 'timeit' module lets you measure the execution time of small bits of Python code."
+        timeit.timeit('"-".join(str(n) for n in range(100))',   number=10000)
+                    #0.3412662749997253
+        timeit.timeit('"-".join([str(n) for n in range(100)])', number=10000)
+                    #0.2996307989997149
+        timeit.timeit('"-".join(map(str, range(100)))',         number=10000)
+                    #0.24581470699922647
+    def Inplacevalueswapping():
+        # Why Python Is Great:    # In-place value swapping
+        # Let's say we want to swap the values of a and b...
+        a = 23
+        b = 42
+        # The "classic" way to do it with a temporary variable:
+        tmp = a
+        a = b
+        b = tmp
+        # Python also lets us use this short-hand:
+        a, b = b, a
+
+        # "is" vs "=="
+
+        a = [1, 2, 3]
+        b = a
+        a is b          #    True
+        a == b          #    True
+        c = list(a)
+        a == c          #    True
+        a is c          #    False
+
+    # • "is" expressions evaluate to True if two #   variables point to the same object
+
+    # • "==" evaluates to True if the objects #   referred to by the variables are equal
+import contextlib
+
+@contextlib.contextmanager
+def file_hanlder(file_name,file_mode):
+    file = open(file_name,file_mode)
+    yield file
+    file.close()
+
+if __name__ == "__main__":
+
+   with file_hanlder("test.txt","w") as f:
+       f.write("Test")
+
+   print(f.closed)
