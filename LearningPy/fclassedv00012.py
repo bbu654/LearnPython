@@ -244,140 +244,146 @@ class deck:
         else             : # realval greater than or equal 39 and  less than 53
             return (realval - 39)
     def IsValidMove(self, DeckTbl, popx,popy, endAddr,scrn):
-       # TODO: Convert screen addr to a card or set of cards put up last-card then prev card until at beginAddr
-       #if Discard[0]==0:
+        # TODO: Convert screen addr to a card or set of cards put up last-card then prev card until at beginAddr
+        #if Discard[0]==0:
            #   Convert bosco, joseph to DeckTbl?
-       bosco=popx
-       joseph=popy
-       #bosco,joseph=beginAddr   
-       endax,enday =endAddr
-       CardBegx=0
-       CardBegy=0
-       CardEndx=0
-       CardEndy=0
-       lastCardInCol = len(XPOS) - 1
-       lastCardInRow = len(YPOS) - 1
-       Status_Text=""
-       D1scardChgd=False
-       #739, 474  This still doesnt work!!!!!!!!!!!!!!!!!!         TEST outside card area
+        bosco=popx
+        joseph=popy
+        #bosco,joseph=beginAddr   
+        endax,enday =endAddr
+        CardBegx=0
+        CardBegy=0
+        CardEndx=0
+        CardEndy=0
+        lastCardInCol = len(XPOS) - 1
+        lastCardInRow = len(YPOS) - 1
+        Status_Text=""
+        D1scardChgd=False
+        MultipleCards=False
+        #739, 474  This still doesnt work!!!!!!!!!!!!!!!!!!         TEST outside card area
 
-       for xsub in range(lastCardInCol):
-           if bosco > XPOS[xsub] and bosco <=XPOS[xsub + 1]:
-               CardBegx=xsub
-               break
-       else:
-           CardBegx=lastCardInCol
-               #Dont forget to translate cardBeg, CardEndf=? into DeskTbl address
-       for ysub in range(lastCardInRow):   
-           if joseph > YPOS[ysub] and joseph <=YPOS[ysub + 1]:
-               CardBegy=min(ysub-1, len(DeckTbl[CardBegx])-1)
-               break
-       else:
-           CardBegy=min(lastCardInRow, len(DeckTbl[CardBegx])-1)
-       for xsub in range(lastCardInCol):
-           if endax > XPOS[xsub] and endax <=XPOS[xsub + 1]:
-               CardEndx=xsub
-               break
-       else:
-           CardEndx=lastCardInCol
-       Discard=[] 
-       Discard,DeckTbl=self.CreatDiscard(DeckTbl)          #       for pin in range(XCardSlots):            Discard.append(DeckTbl[pin][0])
+        Discard=[] 
+        Discard,DeckTbl=self.CreatDiscard(DeckTbl)          #       for pin in range(XCardSlots):            Discard.append(DeckTbl[pin][0])
 
-       CardEndy=len(DeckTbl[CardEndx]) - 1 
-       #for ysub in range(lastCardInRow):           #    Don't need the y since it can only go on the end
-       #    if enday > YPOS[ysub] and enday <=YPOS[ysub + 1]:
-       #        CardEndy=ysub
-       #        break
-       #else: 
-       if joseph <= DPOS:
-           CardBegy=lastCardInRow+1
-       if enday  <= DPOS:
-           CardEndy=lastCardInRow+1
-       EmptyColumn = [0]#=BackOfCard
-       #How do you check to see if thecard exists
-       if bosco < XPOS[0] or bosco > XPOS[lastCardInCol] + 204 or joseph < YPOS[0] or endax < XPOS[0] or endax > XPOS[lastCardInCol] + 204 or enday < YPOS[0]:
-           Status_Text = "No Card Selected"
-       if CardBegx > -1 and CardBegx < 8 and Status_Text == "":
-           pass
-       else:
-           Status_Text = Status_Text + f"Initial Position: InternalError: Deck Indices (X) are out of range"
-       if CardEndx > -1 and CardEndx < 8 and Status_Text == "":
-           pass
-       else:
-           Status_Text = Status_Text + f"Final  Position: InternalError: Deck Indices (X) are out of range"
-       if Status_Text == "":           #        pass        # TODO Dont del the last entry in a col                 # See above: if CardBegx > (len(Discard)-1) or CardEndx > (len(Discard)-1):                   sukc2=0
-           if  CardEndy==lastCardInRow+1 or  CardBegy==lastCardInRow+1:
-           # TODO: process Discard-Row
-               if CardBegx > 3 and CardBegy==lastCardInRow+1:
-                   Status_Text = f"Can't move Foundation Cards"
-                   suck=0
-               elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and Discard[CardEndx]==0 and CardEndx < 4 and CardBegy > 0:
-                       Discard[CardEndx]=DeckTbl[CardBegx].pop(CardBegy); D1scardChgd=True
-               elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and Discard[CardEndx]==0 and CardEndx < 4 and CardBegy == 0:
-                       Templike=DeckTbl[CardBegx][CardBegy]
-                       DeckTbl[CardBegx][CardBegy]=0
-                       Discard[CardEndx]=Templike; D1scardChgd=True
-               elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and (DeckTbl[CardBegx][CardBegy] - Discard[CardEndx])==1 and CardEndx > 3 and CardBegy > 0:
-                       Discard[CardEndx]=DeckTbl[CardBegx].pop(CardBegy); D1scardChgd=True
-               elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and (DeckTbl[CardBegx][CardBegy] - Discard[CardEndx])==1 and CardEndx > 3 and CardBegy ==0:
-                       PrintMoves.append(f"move: DeckTbl[{CardBegx}][{CardBegy}]({DeckTbl[CardBegx][CardBegy]},{Magic3[DeckTbl[CardBegx][CardBegy]]} to Discard[{CardEndx}])")
-                       Templike=DeckTbl[CardBegx][CardBegy]
-                       DeckTbl[CardBegx][CardBegy]=0       #TODO: Does this really work
-                       Discard[CardEndx]=Templike; D1scardChgd=True
-               elif CardBegx < 4:
-                   if   CardBegy == lastCardInRow+1 and CardEndy != lastCardInRow+1 and Discard[CardBegx]==0:
-                       Status_Text = f"No card to move"
-                   elif CardBegy == lastCardInRow+1 and CardEndy != lastCardInRow+1 and DeckTbl[CardEndx][CardEndy] == 0:
-                       DeckTbl[CardEndx][CardEndy]=Discard[CardBegx]
-                       Discard[CardBegx]=0; D1scardChgd=True
-                   elif CardBegy == lastCardInRow+1 and CardEndy != lastCardInRow+1 and (Magic1[Discard[CardBegx]]==DeckTbl[CardEndx][CardEndy] or Magic2[Discard[CardBegx]]==DeckTbl[CardEndx][CardEndy]):
-                       DeckTbl[CardEndx].append(Discard[CardBegx])
-                       Discard[CardBegx]=0; D1scardChgd=True
-                   elif CardBegy == lastCardInRow+1 and CardEndy == lastCardInRow+1 and Discard[CardBegx] == Discard[CardEndx]+1:
-                       Discard[CardEndx]=Discard[CardBegx]
-                       Discard[CardBegx]=0; D1scardChgd=True
-                   #TODO: Need to be able to move from Discard 0-3 to Discard 4-7 if appropriate
+        for xsub in range(lastCardInCol):
+            if bosco > XPOS[xsub] and bosco <=XPOS[xsub + 1]:
+                CardBegx=xsub
+                break
+        else:
+            CardBegx=lastCardInCol
+                #Dont forget to translate cardBeg, CardEndf=? into DeskTbl address
+        for ysub in range(lastCardInRow):   
+            if joseph > YPOS[ysub] and joseph <=YPOS[ysub + 1]:
+                CardBegy=min(ysub, len(DeckTbl[CardBegx])-1)
+                break
+        else:
+            CardBegy=min(lastCardInRow, len(DeckTbl[CardBegx])-1)
+        for xsub in range(lastCardInCol):
+            if endax > XPOS[xsub] and endax <=XPOS[xsub + 1]:
+                CardEndx=xsub
+                break
+        else:
+            CardEndx=lastCardInCol
+        CardEndy=len(DeckTbl[CardEndx]) - 1
+        #for esub in range(lastCardInRow):
+        #    if enday > YPOS[esub] and enday <= YPOS[esub + 1]:
+        #        CardEndy=min(esub-1, len(DeckTbl[CardEndx] - 1))
+        #        break
+        #else:
+        #    CardEndy=min(lastCardInRow, len(DeckTbl[CardEndx]) - 1)
+        if CardBegy > 0 and CardBegy < len(DeckTbl[CardBegx]) - 1 :
+            MultipleCards=True
+        if joseph <= DPOS:
+            CardBegy=lastCardInRow+1
+        if enday  <= DPOS:
+            CardEndy=lastCardInRow+1
+        EmptyColumn = [0]#=BackOfCard
+        #How do you check to see if thecard exists
+        if bosco < XPOS[0] or bosco > XPOS[lastCardInCol] + 204 or joseph < YPOS[0] or endax < XPOS[0] or endax > XPOS[lastCardInCol] + 204 or enday < YPOS[0]:
+            Status_Text = "No Card Selected"
+        if CardBegx > -1 and CardBegx < 8 and Status_Text == "":
+            pass
+        else:
+            Status_Text = Status_Text + f"Initial Position: InternalError: Deck Indices (X) are out of range"
+        if CardEndx > -1 and CardEndx < 8 and Status_Text == "":
+            pass
+        else:
+            Status_Text = Status_Text + f"Final  Position: InternalError: Deck Indices (X) are out of range"
+        if Status_Text == "":           #        pass        # TODO Dont del the last entry in a col                 # See above: if CardBegx > (len(Discard)-1) or CardEndx > (len(Discard)-1):                   sukc2=0
+            if  CardEndy==lastCardInRow+1 or  CardBegy==lastCardInRow+1:
+            # TODO: process Discard-Row
+                if CardBegx > 3 and CardBegy==lastCardInRow+1:
+                    Status_Text = f"Can't move Foundation Cards"
+                    suck=0
+                elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and Discard[CardEndx]==0 and CardEndx < 4 and CardBegy > 0:
+                        Discard[CardEndx]=DeckTbl[CardBegx].pop(CardBegy); D1scardChgd=True
+                elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and Discard[CardEndx]==0 and CardEndx < 4 and CardBegy == 0:
+                        Templike=DeckTbl[CardBegx][CardBegy]
+                        DeckTbl[CardBegx][CardBegy]=0
+                        Discard[CardEndx]=Templike; D1scardChgd=True
+                elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and (DeckTbl[CardBegx][CardBegy] - Discard[CardEndx])==1 and CardEndx > 3 and CardBegy > 0:
+                        Discard[CardEndx]=DeckTbl[CardBegx].pop(CardBegy); D1scardChgd=True
+                elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and (DeckTbl[CardBegx][CardBegy] - Discard[CardEndx])==1 and CardEndx > 3 and CardBegy ==0:
+                        PrintMoves.append(f"move: DeckTbl[{CardBegx}][{CardBegy}]({DeckTbl[CardBegx][CardBegy]},{Magic3[DeckTbl[CardBegx][CardBegy]]} to Discard[{CardEndx}])")
+                        Templike=DeckTbl[CardBegx][CardBegy]
+                        DeckTbl[CardBegx][CardBegy]=0       #TODO: Does this really work
+                        Discard[CardEndx]=Templike; D1scardChgd=True
+                elif CardBegx < 4:
+                    if   CardBegy == lastCardInRow+1 and CardEndy != lastCardInRow+1 and Discard[CardBegx]==0:
+                        Status_Text = f"No card to move"
+                    elif CardBegy == lastCardInRow+1 and CardEndy != lastCardInRow+1 and DeckTbl[CardEndx][CardEndy] == 0:
+                        DeckTbl[CardEndx][CardEndy]=Discard[CardBegx]
+                        Discard[CardBegx]=0; D1scardChgd=True
+                    elif CardBegy == lastCardInRow+1 and CardEndy != lastCardInRow+1 and (Magic1[Discard[CardBegx]]==DeckTbl[CardEndx][CardEndy] or Magic2[Discard[CardBegx]]==DeckTbl[CardEndx][CardEndy]):
+                        DeckTbl[CardEndx].append(Discard[CardBegx])
+                        Discard[CardBegx]=0; D1scardChgd=True
+                    elif CardBegy == lastCardInRow+1 and CardEndy == lastCardInRow+1 and Discard[CardBegx] == Discard[CardEndx]+1:
+                        Discard[CardEndx]=Discard[CardBegx]
+                        Discard[CardBegx]=0; D1scardChgd=True
+                    #TODO: Need to be able to move from Discard 0-3 to Discard 4-7 if appropriate
        #deck[CardBegx][CardBegy]
-           elif DeckTbl[CardBegx][CardBegy]==0:
-               Status_Text = f"No card to move"
-           elif DeckTbl[CardBegx][CardBegy] > 26 and DeckTbl[CardEndx][CardEndy] > 26:
-               Status_Text = "Same Black Suit"
-           elif DeckTbl[CardBegx][CardBegy] < 27 and DeckTbl[CardEndx][CardEndy] < 27 and DeckTbl[CardEndx][CardEndy] != 0:
-               Status_Text = "Same Red   Suit"
-           else:
-               print(f"Magic1[(DeckTbl[CardBegx][CardBegy])]={Magic1[(DeckTbl[CardBegx][CardBegy])]}",end="    ")
-               print(f"Magic2[(DeckTbl[CardBegx][CardBegy])]={Magic2[(DeckTbl[CardBegx][CardBegy])]}",end="    ")
-               print(f"DeckTbl[CardEndx][CardEndy]={DeckTbl[CardEndx][CardEndy]}")
-               if Status_Text == "" and (DeckTbl[CardEndx][CardEndy]==0 or Magic1[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy] or Magic2[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy]):
-                   #pass            #TODO: Need to check all cards under selected cardBegxy MOVE DeckTbl from cardbegxy cardendxy    
-                   TempBegy=CardBegy
-                   NumofFreeDiscardZeros=Discard[0:4].count(0)
-                   NumofFreeDeckTblZeros=0
-                   if len(DeckTbl[CardEndx])==1 and DeckTbl[CardEndx][CardEndy] == 0:    DeckTbl[CardEndx].pop(0)
-                   for pogo in range(8):
-                       if len(DeckTbl[pogo])==1 and DeckTbl[pogo][0]==0: 
-                           NumofFreeDeckTblZeros +=1
-                   numofwhileLoops=1
-                   lenOfBegCol =len(DeckTbl[CardBegx]) - 1
-                   if TempBegy < lenOfBegCol: 
-                       numofwhileLoops=lenOfBegCol-TempBegy    #7-x=3   ?-x=3-7?x=-3+7?01234567or12345678 sub=5 len(DeckTbl[CardBegx])-sub=8-5
-                       if numofwhileLoops > NumofFreeDiscardZeros + NumofFreeDeckTblZeros:
-                           Status_Text = "Not Enough Free Spaces for move"
-                       else:
-                           if lenOfBegCol==0 or numofwhileLoops ==0:
-                               DeckTbl[CardEndx].append(DeckTbl[CardBegx][CardBegy])
-                               DeckTbl[CardBegx][CardBegy]=0
-                           else:
-                               for logo in range(numofwhileLoops):
-                                   DeckTbl[CardEndx].append(DeckTbl[CardBegx].pop(TempBegy+logo))
-                   else:
-                       if lenOfBegCol==0:
-                           DeckTbl[CardEndx].append(DeckTbl[CardBegx][CardBegy])
-                           DeckTbl[CardBegx][CardBegy]=0
-                       else:
-                           for logo in range(numofwhileLoops):
-                               Templogo=DeckTbl[CardBegx].pop(TempBegy+logo)
-                               DeckTbl[CardEndx].append(Templogo)
+            elif DeckTbl[CardBegx][CardBegy]==0:
+                Status_Text = f"No card to move"
+            elif DeckTbl[CardBegx][CardBegy] > 26 and DeckTbl[CardEndx][CardEndy] > 26:
+                Status_Text = "Same Black Suit"
+            elif DeckTbl[CardBegx][CardBegy] < 27 and DeckTbl[CardEndx][CardEndy] < 27 and DeckTbl[CardEndx][CardEndy] != 0:
+                Status_Text = "Same Red   Suit"
+            else:
+                print(f"{Magic1[(DeckTbl[CardBegx][CardBegy])]=},    {Magic2[(DeckTbl[CardBegx][CardBegy])]=}",end="    ")
+                print(f"{DeckTbl[CardEndx][CardEndy]=}")
+                if Status_Text == "" and (DeckTbl[CardEndx][CardEndy]==0 or Magic1[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy] or Magic2[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy]):
+                    #pass            #TODO: Need to check all cards under selected cardBegxy MOVE DeckTbl from cardbegxy cardendxy    
+                    if MultipleCards:
+                        Discard,DeckTbl,CardBegx, CardBegy, CardEndx, CardEndy, Status_Text=self.MoveMultipleCards(Discard,DeckTbl,CardBegx, CardBegy, CardEndx, CardEndy, Status_Text)
+                    else:
+                        TempBegy=CardBegy
+                        NumofFreeDiscardZeros=Discard[0:4].count(0)
+                        NumofFreeDeckTblZeros=0
+                        if len(DeckTbl[CardEndx])==1 and DeckTbl[CardEndx][CardEndy] == 0:    DeckTbl[CardEndx].pop(0)
+                        for pogo in range(8):
+                            if len(DeckTbl[pogo])==1 and DeckTbl[pogo][0]==0: 
+                                NumofFreeDeckTblZeros +=1
+                        numofwhileLoops=1
+                        lenOfBegCol =len(DeckTbl[CardBegx]) - 1
+                        if TempBegy < lenOfBegCol: 
+                            numofwhileLoops=lenOfBegCol-TempBegy    #7-x=3   ?-x=3-7?x=-3+7?01234567or12345678 sub=5 len(DeckTbl[CardBegx])-sub=8-5
+                            if numofwhileLoops > NumofFreeDiscardZeros + NumofFreeDeckTblZeros:
+                                Status_Text = "Not Enough Free Spaces for move"
+                            else:
+                               if lenOfBegCol==0 or numofwhileLoops ==0:
+                                   DeckTbl[CardEndx].append(DeckTbl[CardBegx][CardBegy])
+                                   DeckTbl[CardBegx][CardBegy]=0
+                               else:
+                                   for logo in range(numofwhileLoops):
+                                       DeckTbl[CardEndx].append(DeckTbl[CardBegx].pop(TempBegy+logo))
+                        else:
+                            if lenOfBegCol==0:
+                                DeckTbl[CardEndx].append(DeckTbl[CardBegx][CardBegy])
+                                DeckTbl[CardBegx][CardBegy]=0
+                            else:
+                                for logo in range(numofwhileLoops):
+                                    Templogo=DeckTbl[CardBegx].pop(TempBegy+logo)
+                                    DeckTbl[CardEndx].append(Templogo)
 
                    #while TempBegy < lenOfBegCol:
                    #    if 
@@ -385,16 +391,56 @@ class deck:
                    #        #check each one to see if we have enough space to move it
                    #else:
                    #    pass
-               else:
-                   Status_Text = "Card out of Order"
+                else:
+                    Status_Text = "Card out of Order"
            #   elif DeckTbl[CardEndx][CardEndy]==0:
            #Check if EmptySlots<= NumCardsInSelectedAJ69Cache:
            #True Move them Else Don't Move
-                   suck1=0
-       DeckTbl=self.DestryDiscard(Discard,DeckTbl)      #if  D1scardChgd:            for jin in range(XCardSlots):               DeckTbl[jin][0]=Discard[jin]
-       returnBool=Status_Text == ""            #    if Status_Text == "":           #
-       return returnBool, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text, scrn    #Discard,deck,beginAddr,endAddr    else:        return False, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr
+                    suck1=0
+        DeckTbl=self.DestryDiscard(Discard,DeckTbl)      #if  D1scardChgd:            for jin in range(XCardSlots):               DeckTbl[jin][0]=Discard[jin]
+        returnBool=Status_Text == ""            #    if Status_Text == "":           #
+        return returnBool, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text, scrn    #Discard,deck,beginAddr,endAddr    else:        return False, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr
+    def MoveMultipleCards(Discard,DeckTbl,CardBegx, CardBegy, CardEndx, CardEndy, Status_Text):
+        TempBegy=CardBegy
+        NumofFreeDiscardZeros=Discard[0:4].count(0)
+        NumofFreeDeckTblZeros=0
+        if len(DeckTbl[CardEndx])==1 and DeckTbl[CardEndx][CardEndy] == 0:    DeckTbl[CardEndx].pop(0)
+        for pogo in range(XCardSlots):
+            if len(DeckTbl[pogo])==1 and DeckTbl[pogo][0]==0: 
+                NumofFreeDeckTblZeros +=1
+        numofwhileLoops=1
+        lenOfBegCol =len(DeckTbl[CardBegx]) - 1
+        if TempBegy < lenOfBegCol: 
+            numofwhileLoops=lenOfBegCol-TempBegy    #7-x=3   ?-x=3-7?x=-3+7?01234567or12345678 sub=5 len(DeckTbl[CardBegx])-sub=8-5
+            if numofwhileLoops > NumofFreeDiscardZeros + NumofFreeDeckTblZeros:
+                Status_Text = "Not Enough Free Spaces for move"
+            else:
+                if lenOfBegCol==0 or numofwhileLoops ==0:
+                    DeckTbl[CardEndx].append(DeckTbl[CardBegx][CardBegy])
+                    DeckTbl[CardBegx][CardBegy]=0
+                else:
+                    for logo in range(numofwhileLoops):
+                        DeckTbl[CardEndx].append(DeckTbl[CardBegx].pop(TempBegy+logo))
+        else:
+            if lenOfBegCol==0:
+                DeckTbl[CardEndx].append(DeckTbl[CardBegx][CardBegy])
+                DeckTbl[CardBegx][CardBegy]=0
+            else:
+                for logo in range(numofwhileLoops):
+                    Templogo=DeckTbl[CardBegx].pop(TempBegy+logo)
+                    DeckTbl[CardEndx].append(Templogo)
 
+                   #while TempBegy < lenOfBegCol:
+                   #    if 
+                   #    TempBegy +=1
+                   #        #check each one to see if we have enough space to move it
+                   #else:
+                   #    pass
+           #   elif DeckTbl[CardEndx][CardEndy]==0:
+           #Check if EmptySlots<= NumCardsInSelectedAJ69Cache:
+           #True Move them Else Don't Move
+
+        return Discard,DeckTbl,CardBegx, CardBegy, CardEndx, CardEndy, Status_Text
 # Setting up color objects
 class screan(pygame.sprite.Sprite):
     def __init__(self,DeckTbl):
@@ -446,33 +492,20 @@ class screan(pygame.sprite.Sprite):
             pygame.draw.line(self.SCREEN, self.RED, (XPOS[0],DPOS), (EPOS,DPOS))
             xxx,yyy,SCREEN = self.getScreenSize(SCREEN)
             print(f"{xxx=}, {yyy=}, {SCREEN=}")    #xxx=1860, yyy=1000, SCREEN=<Surface(1860x1000x32 SW)>
-            #if didyouwin:
-            #    self.Status_Text = "Congratulations! You Win!"
+            #if didyouwin:    #Moved to a function            #    self.Status_Text = "Congratulations! You Win!"
             #    self.txt_surface = self.font.render(self.Status_Text, True, self.BLACK)                 # Resize the box if the text is too long.
-            #    self.tsWidth = max(200, self.txt_surface.get_width()+10)
-            #    self.input_box.w = self.tsWidth                                                 # Blit the text.
+            #    self.tsWidth = max(200, self.txt_surface.get_width()+10)            #    self.input_box.w = self.tsWidth                                                 # Blit the text.
             #    self.SCREEN.blit(self.txt_surface, (self.input_box.x+5, self.input_box.y+5))       # Blit the input_box rect.
-            #    pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)
-            #    lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(53)} .p ng"
-            #    PenguinImage = pygame.image.load(lit1).convert()                 
-            #    for lous in range(8):
-            #        self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[0]))
+            #    pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)            #    lit1=f"{pathrb}{str(53)}.png"            #    PenguinImage = pygame.image.load(lit1).convert()                 
+            #    for lous in range(8):            #        self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[0]))
             #else:
             #    Discard,DeckTbl = self.CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
             #for g,h in enumerate(Discard):
-            #    if h > 0:
-            #        IsThereADiscard = True
-            #        lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(h)}.png"
-            #    else:
-            #        lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(53)}.png"
-            #    PenguinImage = pygame.image.load(lit1).convert()
-            #    self.SCREEN.blit(PenguinImage, (XPOS[g],1))  
+            #    lit1=f"{pathrb}{str(h)}.png";    IsThereADiscard = True;    #    PenguinImage = pygame.image.load(lit1).convert()    #    self.SCREEN.blit(PenguinImage, (XPOS[g],1))  
             
             for lick in range(8):
                 for bick in range(len(DeckTbl[lick])):
-                    #if DeckTbl[lick][bick] == 0:
-                    #    lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(53)}.png"
-                    #else:
+                    #if DeckTbl[lick][bick] == 0:                    #    lit1=f"{pathrb}{str(53)}.png"                    #else:
                     lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(DeckTbl[lick][bick])}.png"
                     PenguinImage = pygame.image.load(lit1).convert()                 
                     if bick ==len(DeckTbl[lick]) - 1 and DeckTbl[lick][bick]  in aces:
