@@ -265,32 +265,7 @@ class deck:
         Discard=[] 
         Discard,DeckTbl=self.CreatDiscard(DeckTbl)          #       for pin in range(XCardSlots):            Discard.append(DeckTbl[pin][0])
 
-        for xsub in range(lastCardInCol):
-            if bosco > XPOS[xsub] and bosco <=XPOS[xsub + 1]:
-                CardBegx=xsub
-                break
-        else:
-            CardBegx=lastCardInCol
-                #Dont forget to translate cardBeg, CardEndf=? into DeskTbl address
-        for ysub in range(lastCardInRow):   
-            if joseph > YPOS[ysub] and joseph <=YPOS[ysub + 1]:
-                CardBegy=min(ysub, len(DeckTbl[CardBegx])-1)
-                break
-        else:
-            CardBegy=min(lastCardInRow, len(DeckTbl[CardBegx])-1)
-        for xsub in range(lastCardInCol):
-            if endax > XPOS[xsub] and endax <=XPOS[xsub + 1]:
-                CardEndx=xsub
-                break
-        else:
-            CardEndx=lastCardInCol
-        CardEndy=len(DeckTbl[CardEndx]) - 1
-        #for esub in range(lastCardInRow):
-        #    if enday > YPOS[esub] and enday <= YPOS[esub + 1]:
-        #        CardEndy=min(esub-1, len(DeckTbl[CardEndx] - 1))
-        #        break
-        #else:
-        #    CardEndy=min(lastCardInRow, len(DeckTbl[CardEndx]) - 1)
+        CardBegx, CardBegy, CardEndx, CardEndy = self.getCardXY(DeckTbl, bosco, joseph, endax)
         if CardBegy > 0 and CardBegy < len(DeckTbl[CardBegx]) - 1 :
             MultipleCards=True
         if joseph <= DPOS:
@@ -399,7 +374,35 @@ class deck:
                     suck1=0
         DeckTbl=self.DestryDiscard(Discard,DeckTbl)      #if  D1scardChgd:            for jin in range(XCardSlots):               DeckTbl[jin][0]=Discard[jin]
         returnBool=Status_Text == ""            #    if Status_Text == "":           #
-        return returnBool, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text, scrn    #Discard,deck,beginAddr,endAddr    else:        return False, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr
+        return returnBool, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text, scrn 
+
+    def getCardXY(self, DeckTbl, bosco, joseph, endax):
+
+        lastCardInCol = len(XPOS) - 1
+        lastCardInRow = len(YPOS) - 1
+
+        for xsub in range(lastCardInCol):
+            if bosco > XPOS[xsub] and bosco <=XPOS[xsub + 1]:
+                CardBegx=xsub
+                break
+        else:
+            CardBegx=lastCardInCol
+        #Dont forget to translate cardBeg, CardEndf=? into DeskTbl address
+        for ysub in range(lastCardInRow):   
+            if joseph > YPOS[ysub] and joseph <=YPOS[ysub + 1]:
+                CardBegy=min(ysub, len(DeckTbl[CardBegx])-1)
+                break
+        else:
+            CardBegy=min(lastCardInRow, len(DeckTbl[CardBegx])-1)
+        for xsub in range(lastCardInCol):
+            if endax > XPOS[xsub] and endax <=XPOS[xsub + 1]:
+                CardEndx=xsub
+                break
+        else:
+            CardEndx=lastCardInCol
+        CardEndy=len(DeckTbl[CardEndx]) - 1
+        return CardBegx,CardBegy,CardEndx,CardEndy   #Discard,deck,beginAddr,endAddr    else:        return False, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr
+
     def MoveMultipleCards(Discard,DeckTbl,CardBegx, CardBegy, CardEndx, CardEndy, Status_Text):
         TempBegy=CardBegy
         NumofFreeDiscardZeros=Discard[0:4].count(0)
@@ -445,6 +448,11 @@ class deck:
 class screan(pygame.sprite.Sprite):
     def __init__(self,DeckTbl):
         pygame.init()
+        global clockA, DoubleClickEvent, timerA
+        DoubleClickEvent = pygame.USEREVENT + 1
+        self.DoubleClickEvent=DoubleClickEvent
+        timerA = 0
+        self.timerA=timerA
         # Declaring namedtuple()   
         self.Begpos = namedtuple('BeginPos',['beginx','beginy'])   
         self.Enditp = namedtuple('EndPos',['endx','endy'])         
@@ -542,6 +550,7 @@ class screan(pygame.sprite.Sprite):
         xxx, yyy = self.scrn.get_size()
         return xxx,yyy,SCREEN
     def handleEvent(self,DeckTbl,running,InitGame):
+        #self.Double
         if not InitGame:
             InitGame=True       #SCREEN = pygame.display.set_mode(width,height)
             screen.SCREEN.fill(screen.WHITE)
@@ -552,14 +561,13 @@ class screan(pygame.sprite.Sprite):
             self.Status_Text=""
             if event.type == QUIT:
                 print(PrintMoves);          self.running = False;           sys.exit()
+            elif event.type == self.DoubleClickEvent:
+                pygame.time.set_timer(self.DoubleClickEvent, 0)
+                self.timerA = 0
+                print( "evt = dble click")
+               #self.Status_Text, DeckTbl=self.handleDoubleClick(DeckTbl,event,Decl)
             elif event.type == MOUSEBUTTONDOWN:
-                popx,popy=event.pos
-                self.BeginPos = (popx,popy)
-                self.shit=popx
-                self.ship=popy
-                self.Status_Text="";        print(f"mous down @ {popx},{popy}")
-                #TODO: check if there is a place to move card(s) and enough
-                #isv alidmove(Move=False)
+                self.handleMouseDown(DeckTbl,event,Decl)
             elif event.type == MOUSEBUTTONUP:
                 self.handleMouseUp(DeckTbl,self.shit,self.ship,event,Decl)                #        InitGame=True;     
             elif event.type == MOUSEMOTION:
@@ -583,6 +591,60 @@ class screan(pygame.sprite.Sprite):
         self.FramePerSec.tick(self.FPS)
         return DeckTbl,running,InitGame
            # pygame.quit()
+    def handleDoubleClick(self,DeckTbl,event,Decl):
+
+        ropx,ropy=event.pos
+        self.BeginPos = (ropx,ropy)
+        self.rhit=ropx
+        self.rhip=ropy        #        poopy = DeckTbl[0][0]
+        self.Status_Text="";        print(f"mous down @ {ropx},{ropy}")
+        Discard=[] 
+        Discard,DeckTbl=Decl.CreatDiscard(DeckTbl)          #       for pin in range(XCardSlots):            Discard.append(DeckTbl[pin][0])
+
+        CardBegx, CardBegy, CardEndx, CardEndy = Decl.getCardXY(DeckTbl, ropx, ropy, ropx)
+        for qhit in range(4):
+            if Discard[qhit]==0: 
+                Discard[qhit]=DeckTbl[CardBegx].pop(CardBegy)
+                break
+        else:
+            for qhip in range(XCardSlots):
+                LastCardofColumn=len(DeckTbl[qhip]) -1
+                if LastCardofColumn==0 and DeckTbl[qhip][LastCardofColumn]==0: 
+                    DeckTbl[qhip][LastCardofColumn]=DeckTbl[CardBegx].pop(CardBegy)
+                    break
+            else:
+                self.Status_Text=f"No Empty Card Slots to move Double-Clicked Card"
+        if self.Status_Text=="":
+            self.Status_Text, Decl.DestryDiscard(Discard,DeckTbl)
+            DeckTbl = Decl.CheckDiscard(DeckTbl)   
+            DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
+            return self.Status_Text, DeckTbl
+        else:
+            return self.Status_Text, Decl.DestryDiscard(Discard,DeckTbl)
+        #if CardBegy       
+    def handleMouseDown(self,DeckTbl,event,Decl):#,DeckTbl,shit,ship,Decl):
+        popx,popy=event.pos
+        self.BeginPos = (popx,popy)
+        self.shit=popx
+        self.ship=popy        #        poopy = DeckTbl[0][0]
+        self.Status_Text="";        print(f"mous down @ {popx},{popy}")
+        timersetA=False
+        #TODO: check if there is a place to move card(s) and enough
+        #isv alidmove(Move=False)
+        if self.timerA == 0:
+            pygame.time.set_timer(self.DoubleClickEvent, 500)
+            timersetA = True
+        elif self.timerA == 1:
+                pygame.time.set_timer(self.DoubleClickEvent, 0)
+                self.handleDoubleClick(DeckTbl,event,Decl)
+                timersetA =False
+
+        if timersetA:
+            self.timerA = 1
+            return
+        else: 
+            self.timerA = 0
+            return
     def handleMouseUp(self,DeckTbl,popx,popy,event,Decl):
         opox,opoy = event.pos
         but1=event.button
