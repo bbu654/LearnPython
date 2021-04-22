@@ -555,6 +555,10 @@ class screan(pygame.sprite.Sprite):
     def StowReverseDeck(self, DeckTbl):
         self.ReverseDeck.append(DeckTbl)
         self.rd+=DeckTbl
+        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeckA.txt"
+        with open(pathReverse, 'a') as Reversefile:      #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
+            Reversefile.writelines(str(DeckTbl))
+
         rich=0
         if len(self.ReverseDeck) % 20 == 0 or rich <20:
             print(f"{self.rd=}   {self.ReverseDeck=}")
@@ -594,7 +598,7 @@ class screan(pygame.sprite.Sprite):
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):                  DeckTbl=self.handleOneReverse(DeckTbl);   print('left stop;')
                 if event.key == pygame.K_RIGHT or event.key == ord('d'):                 print('right stop;')
-                if event.key == pygame.K_UP or event.key == ord('w'):                    print('jump stop;')
+                if event.key == pygame.K_UP or event.key == ord('w'):                    DeckTbl=self.handleUpArrow(DeckTbl);      print('jump stop;')
 
                 if event.key == ord('q'):
                     print(PrintMoves)
@@ -671,6 +675,7 @@ class screan(pygame.sprite.Sprite):
     def handleUpArrow(self,DeckTbl):
         DeckTbl=self.OrigDeck
         DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
+        return DeckTbl
     def handleMouseUp(self,DeckTbl,popx,popy,event,Decl):
         opox,opoy = event.pos
         but1=event.button
@@ -732,7 +737,7 @@ while running:
     DeckTbl,running,InitGame=screen.handleEvent(DeckTbl,running,InitGame)
     screen.FramePerSec.tick(screen.FPS)
                 #TODO: put Discard at top of page b) merge Discard into DeckTbl
-pathout=f"C:/Users/Brice/source/Resources/Python/fclassedv00012outC.txt"
+pathout=f"C:/Users/Brice/source/Resources/Python/fclassedv00012outD.txt"
 with open(pathout, 'w') as myfile:  
     #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
     myfile.write(str(screen.rd))
