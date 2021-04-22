@@ -10,14 +10,16 @@ GlobalsForMe=[]
 
 n = 24; """#rows""";    m = 8; """#cols""";     XCardSlots = 8;    SpaceBetweenCardY=60
 TableB=[[0] * n for i in range(m)]
-global DeckTbl
+global DeckTbl, ReverseDeck, ForwardDeck
 DeckTbl = []
+ReverseDeck=[]
+ForwardDeck=[]
 PopTbl  = [[0],[0],[0],[0],[0],[0],[0],[0]]
 XPOS = [12, 236, 460, 684, 908, 1132, 1356, 1580]
-YPOS = [0, 70, 130, 200, 270, 340, 410, 480, 550,620,690];  DPOS = 69; EPOS=1804
+YPOS = [0, 70, 130, 200, 270, 340, 410, 480, 550,620,690,760,830,900];  DPOS = 69; EPOS=1804
 #      no zero, ace   2h
-Magic1 = (0,0,29,30,31,32,33,34,35,36,37,38,39,0,0,29,30,31,32,33,34,35,36,37,38,39,0,0, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,0,0, 3, 4, 5, 6, 7, 8, 9,10,11,12,13)
-Magic2 = (0,0,42,43,44,45,46,47,48,49,50,51,52,0,0,42,43,44,45,46,47,48,49,50,51,52,0,0,16,17,18,19,20,21,22,23,24,25,26,0,0,16,17,18,19,20,21,22,23,24,25,26)
+Magic1 = (0,0,29,30,31,32,33,34,35,36,37,38,39,0,0,29,30,31,32,33,34,35,36,37,38,39,0,0, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,0,0, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,0)
+Magic2 = (0,0,42,43,44,45,46,47,48,49,50,51,52,0,0,42,43,44,45,46,47,48,49,50,51,52,0,0,16,17,18,19,20,21,22,23,24,25,26,0,0,16,17,18,19,20,21,22,23,24,25,26,0)
 Magic3 = ("Zero","Ah","2h","3h","4h","5h","6h","7h","8h","9h","Th","Jh","Qh","Kh","Ad","2d","3d","4d","5d","6d","7d","8d","9d","Td","Jd","Qd","Kd","As","2s","3s","4s","5s","6s","7s","8s","9s","Ts","Js","Qs","Ks","Ac","2c","3c","4c","5c","6c","7c","8c","9c","Tc","Jc","Qc","Kc")
 #Magic = ((0,0),(0,0),(29,42),(30,43),(31,44),(32,45),(33,46),(34,47),(35,48),(36,49),(37,50),(38,51),(39,52),(0,0),(29,42),(30,43),(31,44),(32,45),(33,46),(34,47),(35,48),(36,49),(37,50),(38,51),(39,52),(0,0),(3,16)(4,17),(5,18),(6,19),(7,20),(8,21),(9,22),(10,23),(11,24),(12,25),(13,26),(0,0),(3,16)(4,17),(5,18),(6,19),(7,20),(8,21),(9,22),(10,23),(11,24),(12,25),(13,26))
 print(f"Magic1={Magic1} And len(Magic1={len(Magic1)}")
@@ -28,7 +30,7 @@ king = [13,26,39,52]
 PrintMoves = []
 col0=[0];        col1=[0];        col2=[0];        col3=[0];   #SO FAR so good 
 col4=[0];        col5=[0];        col6=[0];        col7=[0]    #TODO:ADD 8 ZEROS to below
-DeckTable=[[7, 34, 41, 40, 42, 33, 8], [38, 20, 28, 24, 17, 49, 37], [44, 47, 6, 31, 2, 21, 26], [29, 27, 14, 1, 50, 15, 4], [12, 13, 32, 22, 30, 11], [52, 10, 23, 25, 46, 9], [48, 5, 51, 35, 36, 3], [18, 43, 19, 45, 39, 16]]
+DeckTable=[]#[7, 34, 41, 40, 42, 33, 8], [38, 20, 28, 24, 17, 49, 37], [44, 47, 6, 31, 2, 21, 26], [29, 27, 14, 1, 50, 15, 4], [12, 13, 32, 22, 30, 11], [52, 10, 23, 25, 46, 9], [48, 5, 51, 35, 36, 3], [18, 43, 19, 45, 39, 16]]
 class deck:
     
     def __init__(self, cards):
@@ -51,8 +53,8 @@ class deck:
                 print(cards)  #cards = list(range(1,53)) #random.shuffle(cards)    #print(cards)
                 cards = list(range(1,53)) 
                 random.shuffle(cards)        #        self.tricks = []    # creates a new empty list for each dog
-            for card in cards:
-                self.DeckTbl.append(card)
+            #for card in cards:
+            #    self.DeckTbl.append(card)
         self.Tbl=self.DeckTbl
         
     def IsSolvable(self,cards):
@@ -273,6 +275,9 @@ class deck:
         if enday  <= DPOS:
             CardEndy=lastCardInRow+1
         EmptyColumn = [0]#=BackOfCard
+        for bill in range(XCardSlots):
+            if DeckTbl[bill]==[]:    DeckTbl[bill]=EmptyColumn
+
         #How do you check to see if thecard exists
         if bosco < XPOS[0] or bosco > XPOS[lastCardInCol] + 204 or joseph < YPOS[0] or endax < XPOS[0] or endax > XPOS[lastCardInCol] + 204 or enday < YPOS[0]:
             Status_Text = "No Card Selected"
@@ -301,8 +306,9 @@ class deck:
                 elif CardBegy!=lastCardInRow+1 and CardEndy==lastCardInRow+1 and (DeckTbl[CardBegx][CardBegy] - Discard[CardEndx])==1 and CardEndx > 3 and CardBegy ==0:
                         PrintMoves.append(f"move: DeckTbl[{CardBegx}][{CardBegy}]({DeckTbl[CardBegx][CardBegy]},{Magic3[DeckTbl[CardBegx][CardBegy]]} to Discard[{CardEndx}])")
                         Templike=DeckTbl[CardBegx][CardBegy]
-                        DeckTbl[CardBegx][CardBegy]=0       #TODO: Does this really work
-                        Discard[CardEndx]=Templike; D1scardChgd=True
+                        DeckTbl[CardBegx][CardBegy]=0       #TODO: Does this really workD[9][0]<==E[9][9] E[9][9]<==0   LAST CARD IN COLUMN IS MOVED TO ACE AREA
+                        Discard[CardEndx]=Templike; D1scardChgd=True    #TODO: below
+                        #to undo this elif DeckTbl[CardBegx][CardBegy]=Templike;Discard[CardEndx]=Discard[CardEndx] - 1
                 elif CardBegx < 4:
                     if   CardBegy == lastCardInRow+1 and CardEndy != lastCardInRow+1 and Discard[CardBegx]==0:
                         Status_Text = f"No card to move"
@@ -324,8 +330,7 @@ class deck:
             elif DeckTbl[CardBegx][CardBegy] < 27 and DeckTbl[CardEndx][CardEndy] < 27 and DeckTbl[CardEndx][CardEndy] != 0:
                 Status_Text = "Same Red   Suit"
             else:
-                print(f"{Magic1[(DeckTbl[CardBegx][CardBegy])]=},    {Magic2[(DeckTbl[CardBegx][CardBegy])]=}",end="    ")
-                print(f"{DeckTbl[CardEndx][CardEndy]=}")
+                print(f"{Magic1[(DeckTbl[CardBegx][CardBegy])]=},    {Magic2[(DeckTbl[CardBegx][CardBegy])]=},    {DeckTbl[CardEndx][CardEndy]=}")
                 if Status_Text == "" and (DeckTbl[CardEndx][CardEndy]==0 or Magic1[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy] or Magic2[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy]):
                     #pass            #TODO: Need to check all cards under selected cardBegxy MOVE DeckTbl from cardbegxy cardendxy    
                     if MultipleCards:
@@ -403,7 +408,8 @@ class deck:
         CardEndy=len(DeckTbl[CardEndx]) - 1
         return CardBegx,CardBegy,CardEndx,CardEndy   #Discard,deck,beginAddr,endAddr    else:        return False, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr
 
-    def MoveMultipleCards(Discard,DeckTbl,CardBegx, CardBegy, CardEndx, CardEndy, Status_Text):
+    def MoveMultipleCards(self,Discard,DeckTbl,CardBegx, CardBegy, CardEndx, CardEndy, Status_Text):
+        if CardBegy > 0: CardBegy -= 1
         TempBegy=CardBegy
         NumofFreeDiscardZeros=Discard[0:4].count(0)
         NumofFreeDeckTblZeros=0
@@ -453,7 +459,10 @@ class screan(pygame.sprite.Sprite):
         self.DoubleClickEvent=DoubleClickEvent
         timerA = 0
         self.timerA=timerA
+        self.rd=[]
+        self.fd=[]
         # Declaring namedtuple()   
+        self.OrigDeck=DeckTbl
         self.Begpos = namedtuple('BeginPos',['beginx','beginy'])   
         self.Enditp = namedtuple('EndPos',['endx','endy'])         
         self.BLUE  = (0, 0, 255)
@@ -463,7 +472,9 @@ class screan(pygame.sprite.Sprite):
         self.WHITE = (255, 255, 255)
         self.LIGHTGREY=(100,100,100)             
         self.font = pygame.font.Font(None, 32)
-        self.input_box = pygame.Rect(40, 900, 140, 32)   
+        self.input_box = pygame.Rect(40, 800, 140, 32)   
+        self.ReverseDeck = []
+        self.ForwardDeck = []
         #    Rect(left, top, width, height) -> Rect   
         #    clock = pg.time.Clock()        self.deck = d
         self.Status_Text=""
@@ -528,15 +539,10 @@ class screan(pygame.sprite.Sprite):
                             self.SCREEN.blit(PenguinImage, (XPOS[lick],YPOS[bick]))
             print(f"countofAcesSkipped={countofAcesSkipped}")
             #Discard,DeckTbl = CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
-            
             running = True 
             IsThereADiscard = False
             pygame.display.flip() # paint screen one time
-        else:
-            #if 'click' in num1_button.handle Event(event):
-            #    if dice == 1:
-            #        text = font.render("You Win!", 1, (0, 0, 0))
-            #        screen.blit(text, (155, 255))
+        else:            #if 'click' in num1_button.handle Event(event):            #    if dice == 1:            #        text = font.render("You Win!", 1, (0, 0, 0))            #        screen.blit(text, (155, 255))
             self.txt_surface = self.font.render("                                     ", True, self.BLACK)
             self.txt_surface = self.font.render(self.Status_Text, True, self.BLACK)                 # Resize the box if the text is too long.
             tsWidth = max(200, self.txt_surface.get_width()+10)
@@ -545,6 +551,18 @@ class screan(pygame.sprite.Sprite):
             pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)
         
         return DeckTbl,Status_Text,SCREEN 
+
+    def StowReverseDeck(self, DeckTbl):
+        self.ReverseDeck.append(DeckTbl)
+        self.rd+=DeckTbl
+        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeckA.txt"
+        with open(pathReverse, 'a') as Reversefile:      #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
+            Reversefile.writelines(str(DeckTbl))
+
+        rich=0
+        if len(self.ReverseDeck) % 20 == 0 or rich <20:
+            print(f"{self.rd=}   {self.ReverseDeck=}")
+            rich+=1
     def getScreenSize(self,SCREEN):
         self.scrn = SCREEN
         xxx, yyy = self.scrn.get_size()
@@ -573,14 +591,14 @@ class screan(pygame.sprite.Sprite):
             elif event.type == MOUSEMOTION:
                 qopx,qopy=event.pos     #            popy=event.y                #print(f'mouseMove @ {popx},{popy}')
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT or event.key == ord('a'):                    print('left;')
-                if event.key == pygame.K_RIGHT or event.key == ord('d'):                    print('right;')
+                if event.key == pygame.K_LEFT or event.key == ord('a'):                  print('left;')
+                if event.key == pygame.K_RIGHT or event.key == ord('d'):                 print('right;')
                 if event.key == pygame.K_UP or event.key == ord('w'):                    print('jump;')
 
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT or event.key == ord('a'):                    print('left stop;')
-                if event.key == pygame.K_RIGHT or event.key == ord('d'):                    print('right stop;')
-                if event.key == pygame.K_UP or event.key == ord('w'):                    print('jump stop;')
+                if event.key == pygame.K_LEFT or event.key == ord('a'):                  DeckTbl=self.handleOneReverse(DeckTbl);   print('left stop;')
+                if event.key == pygame.K_RIGHT or event.key == ord('d'):                 print('right stop;')
+                if event.key == pygame.K_UP or event.key == ord('w'):                    DeckTbl=self.handleUpArrow(DeckTbl);      print('jump stop;')
 
                 if event.key == ord('q'):
                     print(PrintMoves)
@@ -591,8 +609,15 @@ class screan(pygame.sprite.Sprite):
         self.FramePerSec.tick(self.FPS)
         return DeckTbl,running,InitGame
            # pygame.quit()
-    def handleDoubleClick(self,DeckTbl,event,Decl):
+    def handleOneReverse(self,DeckTbl):
+        print(f"{self.ReverseDeck=}")
+        while DeckTbl==self.ReverseDeck[len(self.ReverseDeck) - 1] and len(self.ReverseDeck)>1:
+            self.ForwardDeck.append(self.ReverseDeck.pop())
+        else:
+            DeckTbl=self.ReverseDeck.pop()
+        return DeckTbl
 
+    def handleDoubleClick(self,DeckTbl,event,Decl):
         ropx,ropy=event.pos
         self.BeginPos = (ropx,ropy)
         self.rhit=ropx
@@ -618,8 +643,10 @@ class screan(pygame.sprite.Sprite):
             self.Status_Text, Decl.DestryDiscard(Discard,DeckTbl)
             DeckTbl = Decl.CheckDiscard(DeckTbl)   
             DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
+            self.StowReverseDeck(DeckTbl)
             return self.Status_Text, DeckTbl
         else:
+            self.StowReverseDeck(DeckTbl)
             return self.Status_Text, Decl.DestryDiscard(Discard,DeckTbl)
         #if CardBegy       
     def handleMouseDown(self,DeckTbl,event,Decl):#,DeckTbl,shit,ship,Decl):
@@ -645,6 +672,10 @@ class screan(pygame.sprite.Sprite):
         else: 
             self.timerA = 0
             return
+    def handleUpArrow(self,DeckTbl):
+        DeckTbl=self.OrigDeck
+        DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
+        return DeckTbl
     def handleMouseUp(self,DeckTbl,popx,popy,event,Decl):
         opox,opoy = event.pos
         but1=event.button
@@ -679,13 +710,13 @@ class screan(pygame.sprite.Sprite):
                 else:
                     DeckTbl = Decl.CheckDiscard(DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
                     DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
-            
+                    self.StowReverseDeck(DeckTbl)            
 #Deck=deck(DeckTable,Discard,SCREEN)
 DeclTbl=[]
 Decl=deck(DeckTable)
 
 screen=screan(Decl.DeckTbl)
-
+screen.OriginalDeck=Decl.DeckTbl
 print(f"{type(screen)=}, {DeckTable=}, {Decl.DeckTbl=}, {col0=}")
 DeclTbl.append(col0);       DeclTbl.append(col1)
 DeclTbl.append(col2);       DeclTbl.append(col3)
@@ -702,9 +733,15 @@ while running:
         DeckTbl,screen.Status_Text,screen.SCREEN = screen.fillScreen(Decl.DeckTbl,screen.Status_Text,screen.SCREEN)
         DeckTbl=Decl.DeckTbl
     pygame.display.update()
+   #ForwardDeck,ReverseDeck,DeckTbl,running,InitGame=screen.handleEvent(ForwardDeck,ReverseDeck,DeckTbl,running,InitGame)
     DeckTbl,running,InitGame=screen.handleEvent(DeckTbl,running,InitGame)
     screen.FramePerSec.tick(screen.FPS)
                 #TODO: put Discard at top of page b) merge Discard into DeckTbl
+pathout=f"C:/Users/Brice/source/Resources/Python/fclassedv00012outD.txt"
+with open(pathout, 'w') as myfile:  
+    #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
+    myfile.write(str(screen.rd))
+            
 pygame.quit()
         # for jck in range(XCardSlots):
         #     for kck in range(len(DeckTbl[jck])):
