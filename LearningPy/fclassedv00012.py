@@ -31,6 +31,38 @@ PrintMoves = []
 col0=[0];        col1=[0];        col2=[0];        col3=[0];   #SO FAR so good 
 col4=[0];        col5=[0];        col6=[0];        col7=[0]    #TODO:ADD 8 ZEROS to below
 DeckTable=[]#[7, 34, 41, 40, 42, 33, 8], [38, 20, 28, 24, 17, 49, 37], [44, 47, 6, 31, 2, 21, 26], [29, 27, 14, 1, 50, 15, 4], [12, 13, 32, 22, 30, 11], [52, 10, 23, 25, 46, 9], [48, 5, 51, 35, 36, 3], [18, 43, 19, 45, 39, 16]]
+class back2theFuture:
+    def __init__(self,DeckTbl):
+        self.DeckTbl = DeckTbl
+        self.OrigDeck=DeckTbl
+        self.rd=[]
+        self.fd=[]
+        self.ForwardDecc=[]
+        self.ReverseDecc=[]
+        self.AppendDeck(DeckTbl)
+    def AppendDeck(self,DeckTbl):
+        self.ReverseDecc.append(DeckTbl)
+        self.rd+=DeckTbl
+        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeccF.txt"
+        with open(pathReverse, 'a') as Reversefile:      #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
+            Reversefile.writelines(f"{str(DeckTbl)};\n")
+
+        rich=0
+        if len(self.ReverseDecc) % 20 == 0 or rich <20:
+            print(f"{self.rd=}   {self.ReverseDecc=}")
+            rich+=1
+    def ReverseOneStep(self,DeckTbl):
+        print(f"{self.ReverseDecc=}")
+        while DeckTbl==self.ReverseDecc[len(self.ReverseDecc) - 1] and len(self.ReverseDecc)>1:
+            self.ForwardDecc.append(self.ReverseDecc.pop())
+        else:
+            DeckTbl=self.ReverseDecc.pop()
+        return DeckTbl
+    def handleUpArrow(self,DeckTbl,screeny):
+        DeckTbl=self.OrigDeck
+        DeckTbl,screeny.Status_Text,screeny.SCREEN = screeny.fillScreen(DeckTbl,screeny.Status_Text,screeny.SCREEN)
+        return DeckTbl
+    
 class deck:
     
     def __init__(self, cards):
@@ -553,12 +585,11 @@ class screan(pygame.sprite.Sprite):
         return DeckTbl,Status_Text,SCREEN 
 
     def StowReverseDeck(self, DeckTbl):
-        self.ReverseDeck.append(DeckTbl)
-        self.rd+=DeckTbl
-        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeckA.txt"
+        self.ReverseDeck.append(DeckTbl.copy())
+        self.rd+=DeckTbl.copy()
+        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeckF.txt"
         with open(pathReverse, 'a') as Reversefile:      #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
-            Reversefile.writelines(str(DeckTbl))
-
+            Reversefile.writelines(f"{str(DeckTbl)}\n")
         rich=0
         if len(self.ReverseDeck) % 20 == 0 or rich <20:
             print(f"{self.rd=}   {self.ReverseDeck=}")
@@ -567,7 +598,7 @@ class screan(pygame.sprite.Sprite):
         self.scrn = SCREEN
         xxx, yyy = self.scrn.get_size()
         return xxx,yyy,SCREEN
-    def handleEvent(self,DeckTbl,running,InitGame):
+    def handleEvent(self,DeckTbl,running,InitGame,reverseforward):
         #self.Double
         if not InitGame:
             InitGame=True       #SCREEN = pygame.display.set_mode(width,height)
@@ -591,14 +622,20 @@ class screan(pygame.sprite.Sprite):
             elif event.type == MOUSEMOTION:
                 qopx,qopy=event.pos     #            popy=event.y                #print(f'mouseMove @ {popx},{popy}')
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT or event.key == ord('a'):                  print('left;')
-                if event.key == pygame.K_RIGHT or event.key == ord('d'):                 print('right;')
-                if event.key == pygame.K_UP or event.key == ord('w'):                    print('jump;')
+                if event.key == pygame.K_LEFT or event.key == ord('a'):   
+                    print('left;')
+                if event.key == pygame.K_RIGHT or event.key == ord('d'):     
+                    print('right;')
+                if event.key == pygame.K_UP or event.key == ord('w'):        
+                    print('jump;')
 
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT or event.key == ord('a'):                  DeckTbl=self.handleOneReverse(DeckTbl);   print('left stop;')
-                if event.key == pygame.K_RIGHT or event.key == ord('d'):                 print('right stop;')
-                if event.key == pygame.K_UP or event.key == ord('w'):                    DeckTbl=self.handleUpArrow(DeckTbl);      print('jump stop;')
+                if event.key == pygame.K_LEFT or event.key == ord('a'):                  
+                    DeckTbl=reverseforward.ReverseOneStep(DeckTbl);   print('left stop;')
+                if event.key == pygame.K_RIGHT or event.key == ord('d'):                 
+                    print('right stop;')
+                if event.key == pygame.K_UP or event.key == ord('w'):                    
+                    DeckTbl=reverseforward.handleUpArrow(DeckTbl,self);      print('jump stop;')
 
                 if event.key == ord('q'):
                     print(PrintMoves)
@@ -607,15 +644,15 @@ class screan(pygame.sprite.Sprite):
                     #sys.exit()
 
         self.FramePerSec.tick(self.FPS)
-        return DeckTbl,running,InitGame
+        return DeckTbl,running,InitGame,reverseforward
            # pygame.quit()
-    def handleOneReverse(self,DeckTbl):
-        print(f"{self.ReverseDeck=}")
-        while DeckTbl==self.ReverseDeck[len(self.ReverseDeck) - 1] and len(self.ReverseDeck)>1:
-            self.ForwardDeck.append(self.ReverseDeck.pop())
-        else:
-            DeckTbl=self.ReverseDeck.pop()
-        return DeckTbl
+    #def handleOneReverse(self,DeckTbl,reverseforward):
+    #    print(f"{self.ReverseDeck=}")
+    #    while DeckTbl==self.ReverseDeck[len(self.ReverseDeck) - 1] and len(self.ReverseDeck)>1:
+    #        self.ForwardDeck.append(self.ReverseDeck.pop())
+    #    else:
+    #        DeckTbl=self.ReverseDeck.pop()
+    #    return DeckTbl
 
     def handleDoubleClick(self,DeckTbl,event,Decl):
         ropx,ropy=event.pos
@@ -672,10 +709,6 @@ class screan(pygame.sprite.Sprite):
         else: 
             self.timerA = 0
             return
-    def handleUpArrow(self,DeckTbl):
-        DeckTbl=self.OrigDeck
-        DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
-        return DeckTbl
     def handleMouseUp(self,DeckTbl,popx,popy,event,Decl):
         opox,opoy = event.pos
         but1=event.button
@@ -717,6 +750,7 @@ Decl=deck(DeckTable)
 
 screen=screan(Decl.DeckTbl)
 screen.OriginalDeck=Decl.DeckTbl
+reverseforward=back2theFuture(Decl.DeckTbl)
 print(f"{type(screen)=}, {DeckTable=}, {Decl.DeckTbl=}, {col0=}")
 DeclTbl.append(col0);       DeclTbl.append(col1)
 DeclTbl.append(col2);       DeclTbl.append(col3)
@@ -734,10 +768,10 @@ while running:
         DeckTbl=Decl.DeckTbl
     pygame.display.update()
    #ForwardDeck,ReverseDeck,DeckTbl,running,InitGame=screen.handleEvent(ForwardDeck,ReverseDeck,DeckTbl,running,InitGame)
-    DeckTbl,running,InitGame=screen.handleEvent(DeckTbl,running,InitGame)
+    DeckTbl,running,InitGame,reverseforward=screen.handleEvent(DeckTbl,running,InitGame,reverseforward)
     screen.FramePerSec.tick(screen.FPS)
                 #TODO: put Discard at top of page b) merge Discard into DeckTbl
-pathout=f"C:/Users/Brice/source/Resources/Python/fclassedv00012outD.txt"
+pathout=f"C:/Users/Brice/source/Resources/Python/fclassedv00012outI.txt"
 with open(pathout, 'w') as myfile:  
     #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
     myfile.write(str(screen.rd))
