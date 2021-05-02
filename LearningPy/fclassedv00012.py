@@ -131,7 +131,7 @@ class back2theFuture:
         if ddck!=DeckTbl or len(ReverseDecc):
             self.ReverseDecc.append(DeckTbl)
         self.rd=self.rd.copy()+DeckTbl
-        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeccG.txt"
+        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeccH.txt"
         with open(pathReverse, 'a') as Reversefile:      #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
             Reversefile.writelines(f"{str(DeckTbl)};\n")
 
@@ -674,7 +674,7 @@ class screan(pygame.sprite.Sprite):
     def StowReverseDeck(self, DeckTbl,bogo):
         self.ReverseDeck.append(DeckTbl.copy())
         self.rd+=DeckTbl.copy()
-        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeckG.txt"
+        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeckH.txt"
         with open(pathReverse, 'a') as Reversefile:      #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
             Reversefile.writelines(f"{str(DeckTbl)}\n")
         rich=0
@@ -866,7 +866,7 @@ while running:
     DeckTbl,running,InitGame,reverseforward=screen.handleEvent(DeckTbl,running,InitGame,reverseforward,bogo)
     screen.FramePerSec.tick(screen.FPS)
                 #TODO: put Discard at top of page b) merge Discard into DeckTbl
-pathout=f"C:/Users/Brice/source/Resources/Python/fclassedv00012outJ.txt"
+pathout=f"C:/Users/Brice/source/Resources/Python/fclassedv00012ouH.txt"
 with open(pathout, 'w') as myfile:  
     #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
     myfile.write(str(screen.rd))
