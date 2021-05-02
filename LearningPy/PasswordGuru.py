@@ -1,6 +1,8 @@
 from collections import namedtuple
 import itertools
 import json
+from os import X_OK
+from typing import Collection
 
 from pygame import key
 
@@ -420,8 +422,25 @@ class ThetimeitmoduleA:
     # • "==" evaluates to True if the objects #   referred to by the variables are equal
 import contextlib
 
-def myfunc(a, b):
+def myfunc(a: int, b:int) -> int:
     return a + b
+
+def dispatch_if(operator: str, x: int, y: int) -> int:
+    if   operator == 'add':  return x + y
+    elif operator == 'sub':  return x - y
+    elif operator == 'mul':  return x * y
+    elif operator == 'div':  return x / y
+    else:                    return None
+
+
+def dispatch_dict(operator: str, x: int, y: int) -> int:
+    return {
+            'add': lambda: x + y,
+            'sub': lambda: x - y,
+            'mul': lambda: x * y,
+            'div': lambda: x / y,
+            }.get(operator, lambda: None)()
+
 
 @contextlib.contextmanager
 def file_hanlder(file_name,file_mode):
@@ -443,3 +462,33 @@ if __name__ == "__main__":
     #<function myfunc at 0x107012230>
     funcs[0](2, 3)
     #5
+    age = 15
+    print((lambda: 'kid', 'lambda: adult')[age > 20]())    #kid
+    # Python's list comprehensions are awesome.
+         # Example:
+    even_squares = [x * x for x in range(10) if not x % 2]
+    print(even_squares)        #[0, 4, 16, 36, 64]
+    value=0;x=0
+    expression=x * x
+    collection=range(10)
+    condition=not x % 2
+    vals = [expression         for value in collection         if condition]
+    # This is equivalent to:
+    vals = []
+    for value in collection:
+        if condition:            vals.append(expression)
+    # Python has a HTTP server built into the standard library. 
+    # #This is super handy for previewing websites.
+    # Python 3.x   $ python3 -m http.server    # Python 2.x    $ python -m SimpleHTTPServer 8000
+    # (This will serve the current directory at http://localhost:8000)
+    # Because Python has first-class functions they can
+    # be used to emulate switch/case statements
+    dispatch_if('mul', 2, 8)        #16
+    dispatch_dict('mul', 2, 8)      #16
+    dispatch_if('unknown', 2, 8)    #None
+    dispatch_dict('unknown', 2, 8)  #None
+    # Python 3.5+ supports 'type annotations' that can be
+    # used with tools like Mypy to write statically typed Python:
+
+def my_add(a: int, b: int) -> int:
+    return a + b

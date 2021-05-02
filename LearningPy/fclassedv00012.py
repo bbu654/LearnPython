@@ -1,4 +1,5 @@
-import pygame, sys, random, statistics, os
+from sqlite3.dbapi2 import Connection, connect
+import pygame, sys, random, sqlite3,statistics, os
 from pygame.joystick import get_count
 from pygame.locals import *
 from collections import namedtuple
@@ -16,7 +17,7 @@ ReverseDeck=[]
 ForwardDeck=[]
 PopTbl  = [[0],[0],[0],[0],[0],[0],[0],[0]]
 XPOS = [12, 236, 460, 684, 908, 1132, 1356, 1580]
-YPOS = [0, 70, 130, 200, 270, 340, 410, 480, 550,620,690,760,830,900];  DPOS = 69; EPOS=1804
+YPOS = [0, 60, 120, 180, 240, 300, 360, 420, 480, 540, 600, 660, 720, 780, 840, 900];  DPOS = 59; EPOS=1804
 #      no zero, ace   2h
 Magic1 = (0,0,29,30,31,32,33,34,35,36,37,38,39,0,0,29,30,31,32,33,34,35,36,37,38,39,0,0, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,0,0, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,0)
 Magic2 = (0,0,42,43,44,45,46,47,48,49,50,51,52,0,0,42,43,44,45,46,47,48,49,50,51,52,0,0,16,17,18,19,20,21,22,23,24,25,26,0,0,16,17,18,19,20,21,22,23,24,25,26,0)
@@ -31,19 +32,106 @@ PrintMoves = []
 col0=[0];        col1=[0];        col2=[0];        col3=[0];   #SO FAR so good 
 col4=[0];        col5=[0];        col6=[0];        col7=[0]    #TODO:ADD 8 ZEROS to below
 DeckTable=[]#[7, 34, 41, 40, 42, 33, 8], [38, 20, 28, 24, 17, 49, 37], [44, 47, 6, 31, 2, 21, 26], [29, 27, 14, 1, 50, 15, 4], [12, 13, 32, 22, 30, 11], [52, 10, 23, 25, 46, 9], [48, 5, 51, 35, 36, 3], [18, 43, 19, 45, 39, 16]]
+class sqlite4code:
+    def __init__(self,DeckTbl):
+        self.DeckTbl=DeckTbl
+        self.sqlpath=f"C:/Users/Brice/source/Resources/Python/freecell.db"
+        self.connection = sqlite3.connect(self.sqlpath)        #You can also supply the special name :memory: to create a database in RAM.
+        #Once you have a Connection, you can create a Cursor object and call its execute() method to perform SQL commands:
+        self.deckNum=random.randrange(99999999999)
+        self.cursor = self.connection.cursor()
+        self.dbtableName='deck'# Create table
+        self.rowNum=0
+        #get the count of tables with the name
+        self.cursor.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='deck' ''')
+
+        #if the count is 1, then table exists
+        if self.cursor.fetchone()[0]==1 : 
+        	print(f'Table {self.dbtableName} exists. KEY={self.deckNum}')        
+        else:
+            self.strexec=f'CREATE TABLE {self.dbtableName} (deckNum int, rowNum int, col0 text, col1 text, col2 text, col3 text, col4 text, col5 text, col6 text, col7 text)'
+            self.cursor.execute(self.strexec)
+        
+    def savedb(self):
+        # Save (commit) the changes
+        self.connection.commit()
+    def closedb(self):
+        # We can also close the connection if we are done with it.    # Just be sure any changes have been committed or they will be lost.
+        self.connection.close()				#The data you’ve saved is persistent and is available in subsequent sessions:
+
+    def storedb(self,DeckTbl):        # Insert a row of data
+        self.strdeck=""
+        self.PreviousCount=1
+        self.CurrentRow=0
+        self.listdeck=[]
+        for coll in range(XCardSlots):
+            for roww in range(len(DeckTbl[coll])):
+                if DeckTbl[coll][roww] < 10:    
+                    self.strdeck+=str(0)
+                self.strdeck+=str(DeckTbl[coll][roww])
+            else:
+                self.listdeck.append(self.strdeck); self.strdeck=""
+        self.strdeck=""
+        for echo in range(XCardSlots-1):
+            self.strdeck+=f"'{self.listdeck[echo]}',"
+        else:
+            self.strdeck+=f"'{self.listdeck[XCardSlots-1]}'"    
+        self.strInsert=f'INSERT INTO {self.dbtableName} VALUES ({self.deckNum},{self.rowNum},{self.strdeck})'
+        self.cursor.execute(self.strInsert)
+        self.rowNum+=1
+    def getPreviousDT(self):
+        if self.rowNum > 0:
+            try:
+                self.strDelete1=f"DELETE FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum = {self.rowNum}; "
+                self.cursor.execute(self.strDelete1)
+                self.rowNum -= 1    
+                self.strSelect=f"SELECT * FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum = {self.rowNum}; "
+                self.cursor.execute(self.strSelect)
+                self.result = self.cursor.fetchone()
+                #if self.rowNum - self.PreviousCount > 0:
+                #    self.CurrentRow=self.rowNum - self.PreviousCount
+                #    self.strSelect=f"SELECT * FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum = {self.CurrentRow}; "
+                self.PreviousCount += 1
+                self.DeckTblReversed=[]; lenofint=2
+                print(f"{self.result=}")
+                for deco,echo in enumerate(self.result):
+                    if deco > 1:                
+                        jj=[];                  #chunk size                        
+                        chunks = [echo[i:i+lenofint] for i in range(0, len(echo), lenofint)]#print(chunks)
+                        for feco in chunks:    jj.append(int(feco))    
+                        else:   print(f"jj={jj}"); self.DeckTblReversed.append(jj)
+                        #self.DeckTblReversed.append(int(echo[i:i+lenofint]) for i in range(0, len(self.result[deco]), lenofint))            
+
+            except sqlite3.Error as ex:
+                print(f"{ex=}")
+        return self.DeckTblReversed
+    def cleanUpdb(self):
+        #for dele in range(self.rowNum,2,-1):
+        self.strDelete=f"DELETE FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum > 1 "
+        self.cursor.execute(self.strDelete)
+        self.savedb()
+        self.closedb()
 class back2theFuture:
     def __init__(self,DeckTbl):
         self.DeckTbl = DeckTbl
         self.OrigDeck=DeckTbl
         self.rd=[]
-        self.fd=[]
+        self.fd=[]        
         self.ForwardDecc=[]
         self.ReverseDecc=[]
-        self.AppendDeck(DeckTbl)
-    def AppendDeck(self,DeckTbl):
-        self.ReverseDecc.append(DeckTbl)
-        self.rd+=DeckTbl
-        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeccF.txt"
+        ReverseHistory=[]
+        ForwardHistory=[]
+        self.NumOfBackwards=0
+        self.ReverseDecc=self.AppendDeck(DeckTbl,self.ReverseDecc)
+    def AppendDeck(self,DeckTbl,ReverseDecc):
+        ddck=DeckTbl
+        if len(ReverseDecc) > 0:
+            for decc in ReverseDecc:
+                self.ReverseDecc.append(decc); ddck=decc
+        if ddck!=DeckTbl or len(ReverseDecc):
+            self.ReverseDecc.append(DeckTbl)
+        self.rd=self.rd.copy()+DeckTbl
+        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeccG.txt"
         with open(pathReverse, 'a') as Reversefile:      #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
             Reversefile.writelines(f"{str(DeckTbl)};\n")
 
@@ -51,14 +139,22 @@ class back2theFuture:
         if len(self.ReverseDecc) % 20 == 0 or rich <20:
             print(f"{self.rd=}   {self.ReverseDecc=}")
             rich+=1
-    def ReverseOneStep(self,DeckTbl):
-        print(f"{self.ReverseDecc=}")
-        while DeckTbl==self.ReverseDecc[len(self.ReverseDecc) - 1] and len(self.ReverseDecc)>1:
-            self.ForwardDecc.append(self.ReverseDecc.pop())
-        else:
-            DeckTbl=self.ReverseDecc.pop()
+        return self.ReverseDecc
+    def ReverseOneStep(self,DeckTbl,bogo):
+        DeckTbl=bogo.getPreviousDT()
+        #pathReverses=f"C:/Users/Brice/source/Resources/Python/fcReverseDeckG.txt"
+        #self.ReverseDecc=[]
+        #with open(pathReverses) as Reversefile:
+        #    for line in Reversefile:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
+        #        self.ReverseDecc.append(line.rstrip())
+        #print(f"{self.ReverseDecc=}")
+        #while DeckTbl==self.ReverseDecc[len(self.ReverseDecc) - 1] and len(self.ReverseDecc)>1:
+        #    self.ForwardDecc.append(self.ReverseDecc.pop())
+        #else:       #0=-1   1=-2    2=-3
+        #    Fwdindex=(self.NumOfBackwards*-1)-1;print(f"{Fwdindex=}")
+        #    DeckTbl=self.ReverseDecc[Fwdindex]; self.NumOfBackwards+=1
         return DeckTbl
-    def handleUpArrow(self,DeckTbl,screeny):
+    def handleUpArrow(self,DeckTbl,screeny,bogo):
         DeckTbl=self.OrigDeck
         DeckTbl,screeny.Status_Text,screeny.SCREEN = screeny.fillScreen(DeckTbl,screeny.Status_Text,screeny.SCREEN)
         return DeckTbl
@@ -152,6 +248,7 @@ class deck:
         return Discard,DeckTbl
     def DestryDiscard(self,Discard,DeckTbl):
         for jin in range(XCardSlots):
+            if DeckTbl[jin]==[]:    DeckTbl[jin].append(0)
             DeckTbl[jin].insert(0, Discard[jin])    #            tmp=DeckTbl[jin]            DeckTbl[jin]=Discard[jin]            DeckTbl[jin].append(tmp)
         return DeckTbl
     def CheckDiscard(self,DeckTbl):   #,col0,col1,col2,col3,col4,col5,col6,col7):    
@@ -174,6 +271,8 @@ class deck:
         MinDiscard = sum(fvDiscard)/(len(fvDiscard) - numofzerosinDiscard)
         if MinDiscard < 3:
             MinDiscard=2                #    MinDiscard=statistics.mean(fvDiscard)
+        else:
+            MinDiscard -=1
         #check each colx[lengthcolx]==Discard[4-7]+1 if Discard[4-7] >0     #TODO: checkk if Discard[sub] > 0
         for sub in range(4,8):
             for gog in range(XCardSlots):                                            #gog is 0 thru 7  is colx
@@ -417,7 +516,6 @@ class deck:
 
         lastCardInCol = len(XPOS) - 1
         lastCardInRow = len(YPOS) - 1
-
         for xsub in range(lastCardInCol):
             if bosco > XPOS[xsub] and bosco <=XPOS[xsub + 1]:
                 CardBegx=xsub
@@ -431,6 +529,8 @@ class deck:
                 break
         else:
             CardBegy=min(lastCardInRow, len(DeckTbl[CardBegx])-1)
+        cardbegy1=min(len(DeckTbl[CardBegx])-1,(joseph//(YPOS[1]-YPOS[0])))
+        if cardbegy1!=CardBegy: print(f"cardbegy1!=CardBegy{cardbegy1!=CardBegy}, {cardbegy1}!={CardBegy}")
         for xsub in range(lastCardInCol):
             if endax > XPOS[xsub] and endax <=XPOS[xsub + 1]:
                 CardEndx=xsub
@@ -497,7 +597,7 @@ class screan(pygame.sprite.Sprite):
         self.OrigDeck=DeckTbl
         self.Begpos = namedtuple('BeginPos',['beginx','beginy'])   
         self.Enditp = namedtuple('EndPos',['endx','endy'])         
-        self.BLUE  = (0, 0, 255)
+        self.BLUE  = (0, 0, 255)    #COLORS
         self.RED   = (255, 0, 0)
         self.GREEN = (0, 255, 0)
         self.BLACK = (0, 0, 0)
@@ -507,6 +607,7 @@ class screan(pygame.sprite.Sprite):
         self.input_box = pygame.Rect(40, 800, 140, 32)   
         self.ReverseDeck = []
         self.ForwardDeck = []
+        self.BackwardsTimes = 0
         #    Rect(left, top, width, height) -> Rect   
         #    clock = pg.time.Clock()        self.deck = d
         self.Status_Text=""
@@ -524,8 +625,9 @@ class screan(pygame.sprite.Sprite):
         self.card_height=292
         self.width = 1860
         self.height =1000    
+        self.GSize= self.width, self.height
         self.pathrb=f'C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/'
-        self.SCREEN = pygame.display.set_mode((self.width,self.height))        
+        self.SCREEN = pygame.display.set_mode(self.GSize)        
         #TODO: ADD SCREEN Logic fill screen,event handling ect blit flip ect
         self.SCREEN.fill(self.WHITE)        #        Status_Text=""
         #self.Deck = deck(DeckTable,self.SCREEN)
@@ -543,34 +645,19 @@ class screan(pygame.sprite.Sprite):
             pygame.draw.line(self.SCREEN, self.RED, (XPOS[0],DPOS), (EPOS,DPOS))
             xxx,yyy,SCREEN = self.getScreenSize(SCREEN)
             print(f"{xxx=}, {yyy=}, {SCREEN=}")    #xxx=1860, yyy=1000, SCREEN=<Surface(1860x1000x32 SW)>
-            #if didyouwin:    #Moved to a function            #    self.Status_Text = "Congratulations! You Win!"
-            #    self.txt_surface = self.font.render(self.Status_Text, True, self.BLACK)                 # Resize the box if the text is too long.
-            #    self.tsWidth = max(200, self.txt_surface.get_width()+10)            #    self.input_box.w = self.tsWidth                                                 # Blit the text.
-            #    self.SCREEN.blit(self.txt_surface, (self.input_box.x+5, self.input_box.y+5))       # Blit the input_box rect.
-            #    pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)            #    lit1=f"{pathrb}{str(53)}.png"            #    PenguinImage = pygame.image.load(lit1).convert()                 
-            #    for lous in range(8):            #        self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[0]))
-            #else:
-            #    Discard,DeckTbl = self.CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
-            #for g,h in enumerate(Discard):
-            #    lit1=f"{pathrb}{str(h)}.png";    IsThereADiscard = True;    #    PenguinImage = pygame.image.load(lit1).convert()    #    self.SCREEN.blit(PenguinImage, (XPOS[g],1))  
-            
+            #if didyouwin:    #Moved to a function            #    self.Status_Text = "Congratulations! You Win!"            #    self.txt_surface = self.font.render(self.Status_Text, True, self.BLACK)                 # Resize the box if the text is too long.            #    self.tsWidth = max(200, self.txt_surface.get_width()+10)            #    self.input_box.w = self.tsWidth                                                 # Blit the text.            #    self.SCREEN.blit(self.txt_surface, (self.input_box.x+5, self.input_box.y+5))       # Blit the input_box rect.            #    pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)            #    lit1=f"{pathrb}{str(53)}.png"            #    PenguinImage = pygame.image.load(lit1).convert()                             #    for lous in range(8):            #        self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[0]))            #else:            #    Discard,DeckTbl = self.CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)            #for g,h in enumerate(Discard):            #    lit1=f"{pathrb}{str(h)}.png";    IsThereADiscard = True;    #    PenguinImage = pygame.image.load(lit1).convert()    #    self.SCREEN.blit(PenguinImage, (XPOS[g],1))  
             for lick in range(8):
                 for bick in range(len(DeckTbl[lick])):
                     #if DeckTbl[lick][bick] == 0:                    #    lit1=f"{pathrb}{str(53)}.png"                    #else:
                     lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(DeckTbl[lick][bick])}.png"
                     PenguinImage = pygame.image.load(lit1).convert()                 
-                    if bick ==len(DeckTbl[lick]) - 1 and DeckTbl[lick][bick]  in aces:
-                        countofAcesSkipped +=1
+                    #if bick ==len(DeckTbl[lick]) - 1 and DeckTbl[lick][bick]  in aces:                    #    countofAcesSkipped +=1                    #else:                        #CurrentBick=bick       
+                    LastYPOS=len(YPOS)-1
+                    if bick > LastYPOS:
+                        CurrentBick+=YPOS[LastYPOS]+(SpaceBetweenCardY*(bick - LastYPOS))#+SpaceBetweenCardY)
+                        self.SCREEN.blit(PenguinImage, (XPOS[lick],CurrentBick))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
                     else:
-                        #CurrentBick=bick       
-                        LastYPOS=len(YPOS)-1
-                        if bick > LastYPOS:
-                            CurrentBick+=YPOS[LastYPOS]+(SpaceBetweenCardY*(bick - LastYPOS))#+SpaceBetweenCardY)
-                            self.SCREEN.blit(PenguinImage, (XPOS[lick],CurrentBick))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
-                        else:
-                            self.SCREEN.blit(PenguinImage, (XPOS[lick],YPOS[bick]))
-            print(f"countofAcesSkipped={countofAcesSkipped}")
-            #Discard,DeckTbl = CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
+                        self.SCREEN.blit(PenguinImage, (XPOS[lick],YPOS[bick]))            #print(f"countofAcesSkipped={countofAcesSkipped}")            #Discard,DeckTbl = CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
             running = True 
             IsThereADiscard = False
             pygame.display.flip() # paint screen one time
@@ -584,21 +671,22 @@ class screan(pygame.sprite.Sprite):
         
         return DeckTbl,Status_Text,SCREEN 
 
-    def StowReverseDeck(self, DeckTbl):
+    def StowReverseDeck(self, DeckTbl,bogo):
         self.ReverseDeck.append(DeckTbl.copy())
         self.rd+=DeckTbl.copy()
-        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeckF.txt"
+        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeckG.txt"
         with open(pathReverse, 'a') as Reversefile:      #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
             Reversefile.writelines(f"{str(DeckTbl)}\n")
         rich=0
         if len(self.ReverseDeck) % 20 == 0 or rich <20:
             print(f"{self.rd=}   {self.ReverseDeck=}")
             rich+=1
+        bogo.storedb(DeckTbl)
     def getScreenSize(self,SCREEN):
         self.scrn = SCREEN
         xxx, yyy = self.scrn.get_size()
         return xxx,yyy,SCREEN
-    def handleEvent(self,DeckTbl,running,InitGame,reverseforward):
+    def handleEvent(self,DeckTbl,running,InitGame,reverseforward,bogo):
         #self.Double
         if not InitGame:
             InitGame=True       #SCREEN = pygame.display.set_mode(width,height)
@@ -611,14 +699,11 @@ class screan(pygame.sprite.Sprite):
             if event.type == QUIT:
                 print(PrintMoves);          self.running = False;           sys.exit()
             elif event.type == self.DoubleClickEvent:
-                pygame.time.set_timer(self.DoubleClickEvent, 0)
-                self.timerA = 0
-                print( "evt = dble click")
-               #self.Status_Text, DeckTbl=self.handleDoubleClick(DeckTbl,event,Decl)
+                pygame.time.set_timer(self.DoubleClickEvent, 0);    self.timerA = 0;     print( "evt = dble click")               #self.Status_Text, DeckTbl=self.handleDoubleClick(DeckTbl,event,Decl)
             elif event.type == MOUSEBUTTONDOWN:
-                self.handleMouseDown(DeckTbl,event,Decl)
+                self.handleMouseDown(DeckTbl,event,Decl,reverseforward,bogo)
             elif event.type == MOUSEBUTTONUP:
-                self.handleMouseUp(DeckTbl,self.shit,self.ship,event,Decl)                #        InitGame=True;     
+                self.handleMouseUp(DeckTbl,self.shit,self.ship,event,Decl,reverseforward,bogo)                #        InitGame=True;     
             elif event.type == MOUSEMOTION:
                 qopx,qopy=event.pos     #            popy=event.y                #print(f'mouseMove @ {popx},{popy}')
             if event.type == pygame.KEYDOWN:
@@ -631,11 +716,13 @@ class screan(pygame.sprite.Sprite):
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):                  
-                    DeckTbl=reverseforward.ReverseOneStep(DeckTbl);   print('left stop;')
+                    DeckTbl=reverseforward.ReverseOneStep(DeckTbl,bogo);   
+                    DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)        
+                    print('left stop;')
                 if event.key == pygame.K_RIGHT or event.key == ord('d'):                 
                     print('right stop;')
                 if event.key == pygame.K_UP or event.key == ord('w'):                    
-                    DeckTbl=reverseforward.handleUpArrow(DeckTbl,self);      print('jump stop;')
+                    DeckTbl=reverseforward.handleUpArrow(DeckTbl,self,bogo);      print('jump stop;')
 
                 if event.key == ord('q'):
                     print(PrintMoves)
@@ -654,7 +741,7 @@ class screan(pygame.sprite.Sprite):
     #        DeckTbl=self.ReverseDeck.pop()
     #    return DeckTbl
 
-    def handleDoubleClick(self,DeckTbl,event,Decl):
+    def handleDoubleClick(self,DeckTbl,event,Decl,reverseforward,bogo):
         ropx,ropy=event.pos
         self.BeginPos = (ropx,ropy)
         self.rhit=ropx
@@ -680,13 +767,15 @@ class screan(pygame.sprite.Sprite):
             self.Status_Text, Decl.DestryDiscard(Discard,DeckTbl)
             DeckTbl = Decl.CheckDiscard(DeckTbl)   
             DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
-            self.StowReverseDeck(DeckTbl)
+            self.StowReverseDeck(DeckTbl,bogo)
+            reverseforward.ReverseDecc=reverseforward.AppendDeck(DeckTbl,reverseforward.ReverseDecc)
             return self.Status_Text, DeckTbl
         else:
-            self.StowReverseDeck(DeckTbl)
+            self.StowReverseDeck(DeckTbl,bogo)
+            reverseforward.ReverseDecc=reverseforward.AppendDeck(DeckTbl,reverseforward.ReverseDecc)
             return self.Status_Text, Decl.DestryDiscard(Discard,DeckTbl)
         #if CardBegy       
-    def handleMouseDown(self,DeckTbl,event,Decl):#,DeckTbl,shit,ship,Decl):
+    def handleMouseDown(self,DeckTbl,event,Decl,reverseforward,bogo):#,DeckTbl,shit,ship,Decl):
         popx,popy=event.pos
         self.BeginPos = (popx,popy)
         self.shit=popx
@@ -700,7 +789,7 @@ class screan(pygame.sprite.Sprite):
             timersetA = True
         elif self.timerA == 1:
                 pygame.time.set_timer(self.DoubleClickEvent, 0)
-                self.handleDoubleClick(DeckTbl,event,Decl)
+                self.handleDoubleClick(DeckTbl,event,Decl,reverseforward,bogo)
                 timersetA =False
 
         if timersetA:
@@ -709,18 +798,16 @@ class screan(pygame.sprite.Sprite):
         else: 
             self.timerA = 0
             return
-    def handleMouseUp(self,DeckTbl,popx,popy,event,Decl):
+    def handleMouseUp(self,DeckTbl,popx,popy,event,Decl,reverseforward,bogo):
         opox,opoy = event.pos
-        but1=event.button
-        #shit=Begpos[0]
-        #ship=Begpos[1]
-        #self.oop=(shit,ship)
+        but1=event.button        #shit=Begpos[0]        #ship=Begpos[1]        #self.oop=(shit,ship)
         self.Enditp=(opox,opoy)
         countofAcesSkipped=0
         CurrentBick=0
         if but1==1:
             print(f'mous up   @ {self.Enditp[0]},{self.Enditp[1]}')
             Status_Text=""
+            print(f"{ opoy//70=}")
             returnTrue, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, self.Status_Text,self=Decl.IsValidMove(DeckTbl, popx,popy, self.Enditp,self)
             didyouwin,DeckTbl,self.SCREEN= Decl.HaveYouWon(DeckTbl,self.SCREEN)
             if self.Status_Text=="" or self.Status_Text=="Congratulations! You Win!":         #screen.fill((30, 30, 30))                      # Render the current text.
@@ -740,17 +827,25 @@ class screan(pygame.sprite.Sprite):
                     PenguinImage = pygame.image.load(lit1).convert()                 
                     for lous in range(8):
                         self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[1]))
+                    bogo.cleanUpdb()
                 else:
                     DeckTbl = Decl.CheckDiscard(DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
                     DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
-                    self.StowReverseDeck(DeckTbl)            
+                    self.StowReverseDeck(DeckTbl,bogo)    
+                    for dede in reverseforward.ReverseDecc:
+                        ReverseHistory.append(dede)        
+                    reverseforward.ReverseDecc=reverseforward.AppendDeck(DeckTbl,reverseforward.ReverseDecc)
 #Deck=deck(DeckTable,Discard,SCREEN)
 DeclTbl=[]
 Decl=deck(DeckTable)
-
+bogo=sqlite4code(Decl.DeckTbl)
 screen=screan(Decl.DeckTbl)
 screen.OriginalDeck=Decl.DeckTbl
 reverseforward=back2theFuture(Decl.DeckTbl)
+
+ReverseHistory=reverseforward.ReverseDecc
+ForwardHistory=reverseforward.ForwardDecc
+        
 print(f"{type(screen)=}, {DeckTable=}, {Decl.DeckTbl=}, {col0=}")
 DeclTbl.append(col0);       DeclTbl.append(col1)
 DeclTbl.append(col2);       DeclTbl.append(col3)
@@ -768,10 +863,10 @@ while running:
         DeckTbl=Decl.DeckTbl
     pygame.display.update()
    #ForwardDeck,ReverseDeck,DeckTbl,running,InitGame=screen.handleEvent(ForwardDeck,ReverseDeck,DeckTbl,running,InitGame)
-    DeckTbl,running,InitGame,reverseforward=screen.handleEvent(DeckTbl,running,InitGame,reverseforward)
+    DeckTbl,running,InitGame,reverseforward=screen.handleEvent(DeckTbl,running,InitGame,reverseforward,bogo)
     screen.FramePerSec.tick(screen.FPS)
                 #TODO: put Discard at top of page b) merge Discard into DeckTbl
-pathout=f"C:/Users/Brice/source/Resources/Python/fclassedv00012outI.txt"
+pathout=f"C:/Users/Brice/source/Resources/Python/fclassedv00012outJ.txt"
 with open(pathout, 'w') as myfile:  
     #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
     myfile.write(str(screen.rd))
