@@ -4,9 +4,9 @@ from pygame.joystick import get_count
 from pygame.locals import *
 from collections import namedtuple
 """ Hello, Welcome to FreeCell 2.0.
-        You must pip install pygame 
-        and make sure to update pathrb 
-        to where the Cards were copied"""
+        You must pip install pygame         and make sure to update pathrb         to where the Cards were copied
+        TODO: Move multiple cards, fix check_discard's magic number, first back doesn't do anything, cant step to start
+        TODO: Merge Magic1,2,3 into magic"""
 GlobalsForMe=[]
 
 n = 24; """#rows""";    m = 8; """#cols""";     XCardSlots = 8;    SpaceBetweenCardY=60
@@ -18,17 +18,21 @@ ForwardDeck=[]
 PopTbl  = [[0],[0],[0],[0],[0],[0],[0],[0]]
 XPOS = [12, 236, 460, 684, 908, 1132, 1356, 1580]
 YPOS = [0, 60, 120, 180, 240, 300, 360, 420, 480, 540, 600, 660, 720, 780, 840, 900];  DPOS = 59; EPOS=1804
+zYPOS=[x for x in range(0,901,60)]
 #      no zero, ace   2h
 Magic1 = (0,0,29,30,31,32,33,34,35,36,37,38,39,0,0,29,30,31,32,33,34,35,36,37,38,39,0,0, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,0,0, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,0)
 Magic2 = (0,0,42,43,44,45,46,47,48,49,50,51,52,0,0,42,43,44,45,46,47,48,49,50,51,52,0,0,16,17,18,19,20,21,22,23,24,25,26,0,0,16,17,18,19,20,21,22,23,24,25,26,0)
 Magic3 = ("Zero","Ah","2h","3h","4h","5h","6h","7h","8h","9h","Th","Jh","Qh","Kh","Ad","2d","3d","4d","5d","6d","7d","8d","9d","Td","Jd","Qd","Kd","As","2s","3s","4s","5s","6s","7s","8s","9s","Ts","Js","Qs","Ks","Ac","2c","3c","4c","5c","6c","7c","8c","9c","Tc","Jc","Qc","Kc")
-#Magic = ((0,0),(0,0),(29,42),(30,43),(31,44),(32,45),(33,46),(34,47),(35,48),(36,49),(37,50),(38,51),(39,52),(0,0),(29,42),(30,43),(31,44),(32,45),(33,46),(34,47),(35,48),(36,49),(37,50),(38,51),(39,52),(0,0),(3,16)(4,17),(5,18),(6,19),(7,20),(8,21),(9,22),(10,23),(11,24),(12,25),(13,26),(0,0),(3,16)(4,17),(5,18),(6,19),(7,20),(8,21),(9,22),(10,23),(11,24),(12,25),(13,26))
-print(f"Magic1={Magic1} And len(Magic1={len(Magic1)}")
-print(f"Magic2={Magic2} And len(Magic2={len(Magic2)}")
-
+Magic4 = ((00,00,"Ah"), (00,00,"2h"), (29,42,"3h"), (30,43,"4h"), (31,44,"5h"), (32,45,"6h"), (33,46,"7h"), (34,47,"8h"), (35,48,"9h"), (36,49,"Th"), (37,50,"Jh"), (38,51,"Qh"), (39,52,"Kh"),
+          (00,00,"Ad"), (00,00,"2d"), (29,42,"3d"), (30,43,"4d"), (31,44,"5d"), (32,45,"6d"), (33,46,"7d"), (34,47,"8d"), (35,48,"9d"), (36,49,"Td"), (37,50,"Jd"), (38,51,"Qd"), (39,52,"Kd"),
+          (00,00,"As"), (00,00,"2s"), ( 3,16,"3s"), ( 4,17,"4s"), ( 5,18,"5s"), ( 6,19,"6s"), ( 7,20,"7s"), ( 8,21,"8s"), ( 9,22,"9s"), (10,23,"Ts"), (11,24,"Js"), (12,25,"Qs"), (13,26,"Ks"),
+          (00,00,"Ac"), (00,00,"2c"), ( 3,16,"3c"), ( 4,17,"4c"), ( 5,18,"5c"), ( 6,19,"6c"), ( 7,20,"7c"), ( 8,21,"8c"), ( 9,22,"9c"), (10,23,"Tc"), (11,24,"Jc"), (12,25,"Qc"), (13,26,"Kc"))
 aces = [1,14,27,40]
 king = [13,26,39,52]
 PrintMoves = []
+PrintMoves.append(f"Magic1={Magic1=} And len(Magic1={len(Magic1)=}")
+PrintMoves.append(f"Magic2={Magic2=} And len(Magic2={len(Magic2)=}")
+PrintMoves.append(f"{zYPOS=}, {Magic4[0][2]=}")
 col0=[0];        col1=[0];        col2=[0];        col3=[0];   #SO FAR so good 
 col4=[0];        col5=[0];        col6=[0];        col7=[0]    #TODO:ADD 8 ZEROS to below
 DeckTable=[]#[7, 34, 41, 40, 42, 33, 8], [38, 20, 28, 24, 17, 49, 37], [44, 47, 6, 31, 2, 21, 26], [29, 27, 14, 1, 50, 15, 4], [12, 13, 32, 22, 30, 11], [52, 10, 23, 25, 46, 9], [48, 5, 51, 35, 36, 3], [18, 43, 19, 45, 39, 16]]
@@ -131,7 +135,7 @@ class back2theFuture:
         if ddck!=DeckTbl or len(ReverseDecc):
             self.ReverseDecc.append(DeckTbl)
         self.rd=self.rd.copy()+DeckTbl
-        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeccH.txt"
+        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeccK.txt"
         with open(pathReverse, 'a') as Reversefile:      #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
             Reversefile.writelines(f"{str(DeckTbl)};\n")
 
@@ -392,15 +396,13 @@ class deck:
         lastCardInRow = len(YPOS) - 1
         Status_Text=""
         D1scardChgd=False
-        MultipleCards=False
+
         #739, 474  This still doesnt work!!!!!!!!!!!!!!!!!!         TEST outside card area
 
         Discard=[] 
         Discard,DeckTbl=self.CreatDiscard(DeckTbl)          #       for pin in range(XCardSlots):            Discard.append(DeckTbl[pin][0])
 
-        CardBegx, CardBegy, CardEndx, CardEndy = self.getCardXY(DeckTbl, bosco, joseph, endax)
-        if CardBegy > 0 and CardBegy < len(DeckTbl[CardBegx]) - 1 :
-            MultipleCards=True
+        CardBegx, CardBegy, CardEndx, CardEndy, MultipleCards = self.getCardXY(DeckTbl, bosco, joseph, endax)
         if joseph <= DPOS:
             CardBegy=lastCardInRow+1
         if enday  <= DPOS:
@@ -513,7 +515,7 @@ class deck:
         return returnBool, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text, scrn 
 
     def getCardXY(self, DeckTbl, bosco, joseph, endax):
-
+        
         lastCardInCol = len(XPOS) - 1
         lastCardInRow = len(YPOS) - 1
         for xsub in range(lastCardInCol):
@@ -538,10 +540,18 @@ class deck:
         else:
             CardEndx=lastCardInCol
         CardEndy=len(DeckTbl[CardEndx]) - 1
-        return CardBegx,CardBegy,CardEndx,CardEndy   #Discard,deck,beginAddr,endAddr    else:        return False, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr
-
+        MultipleCards = self.CheckMultipleCards(DeckTbl,bosco,joseph,endax,CardBegx,CardBegy,CardEndx,CardEndy)
+        return CardBegx,CardBegy,CardEndx,CardEndy,MultipleCards   #Discard,deck,beginAddr,endAddr    else:        return False, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, Status_Text    #Discard,deck,beginAddr,endAddr
+    def CheckMultipleCards(self,DeckTbl,bosco,joseph,endax,CardBegx,CardBegy,CardEndx,CardEndy):
+        MultipleCards=False
+        CardBegy1=min(len(DeckTbl[CardBegx])-1,(joseph//(YPOS[1]-YPOS[0])))
+        if CardBegy1 > 0 and CardBegy1 < len(DeckTbl[CardBegx]) - 1 :
+            MultipleCards=True
+ 
+        return MultipleCards
     def MoveMultipleCards(self,Discard,DeckTbl,CardBegx, CardBegy, CardEndx, CardEndy, Status_Text):
         if CardBegy > 0: CardBegy -= 1
+        #TODO:    start at len(DeckTbl[CardBegx]-1) subtract1 until CardBegy==
         TempBegy=CardBegy
         NumofFreeDiscardZeros=Discard[0:4].count(0)
         NumofFreeDeckTblZeros=0
@@ -643,8 +653,8 @@ class screan(pygame.sprite.Sprite):
             self.SCREEN.fill(self.WHITE)
             pygame.display.set_caption("Brice's Free Cell")
             pygame.draw.line(self.SCREEN, self.RED, (XPOS[0],DPOS), (EPOS,DPOS))
-            xxx,yyy,SCREEN = self.getScreenSize(SCREEN)
-            print(f"{xxx=}, {yyy=}, {SCREEN=}")    #xxx=1860, yyy=1000, SCREEN=<Surface(1860x1000x32 SW)>
+            xxx,yyy,scrnX,scrnY,SCREEN = self.getScreenSize(SCREEN)
+            print(f"{xxx=}, {yyy=}, {scrnX=}, {scrnY=}, {SCREEN=}")    #xxx=1860, yyy=1000, SCREEN=<Surface(1860x1000x32 SW)>
             #if didyouwin:    #Moved to a function            #    self.Status_Text = "Congratulations! You Win!"            #    self.txt_surface = self.font.render(self.Status_Text, True, self.BLACK)                 # Resize the box if the text is too long.            #    self.tsWidth = max(200, self.txt_surface.get_width()+10)            #    self.input_box.w = self.tsWidth                                                 # Blit the text.            #    self.SCREEN.blit(self.txt_surface, (self.input_box.x+5, self.input_box.y+5))       # Blit the input_box rect.            #    pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)            #    lit1=f"{pathrb}{str(53)}.png"            #    PenguinImage = pygame.image.load(lit1).convert()                             #    for lous in range(8):            #        self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[0]))            #else:            #    Discard,DeckTbl = self.CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)            #for g,h in enumerate(Discard):            #    lit1=f"{pathrb}{str(h)}.png";    IsThereADiscard = True;    #    PenguinImage = pygame.image.load(lit1).convert()    #    self.SCREEN.blit(PenguinImage, (XPOS[g],1))  
             for lick in range(8):
                 for bick in range(len(DeckTbl[lick])):
@@ -674,7 +684,7 @@ class screan(pygame.sprite.Sprite):
     def StowReverseDeck(self, DeckTbl,bogo):
         self.ReverseDeck.append(DeckTbl.copy())
         self.rd+=DeckTbl.copy()
-        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeckH.txt"
+        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeckK.txt"
         with open(pathReverse, 'a') as Reversefile:      #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
             Reversefile.writelines(f"{str(DeckTbl)}\n")
         rich=0
@@ -683,9 +693,10 @@ class screan(pygame.sprite.Sprite):
             rich+=1
         bogo.storedb(DeckTbl)
     def getScreenSize(self,SCREEN):
-        self.scrn = SCREEN
+        self.scrn = SCREEN          #        listscrnsizes=pygame.display.list_modes()
+        scrnX,scrnY=max(pygame.display.list_modes())
         xxx, yyy = self.scrn.get_size()
-        return xxx,yyy,SCREEN
+        return xxx,yyy,scrnX,scrnY,SCREEN
     def handleEvent(self,DeckTbl,running,InitGame,reverseforward,bogo):
         #self.Double
         if not InitGame:
@@ -750,7 +761,7 @@ class screan(pygame.sprite.Sprite):
         Discard=[] 
         Discard,DeckTbl=Decl.CreatDiscard(DeckTbl)          #       for pin in range(XCardSlots):            Discard.append(DeckTbl[pin][0])
 
-        CardBegx, CardBegy, CardEndx, CardEndy = Decl.getCardXY(DeckTbl, ropx, ropy, ropx)
+        CardBegx, CardBegy, CardEndx, CardEndy, MultipleCards = Decl.getCardXY(DeckTbl, ropx, ropy, ropx)
         for qhit in range(4):
             if Discard[qhit]==0: 
                 Discard[qhit]=DeckTbl[CardBegx].pop(CardBegy)
@@ -866,25 +877,10 @@ while running:
     DeckTbl,running,InitGame,reverseforward=screen.handleEvent(DeckTbl,running,InitGame,reverseforward,bogo)
     screen.FramePerSec.tick(screen.FPS)
                 #TODO: put Discard at top of page b) merge Discard into DeckTbl
-pathout=f"C:/Users/Brice/source/Resources/Python/fclassedv00012ouH.txt"
+pathout=f"C:/Users/Brice/source/Resources/Python/fclassedv00012ouK.txt"
 with open(pathout, 'w') as myfile:  
     #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
     myfile.write(str(screen.rd))
             
 pygame.quit()
-        # for jck in range(XCardSlots):
-        #     for kck in range(len(DeckTbl[jck])):
-        #         j+=1
-        #         lit1=f"{pathrb}{str(DeckTbl[jck][kck])}.p ng"
-        #         if j > 43 and DeckTbl[jck][kck] in aces:
-        #             pass
-        #         else:
-        #             pimage= pygame.image.load(lit1).convert()
-        #             SCREEN.blit(lit1, (XPOS[jck],YPOS[kck]))
-#d = Dog('Fido')
-#e = Dog('Buddy')
-#d.add_trick('roll over')
-#e.add_trick('play dead')
-#print(d.tricks)                        #['roll over']
-#print(e.tricks)                        #['play dead']
-
+        # for jck in range(XCardSlots):        #     for kck in range(len(DeckTbl[jck])):        #         j+=1        #         lit1=f"{pathrb}{str(DeckTbl[jck][kck])}.p ng"        #         if j > 43 and DeckTbl[jck][kck] in aces:        #             pass        #         else:        #             pimage= pygame.image.load(lit1).convert()        #             SCREEN.blit(lit1, (XPOS[jck],YPOS[kck]))#d = Dog('Fido')#e = Dog('Buddy')#d.add_trick('roll over')#e.add_trick('play dead')#print(d.tricks)                        #['roll over']#print(e.tricks)                        #['play dead']
