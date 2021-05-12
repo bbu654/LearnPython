@@ -637,7 +637,7 @@ class screan(pygame.sprite.Sprite):
         self.timerA=timerA
         self.rd=[]
         self.fd=[]
-        self.loaditnow='A1'
+        self.loaditnow='A2'
         # Declaring namedtuple()   
         self.OrigDeck=DeckTbl
         self.Begpos = namedtuple('BeginPos',['beginx','beginy'])   
@@ -680,6 +680,7 @@ class screan(pygame.sprite.Sprite):
         
         DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
     def fillScreen(self,DeckTbl,Status_Text,SCREEN):
+        self.Status_Text=Status_Text
         Status_Text="";     countofAcesSkipped=0;       CurrentBick=0
         #returnTrue, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, self.Status_Text=Deck.IsVal idMove(Discard, DeckTbl, self.Begpos, self.Enditp)
         #didyouwin,self.SCREEN= self.Have YouWon(Discard,DeckTbl,self.SCREEN)
@@ -714,7 +715,7 @@ class screan(pygame.sprite.Sprite):
             self.SCREEN.blit(self.txt_surface, (self.input_box.x+5, self.input_box.y+5))       # Blit the input_box rect.
             pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)
         
-        return DeckTbl,Status_Text,SCREEN 
+        return DeckTbl,self.Status_Text,self.SCREEN 
 
     def StowReverseDeck(self, DeckTbl,bogo):
         self.ReverseDeck.append(DeckTbl.copy())
@@ -818,7 +819,7 @@ class screan(pygame.sprite.Sprite):
             return self.Status_Text, DeckTbl
         else:
             self.StowReverseDeck(DeckTbl,bogo)
-            reverseforward.ReverseDecc=reverseforward.AppendDeck(DeckTbl,reverseforward.ReverseDecc)
+            reverseforward.ReverseDecc=reverseforward.AppendDeck(DeckTbl,reverseforward.ReverseDecc,self.loaditnow)
             return self.Status_Text, Decl.DestryDiscard(Discard,DeckTbl)
         #if CardBegy       
     def handleMouseDown(self,DeckTbl,event,Decl,reverseforward,bogo):#,DeckTbl,shit,ship,Decl):
