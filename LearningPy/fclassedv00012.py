@@ -23,7 +23,8 @@ zYPOS=[x for x in range(0,901,60)]
 Magic1 = (0,0,29,30,31,32,33,34,35,36,37,38,39,0,0,29,30,31,32,33,34,35,36,37,38,39,0,0, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,0,0, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,0)
 Magic2 = (0,0,42,43,44,45,46,47,48,49,50,51,52,0,0,42,43,44,45,46,47,48,49,50,51,52,0,0,16,17,18,19,20,21,22,23,24,25,26,0,0,16,17,18,19,20,21,22,23,24,25,26,0)
 Magic3 = ("Zero","Ah","2h","3h","4h","5h","6h","7h","8h","9h","Th","Jh","Qh","Kh","Ad","2d","3d","4d","5d","6d","7d","8d","9d","Td","Jd","Qd","Kd","As","2s","3s","4s","5s","6s","7s","8s","9s","Ts","Js","Qs","Ks","Ac","2c","3c","4c","5c","6c","7c","8c","9c","Tc","Jc","Qc","Kc")
-Magic4 = ((00,00,"Ah"), (00,00,"2h"), (29,42,"3h"), (30,43,"4h"), (31,44,"5h"), (32,45,"6h"), (33,46,"7h"), (34,47,"8h"), (35,48,"9h"), (36,49,"Th"), (37,50,"Jh"), (38,51,"Qh"), (39,52,"Kh"),
+Magic4 = ((00,00,"00"),
+          (00,00,"Ah"), (00,00,"2h"), (29,42,"3h"), (30,43,"4h"), (31,44,"5h"), (32,45,"6h"), (33,46,"7h"), (34,47,"8h"), (35,48,"9h"), (36,49,"Th"), (37,50,"Jh"), (38,51,"Qh"), (39,52,"Kh"),
           (00,00,"Ad"), (00,00,"2d"), (29,42,"3d"), (30,43,"4d"), (31,44,"5d"), (32,45,"6d"), (33,46,"7d"), (34,47,"8d"), (35,48,"9d"), (36,49,"Td"), (37,50,"Jd"), (38,51,"Qd"), (39,52,"Kd"),
           (00,00,"As"), (00,00,"2s"), ( 3,16,"3s"), ( 4,17,"4s"), ( 5,18,"5s"), ( 6,19,"6s"), ( 7,20,"7s"), ( 8,21,"8s"), ( 9,22,"9s"), (10,23,"Ts"), (11,24,"Js"), (12,25,"Qs"), (13,26,"Ks"),
           (00,00,"Ac"), (00,00,"2c"), ( 3,16,"3c"), ( 4,17,"4c"), ( 5,18,"5c"), ( 6,19,"6c"), ( 7,20,"7c"), ( 8,21,"8c"), ( 9,22,"9c"), (10,23,"Tc"), (11,24,"Jc"), (12,25,"Qc"), (13,26,"Kc"))
@@ -32,7 +33,7 @@ king = [13,26,39,52]
 PrintMoves = []
 PrintMoves.append(f"Magic1={Magic1=} And len(Magic1={len(Magic1)=}")
 PrintMoves.append(f"Magic2={Magic2=} And len(Magic2={len(Magic2)=}")
-PrintMoves.append(f"{zYPOS=}, {Magic4[0][2]=}")
+PrintMoves.append(f"{zYPOS=}, {Magic4[0][2]=}, {len(Magic4)=}")
 col0=[0];        col1=[0];        col2=[0];        col3=[0];   #SO FAR so good 
 col4=[0];        col5=[0];        col6=[0];        col7=[0]    #TODO:ADD 8 ZEROS to below
 DeckTable=[]#[7, 34, 41, 40, 42, 33, 8], [38, 20, 28, 24, 17, 49, 37], [44, 47, 6, 31, 2, 21, 26], [29, 27, 14, 1, 50, 15, 4], [12, 13, 32, 22, 30, 11], [52, 10, 23, 25, 46, 9], [48, 5, 51, 35, 36, 3], [18, 43, 19, 45, 39, 16]]
@@ -96,15 +97,15 @@ class sqlite4code:
                 #    self.CurrentRow=self.rowNum - self.PreviousCount
                 #    self.strSelect=f"SELECT * FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum = {self.CurrentRow}; "
                 self.PreviousCount += 1
-                self.DeckTblReversed=[]; lenofint=2
-                print(f"{self.result=}")
-                for deco,echo in enumerate(self.result):
-                    if deco > 1:                
-                        jj=[];                  #chunk size                        
-                        chunks = [echo[i:i+lenofint] for i in range(0, len(echo), lenofint)]#print(chunks)
-                        for feco in chunks:    jj.append(int(feco))    
-                        else:   print(f"jj={jj}"); self.DeckTblReversed.append(jj)
-                        #self.DeckTblReversed.append(int(echo[i:i+lenofint]) for i in range(0, len(self.result[deco]), lenofint))            
+                self.DeckTblReversed=self.makeDT(self.result)
+                #print(f"{self.result=}")
+                #for deco,echo in enumerate(self.result):
+                #    if deco > 1:                
+                #        jj=[];                  #chunk size                        
+                #        chunks = [echo[i:i+lenofint] for i in range(0, len(echo), lenofint)]#print(chunks)
+                #        for feco in chunks:    jj.append(int(feco))    
+                #        else:   print(f"jj={jj}"); self.DeckTblReversed.append(jj)
+                #        #self.DeckTblReversed.append(int(echo[i:i+lenofint]) for i in range(0, len(self.result[deco]), lenofint))            
 
             except sqlite3.Error as ex:
                 print(f"{ex=}")
@@ -115,8 +116,37 @@ class sqlite4code:
         self.cursor.execute(self.strDelete)
         self.savedb()
         self.closedb()
+    def getWdekNo(self,dekNo):
+        self.deckNum=dekNo
+        self.rowNum=0
+        self.strSelectdn= f"SELECT * FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum = {self.rowNum}; "
+        self.cursor.execute(self.strSelect)
+        self.result = self.cursor.fetchone()                        #if self.rowNum - self.PreviousCount > 0:                #    self.CurrentRow=self.rowNum - self.PreviousCount                #    self.strSelect=f"SELECT * FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum = {self.CurrentRow}; "                #self.PreviousCount += 1
+        self.DeckTblReversed=self.makeDT(self.result)
+        return self.DeckTblReversed
+    def makeDT(self,result):
+        #try:
+            #self.result = self.cursor.fetchone()
+            #if self.rowNum - self.PreviousCount > 0:
+            #    self.CurrentRow=self.rowNum - self.PreviousCount
+            #    self.strSelect=f"SELECT * FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum = {self.CurrentRow}; "
+            #self.PreviousCount += 1
+        self.DeckTblReversed=[]; lenofint=2
+        self.result=result
+        print(f"{self.result=}")
+        for deco,echo in enumerate(self.result):
+            if deco > 1:                
+                jj=[];                  #chunk size                        
+                chunks = [echo[i:i+lenofint] for i in range(0, len(echo), lenofint)]#print(chunks)
+                for feco in chunks:    jj.append(int(feco))    
+                else:   print(f"jj={jj}"); self.DeckTblReversed.append(jj)
+                #self.DeckTblReversed.append(int(echo[i:i+lenofint]) for i in range(0, len(self.result[deco]), lenofint))            
+        #except sqlite3.Error as ex:
+        #    print(f"{ex=}")
+        return self.DeckTblReversed
+
 class back2theFuture:
-    def __init__(self,DeckTbl):
+    def __init__(self,DeckTbl,lit):
         self.DeckTbl = DeckTbl
         self.OrigDeck=DeckTbl
         self.rd=[]
@@ -126,16 +156,16 @@ class back2theFuture:
         ReverseHistory=[]
         ForwardHistory=[]
         self.NumOfBackwards=0
-        self.ReverseDecc=self.AppendDeck(DeckTbl,self.ReverseDecc)
-    def AppendDeck(self,DeckTbl,ReverseDecc):
-        ddck=DeckTbl
+        self.ReverseDecc=self.AppendDeck(DeckTbl,self.ReverseDecc,lit)
+    def AppendDeck(self,DeckTbl,ReverseDecc,lit):
+        ddck=DeckTbl;self.loaditnow=lit
         if len(ReverseDecc) > 0:
             for decc in ReverseDecc:
                 self.ReverseDecc.append(decc); ddck=decc
         if ddck!=DeckTbl or len(ReverseDecc):
             self.ReverseDecc.append(DeckTbl)
         self.rd=self.rd.copy()+DeckTbl
-        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeccK.txt"
+        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDecc{self.loaditnow}.txt"
         with open(pathReverse, 'a') as Reversefile:      #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
             Reversefile.writelines(f"{str(DeckTbl)};\n")
 
@@ -146,17 +176,7 @@ class back2theFuture:
         return self.ReverseDecc
     def ReverseOneStep(self,DeckTbl,bogo):
         DeckTbl=bogo.getPreviousDT()
-        #pathReverses=f"C:/Users/Brice/source/Resources/Python/fcReverseDeckG.txt"
-        #self.ReverseDecc=[]
-        #with open(pathReverses) as Reversefile:
-        #    for line in Reversefile:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
-        #        self.ReverseDecc.append(line.rstrip())
-        #print(f"{self.ReverseDecc=}")
-        #while DeckTbl==self.ReverseDecc[len(self.ReverseDecc) - 1] and len(self.ReverseDecc)>1:
-        #    self.ForwardDecc.append(self.ReverseDecc.pop())
-        #else:       #0=-1   1=-2    2=-3
-        #    Fwdindex=(self.NumOfBackwards*-1)-1;print(f"{Fwdindex=}")
-        #    DeckTbl=self.ReverseDecc[Fwdindex]; self.NumOfBackwards+=1
+        #pathReverses=f"C:/Users/Brice/source/Resources/Python/fcReverseDeckG.txt"        #self.ReverseDecc=[]        #with open(pathReverses) as Reversefile:        #    for line in Reversefile:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"        #        self.ReverseDecc.append(line.rstrip())        #print(f"{self.ReverseDecc=}")        #while DeckTbl==self.ReverseDecc[len(self.ReverseDecc) - 1] and len(self.ReverseDecc)>1:        #    self.ForwardDecc.append(self.ReverseDecc.pop())        #else:       #0=-1   1=-2    2=-3        #    Fwdindex=(self.NumOfBackwards*-1)-1;print(f"{Fwdindex=}")        #    DeckTbl=self.ReverseDecc[Fwdindex]; self.NumOfBackwards+=1
         return DeckTbl
     def handleUpArrow(self,DeckTbl,screeny,bogo):
         DeckTbl=self.OrigDeck
@@ -458,14 +478,15 @@ class deck:
        #deck[CardBegx][CardBegy]
             elif DeckTbl[CardBegx][CardBegy]==0:
                 Status_Text = f"No card to move"
-            elif DeckTbl[CardBegx][CardBegy] > 26 and DeckTbl[CardEndx][CardEndy] > 26:
+            elif DeckTbl[CardBegx][CardBegy] > 26 and DeckTbl[CardEndx][CardEndy] > 26 and not MultipleCards:
                 Status_Text = "Same Black Suit"
-            elif DeckTbl[CardBegx][CardBegy] < 27 and DeckTbl[CardEndx][CardEndy] < 27 and DeckTbl[CardEndx][CardEndy] != 0:
+            elif DeckTbl[CardBegx][CardBegy] < 27 and DeckTbl[CardEndx][CardEndy] < 27 and DeckTbl[CardEndx][CardEndy] != 0 and not MultipleCards:
                 Status_Text = "Same Red   Suit"
             else:
                 print(f"{Magic1[(DeckTbl[CardBegx][CardBegy])]=},    {Magic2[(DeckTbl[CardBegx][CardBegy])]=},    {DeckTbl[CardEndx][CardEndy]=}")
                 if Status_Text == "" and (DeckTbl[CardEndx][CardEndy]==0 or Magic1[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy] or Magic2[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy]):
                     #pass            #TODO: Need to check all cards under selected cardBegxy MOVE DeckTbl from cardbegxy cardendxy    
+                    PrintMoves.append(f"{Magic4[DeckTbl[CardBegx][CardBegy]][0]=}=={Magic4[DeckTbl[CardBegx][CardBegy]][1]}={Magic4[DeckTbl[CardBegx][CardBegy]][2]}")
                     if MultipleCards:
                         Discard,DeckTbl,CardBegx, CardBegy, CardEndx, CardEndy, Status_Text=self.MoveMultipleCards(Discard,DeckTbl,CardBegx, CardBegy, CardEndx, CardEndy, Status_Text)
                     else:
@@ -483,20 +504,21 @@ class deck:
                             if numofwhileLoops > NumofFreeDiscardZeros + NumofFreeDeckTblZeros:
                                 Status_Text = "Not Enough Free Spaces for move"
                             else:
-                               if lenOfBegCol==0 or numofwhileLoops ==0:
-                                   DeckTbl[CardEndx].append(DeckTbl[CardBegx][CardBegy])
-                                   DeckTbl[CardBegx][CardBegy]=0
-                               else:
-                                   for logo in range(numofwhileLoops):
-                                       DeckTbl[CardEndx].append(DeckTbl[CardBegx].pop(TempBegy+logo))
+                                if lenOfBegCol==0 or numofwhileLoops ==0:
+                                    DeckTbl[CardEndx].append(DeckTbl[CardBegx][CardBegy])
+                                    DeckTbl[CardBegx][CardBegy]=0
+                                else:
+                                    while len(DeckTbl[CardBegx]) > CardBegy:
+                                         DeckTbl[CardEndx].append(DeckTbl[CardBegx].pop(CardBegy))    
+                                    #for logo in range(numofwhileLoops):         DeckTbl[CardEndx].append(DeckTbl[CardBegx].pop(TempBegy+logo))
                         else:
                             if lenOfBegCol==0:
                                 DeckTbl[CardEndx].append(DeckTbl[CardBegx][CardBegy])
                                 DeckTbl[CardBegx][CardBegy]=0
                             else:
-                                for logo in range(numofwhileLoops):
-                                    Templogo=DeckTbl[CardBegx].pop(TempBegy+logo)
-                                    DeckTbl[CardEndx].append(Templogo)
+                                while len(DeckTbl[CardBegx]) > CardBegy:
+                                    DeckTbl[CardEndx].append(DeckTbl[CardBegx].pop(CardBegy))
+                                #for logo in range(numofwhileLoops):        Templogo=DeckTbl[CardBegx].pop(TempBegy+logo)        DeckTbl[CardEndx].append(Templogo)
 
                    #while TempBegy < lenOfBegCol:
                    #    if 
@@ -552,6 +574,12 @@ class deck:
     def MoveMultipleCards(self,Discard,DeckTbl,CardBegx, CardBegy, CardEndx, CardEndy, Status_Text):
         if CardBegy > 0: CardBegy -= 1
         #TODO:    start at len(DeckTbl[CardBegx]-1) subtract1 until CardBegy==
+        for aiter in range( (len(DeckTbl[CardBegx])-1),CardBegy+1,-1):
+            print(f"Another{aiter}, len(DeckTbl[CardBegx])-1{len(DeckTbl[CardBegx])-1}, {CardBegx=}")
+            if DeckTbl[CardBegx][aiter] ==Magic1[DeckTbl[CardBegx][aiter]] or DeckTbl[CardBegx][aiter] ==Magic2[DeckTbl[CardBegx][aiter]]  :
+                pass
+            else:
+                Status_Text="UNOrdered card sequence"
         TempBegy=CardBegy
         NumofFreeDiscardZeros=Discard[0:4].count(0)
         NumofFreeDeckTblZeros=0
@@ -570,16 +598,22 @@ class deck:
                     DeckTbl[CardEndx].append(DeckTbl[CardBegx][CardBegy])
                     DeckTbl[CardBegx][CardBegy]=0
                 else:
-                    for logo in range(numofwhileLoops):
-                        DeckTbl[CardEndx].append(DeckTbl[CardBegx].pop(TempBegy+logo))
+                    while len(DeckTbl[CardBegx]) > CardBegy:
+                        DeckTbl[CardEndx].append(DeckTbl[CardBegx].pop(CardBegy))
+                    else:
+                        print(f"{DeckTbl[CardEndx]=}")
+                    #for logo in range(numofwhileLoops):
+                    #    DeckTbl[CardEndx].append(DeckTbl[CardBegx].pop(TempBegy+logo))
         else:
             if lenOfBegCol==0:
                 DeckTbl[CardEndx].append(DeckTbl[CardBegx][CardBegy])
                 DeckTbl[CardBegx][CardBegy]=0
             else:
-                for logo in range(numofwhileLoops):
-                    Templogo=DeckTbl[CardBegx].pop(TempBegy+logo)
-                    DeckTbl[CardEndx].append(Templogo)
+                while len(DeckTbl[CardBegx]) > CardBegy:
+                    DeckTbl[CardEndx].append(DeckTbl[CardBegx].pop(CardBegy))
+                #for logo in range(numofwhileLoops):
+                #    Templogo=DeckTbl[CardBegx].pop(TempBegy+logo)
+                #    DeckTbl[CardEndx].append(Templogo)
 
                    #while TempBegy < lenOfBegCol:
                    #    if 
@@ -603,6 +637,7 @@ class screan(pygame.sprite.Sprite):
         self.timerA=timerA
         self.rd=[]
         self.fd=[]
+        self.loaditnow='A1'
         # Declaring namedtuple()   
         self.OrigDeck=DeckTbl
         self.Begpos = namedtuple('BeginPos',['beginx','beginy'])   
@@ -614,7 +649,7 @@ class screan(pygame.sprite.Sprite):
         self.WHITE = (255, 255, 255)
         self.LIGHTGREY=(100,100,100)             
         self.font = pygame.font.Font(None, 32)
-        self.input_box = pygame.Rect(40, 800, 140, 32)   
+        self.input_box = pygame.Rect(40, 700, 140, 32)   
         self.ReverseDeck = []
         self.ForwardDeck = []
         self.BackwardsTimes = 0
@@ -672,8 +707,8 @@ class screan(pygame.sprite.Sprite):
             IsThereADiscard = False
             pygame.display.flip() # paint screen one time
         else:            #if 'click' in num1_button.handle Event(event):            #    if dice == 1:            #        text = font.render("You Win!", 1, (0, 0, 0))            #        screen.blit(text, (155, 255))
-            self.txt_surface = self.font.render("                                     ", True, self.BLACK)
-            self.txt_surface = self.font.render(self.Status_Text, True, self.BLACK)                 # Resize the box if the text is too long.
+            #self.txt_surface = self.font.render("                                     ", True, self.BLACK)
+            self.txt_surface = self.font.render(self.Status_Text, True, self.BLUE)                 # Resize the box if the text is too long.
             tsWidth = max(200, self.txt_surface.get_width()+10)
             self.input_box.w = tsWidth                                                 # Blit the text.
             self.SCREEN.blit(self.txt_surface, (self.input_box.x+5, self.input_box.y+5))       # Blit the input_box rect.
@@ -684,7 +719,7 @@ class screan(pygame.sprite.Sprite):
     def StowReverseDeck(self, DeckTbl,bogo):
         self.ReverseDeck.append(DeckTbl.copy())
         self.rd+=DeckTbl.copy()
-        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeckK.txt"
+        pathReverse=f"C:/Users/Brice/source/Resources/Python/fcReverseDeck{self.loaditnow}.txt"
         with open(pathReverse, 'a') as Reversefile:      #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
             Reversefile.writelines(f"{str(DeckTbl)}\n")
         rich=0
@@ -779,7 +814,7 @@ class screan(pygame.sprite.Sprite):
             DeckTbl = Decl.CheckDiscard(DeckTbl)   
             DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
             self.StowReverseDeck(DeckTbl,bogo)
-            reverseforward.ReverseDecc=reverseforward.AppendDeck(DeckTbl,reverseforward.ReverseDecc)
+            reverseforward.ReverseDecc=reverseforward.AppendDeck(DeckTbl,reverseforward.ReverseDecc,self.loaditnow)
             return self.Status_Text, DeckTbl
         else:
             self.StowReverseDeck(DeckTbl,bogo)
@@ -845,14 +880,14 @@ class screan(pygame.sprite.Sprite):
                     self.StowReverseDeck(DeckTbl,bogo)    
                     for dede in reverseforward.ReverseDecc:
                         ReverseHistory.append(dede)        
-                    reverseforward.ReverseDecc=reverseforward.AppendDeck(DeckTbl,reverseforward.ReverseDecc)
+                    reverseforward.ReverseDecc=reverseforward.AppendDeck(DeckTbl,reverseforward.ReverseDecc,self.loaditnow)
 #Deck=deck(DeckTable,Discard,SCREEN)
 DeclTbl=[]
 Decl=deck(DeckTable)
 bogo=sqlite4code(Decl.DeckTbl)
 screen=screan(Decl.DeckTbl)
 screen.OriginalDeck=Decl.DeckTbl
-reverseforward=back2theFuture(Decl.DeckTbl)
+reverseforward=back2theFuture(Decl.DeckTbl,screen.loaditnow)
 
 ReverseHistory=reverseforward.ReverseDecc
 ForwardHistory=reverseforward.ForwardDecc
@@ -877,7 +912,7 @@ while running:
     DeckTbl,running,InitGame,reverseforward=screen.handleEvent(DeckTbl,running,InitGame,reverseforward,bogo)
     screen.FramePerSec.tick(screen.FPS)
                 #TODO: put Discard at top of page b) merge Discard into DeckTbl
-pathout=f"C:/Users/Brice/source/Resources/Python/fclassedv00012ouK.txt"
+pathout=f"C:/Users/Brice/source/Resources/Python/fclassedv00012ou{screen.loaditnow}.txt"
 with open(pathout, 'w') as myfile:  
     #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
     myfile.write(str(screen.rd))
