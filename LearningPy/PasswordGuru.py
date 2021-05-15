@@ -1,6 +1,6 @@
-from collections import namedtuple
+from collections import namedtuple, Counter
 import itertools
-import json
+import json, collections
 from os import X_OK
 from typing import Collection
 
@@ -432,6 +432,11 @@ def dispatch_if(operator: str, x: int, y: int) -> int:
     elif operator == 'div':  return x / y
     else:                    return None
 
+def my_add(a: int, b: int) -> int:
+    return a + b
+
+def check(list1, val):
+    return(all(x > val for x in list1))
 
 def dispatch_dict(operator: str, x: int, y: int) -> int:
     return {
@@ -487,8 +492,24 @@ if __name__ == "__main__":
     dispatch_dict('mul', 2, 8)      #16
     dispatch_if('unknown', 2, 8)    #None
     dispatch_dict('unknown', 2, 8)  #None
+    
+    # python program to check if all  values in the list are greater than val using all() function
+    # driver code 
+    list1 =[10, 20, 30, 40, 50, 60]
+    val = 5
+    if(check(list1, val)):
+        print("Yes")
+    else:
+        print("No")
+    
+    val = 20 
+    if (check(list1, val)):
+        print("Yes")
+    else:
+        print("No")
     # Python 3.5+ supports 'type annotations' that can be
     # used with tools like Mypy to write statically typed Python:
-
-def my_add(a: int, b: int) -> int:
-    return a + b
+    # collections.Counter lets you find the most common elements in an iterable:
+    c = collections.Counter('helloworld')
+    print(c)                    #Counter({'l': 3, 'o': 2, 'e': 1, 'd': 1, 'h': 1, 'r': 1, 'w': 1})
+    print(c.most_common(3))     #[('l', 3), ('o', 2), ('e', 1)]
