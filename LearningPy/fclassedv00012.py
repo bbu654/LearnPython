@@ -296,7 +296,8 @@ class deck:
         if MinDiscard < 3:
             MinDiscard=2                #    MinDiscard=statistics.mean(fvDiscard)
         else:
-            MinDiscard -=1
+            MinDiscard -=3
+        MinDiscard=min(fvDiscard)
         #check each colx[lengthcolx]==Discard[4-7]+1 if Discard[4-7] >0     #TODO: checkk if Discard[sub] > 0
         for sub in range(4,8):
             for gog in range(XCardSlots):                                            #gog is 0 thru 7  is colx
@@ -475,7 +476,7 @@ class deck:
                         Discard[CardEndx]=Discard[CardBegx]
                         Discard[CardBegx]=0; D1scardChgd=True
                     #TODO: Need to be able to move from Discard 0-3 to Discard 4-7 if appropriate
-       #deck[CardBegx][CardBegy]
+        #deck[CardBegx][CardBegy]
             elif DeckTbl[CardBegx][CardBegy]==0:
                 Status_Text = f"No card to move"
             elif DeckTbl[CardBegx][CardBegy] > 26 and DeckTbl[CardEndx][CardEndy] > 26 and not MultipleCards:
@@ -486,7 +487,7 @@ class deck:
                 print(f"{Magic1[(DeckTbl[CardBegx][CardBegy])]=},    {Magic2[(DeckTbl[CardBegx][CardBegy])]=},    {DeckTbl[CardEndx][CardEndy]=}")
                 if Status_Text == "" and (DeckTbl[CardEndx][CardEndy]==0 or Magic1[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy] or Magic2[(DeckTbl[CardBegx][CardBegy])] == DeckTbl[CardEndx][CardEndy]):
                     #pass            #TODO: Need to check all cards under selected cardBegxy MOVE DeckTbl from cardbegxy cardendxy    
-                    PrintMoves.append(f"{Magic4[DeckTbl[CardBegx][CardBegy]][0]=}=={Magic4[DeckTbl[CardBegx][CardBegy]][1]}={Magic4[DeckTbl[CardBegx][CardBegy]][2]}")
+                    PrintMoves.append(f"M4[DT({DeckTbl[CardBegx][CardBegy]})[{CardBegx}][{CardBegy}]][0]({Magic4[DeckTbl[CardBegx][CardBegy]][0]})==M4[DT[{CardBegx}][{CardBegy}]][1]({Magic4[DeckTbl[CardBegx][CardBegy]][1]})=M4[DT[{CardBegx}][{CardBegy}]][2]({Magic4[DeckTbl[CardBegx][CardBegy]][2]})")
                     if MultipleCards:
                         Discard,DeckTbl,CardBegx, CardBegy, CardEndx, CardEndy, Status_Text=self.MoveMultipleCards(Discard,DeckTbl,CardBegx, CardBegy, CardEndx, CardEndy, Status_Text)
                     else:
@@ -637,7 +638,7 @@ class screan(pygame.sprite.Sprite):
         self.timerA=timerA
         self.rd=[]
         self.fd=[]
-        self.loaditnow='A2'
+        self.loaditnow='A6'
         # Declaring namedtuple()   
         self.OrigDeck=DeckTbl
         self.Begpos = namedtuple('BeginPos',['beginx','beginy'])   
@@ -649,7 +650,7 @@ class screan(pygame.sprite.Sprite):
         self.WHITE = (255, 255, 255)
         self.LIGHTGREY=(100,100,100)             
         self.font = pygame.font.Font(None, 32)
-        self.input_box = pygame.Rect(40, 700, 140, 32)   
+        self.input_box = pygame.Rect(40, 850, 140, 32)   
         self.ReverseDeck = []
         self.ForwardDeck = []
         self.BackwardsTimes = 0
@@ -672,9 +673,10 @@ class screan(pygame.sprite.Sprite):
         self.height =1000    
         self.GSize= self.width, self.height
         self.pathrb=f'C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/'
+        self.litYouWon = f"Congratulations! You Won"
         self.SCREEN = pygame.display.set_mode(self.GSize)        
         #TODO: ADD SCREEN Logic fill screen,event handling ect blit flip ect
-        self.SCREEN.fill(self.WHITE)        #        Status_Text=""
+        self.SCREEN.fill(self.LIGHTGREY)        #        Status_Text=""
         #self.Deck = deck(DeckTable,self.SCREEN)
         self.DEckTble=DeckTbl
         
@@ -684,37 +686,36 @@ class screan(pygame.sprite.Sprite):
         Status_Text="";     countofAcesSkipped=0;       CurrentBick=0
         #returnTrue, Discard, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, self.Status_Text=Deck.IsVal idMove(Discard, DeckTbl, self.Begpos, self.Enditp)
         #didyouwin,self.SCREEN= self.Have YouWon(Discard,DeckTbl,self.SCREEN)
-        if self.Status_Text=="" or self.Status_Text=="Congratulations! You Win!":         #screen.fill((30, 30, 30))                      # Render the current text.
+        #if self.Status_Text=="" or self.Status_Text=="Congratulations! You Win!":         #screen.fill((30, 30, 30))                      # Render the current text.
             #pass            #TODO: Actually move the card(s)
-            self.SCREEN.fill(self.WHITE)
-            pygame.display.set_caption("Brice's Free Cell")
-            pygame.draw.line(self.SCREEN, self.RED, (XPOS[0],DPOS), (EPOS,DPOS))
-            xxx,yyy,scrnX,scrnY,SCREEN = self.getScreenSize(SCREEN)
-            print(f"{xxx=}, {yyy=}, {scrnX=}, {scrnY=}, {SCREEN=}")    #xxx=1860, yyy=1000, SCREEN=<Surface(1860x1000x32 SW)>
-            #if didyouwin:    #Moved to a function            #    self.Status_Text = "Congratulations! You Win!"            #    self.txt_surface = self.font.render(self.Status_Text, True, self.BLACK)                 # Resize the box if the text is too long.            #    self.tsWidth = max(200, self.txt_surface.get_width()+10)            #    self.input_box.w = self.tsWidth                                                 # Blit the text.            #    self.SCREEN.blit(self.txt_surface, (self.input_box.x+5, self.input_box.y+5))       # Blit the input_box rect.            #    pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)            #    lit1=f"{pathrb}{str(53)}.png"            #    PenguinImage = pygame.image.load(lit1).convert()                             #    for lous in range(8):            #        self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[0]))            #else:            #    Discard,DeckTbl = self.CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)            #for g,h in enumerate(Discard):            #    lit1=f"{pathrb}{str(h)}.png";    IsThereADiscard = True;    #    PenguinImage = pygame.image.load(lit1).convert()    #    self.SCREEN.blit(PenguinImage, (XPOS[g],1))  
-            for lick in range(8):
-                for bick in range(len(DeckTbl[lick])):
-                    #if DeckTbl[lick][bick] == 0:                    #    lit1=f"{pathrb}{str(53)}.png"                    #else:
-                    lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(DeckTbl[lick][bick])}.png"
-                    PenguinImage = pygame.image.load(lit1).convert()                 
-                    #if bick ==len(DeckTbl[lick]) - 1 and DeckTbl[lick][bick]  in aces:                    #    countofAcesSkipped +=1                    #else:                        #CurrentBick=bick       
-                    LastYPOS=len(YPOS)-1
-                    if bick > LastYPOS:
-                        CurrentBick+=YPOS[LastYPOS]+(SpaceBetweenCardY*(bick - LastYPOS))#+SpaceBetweenCardY)
-                        self.SCREEN.blit(PenguinImage, (XPOS[lick],CurrentBick))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
-                    else:
-                        self.SCREEN.blit(PenguinImage, (XPOS[lick],YPOS[bick]))            #print(f"countofAcesSkipped={countofAcesSkipped}")            #Discard,DeckTbl = CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
-            running = True 
-            IsThereADiscard = False
-            pygame.display.flip() # paint screen one time
-        else:            #if 'click' in num1_button.handle Event(event):            #    if dice == 1:            #        text = font.render("You Win!", 1, (0, 0, 0))            #        screen.blit(text, (155, 255))
-            #self.txt_surface = self.font.render("                                     ", True, self.BLACK)
-            self.txt_surface = self.font.render(self.Status_Text, True, self.BLUE)                 # Resize the box if the text is too long.
-            tsWidth = max(200, self.txt_surface.get_width()+10)
-            self.input_box.w = tsWidth                                                 # Blit the text.
-            self.SCREEN.blit(self.txt_surface, (self.input_box.x+5, self.input_box.y+5))       # Blit the input_box rect.
-            pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)
-        
+        self.SCREEN.fill(self.LIGHTGREY)
+        pygame.display.set_caption("Brice's Free Cell")
+        pygame.draw.line(self.SCREEN, self.RED, (XPOS[0],DPOS-1), (EPOS,DPOS-1))
+        xxx,yyy,scrnX,scrnY,SCREEN = self.getScreenSize(SCREEN)
+        print(f"{xxx=}, {yyy=}, {scrnX=}, {scrnY=}, {SCREEN=}")    #xxx=1860, yyy=1000, SCREEN=<Surface(1860x1000x32 SW)>
+        #if didyouwin:    #Moved to a function            #    self.Status_Text = "Congratulations! You Win!"            #    self.txt_surface = self.font.render(self.Status_Text, True, self.BLACK)                 # Resize the box if the text is too long.            #    self.tsWidth = max(200, self.txt_surface.get_width()+10)            #    self.input_box.w = self.tsWidth                                                 # Blit the text.            #    self.SCREEN.blit(self.txt_surface, (self.input_box.x+5, self.input_box.y+5))       # Blit the input_box rect.            #    pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)            #    lit1=f"{pathrb}{str(53)}.png"            #    PenguinImage = pygame.image.load(lit1).convert()                             #    for lous in range(8):            #        self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[0]))            #else:            #    Discard,DeckTbl = self.CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)            #for g,h in enumerate(Discard):            #    lit1=f"{pathrb}{str(h)}.png";    IsThereADiscard = True;    #    PenguinImage = pygame.image.load(lit1).convert()    #    self.SCREEN.blit(PenguinImage, (XPOS[g],1))  
+        for lick in range(8):
+            for bick in range(len(DeckTbl[lick])):
+                #if DeckTbl[lick][bick] == 0:                    #    lit1=f"{pathrb}{str(53)}.png"                    #else:
+                lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(DeckTbl[lick][bick])}.png"
+                PenguinImage = pygame.image.load(lit1).convert()                 
+                #if bick ==len(DeckTbl[lick]) - 1 and DeckTbl[lick][bick]  in aces:                    #    countofAcesSkipped +=1                    #else:                        #CurrentBick=bick       
+                LastYPOS=len(YPOS)-1
+                if bick > LastYPOS:
+                    CurrentBick+=YPOS[LastYPOS]+(SpaceBetweenCardY*(bick - LastYPOS))#+SpaceBetweenCardY)
+                    self.SCREEN.blit(PenguinImage, (XPOS[lick],CurrentBick))         #    courtx.append(newx)    courty.append(y*y_modifier)         #    i=i+1
+                else:
+                    self.SCREEN.blit(PenguinImage, (XPOS[lick],YPOS[bick]))            #print(f"countofAcesSkipped={countofAcesSkipped}")            #Discard,DeckTbl = CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
+        running = True 
+        IsThereADiscard = False
+        #else:            #if 'click' in num1_button.handle Event(event):            #    if dice == 1:            #        text = font.render("You Win!", 1, (0, 0, 0))            #        screen.blit(text, (155, 255))
+        #self.txt_surface = self.font.render("                                     ", True, self.BLACK)
+        self.txt_surface = self.font.render(self.Status_Text, True, self.BLUE)                 # Resize the box if the text is too long.
+        tsWidth = max(200, self.txt_surface.get_width()+10)
+        self.input_box.w = tsWidth                                                 # Blit the text.
+        self.SCREEN.blit(self.txt_surface, (self.input_box.x+5, self.input_box.y+5))       # Blit the input_box rect.
+        pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)
+        pygame.display.flip() # paint screen one time        
         return DeckTbl,self.Status_Text,self.SCREEN 
 
     def StowReverseDeck(self, DeckTbl,bogo):
@@ -737,7 +738,7 @@ class screan(pygame.sprite.Sprite):
         #self.Double
         if not InitGame:
             InitGame=True       #SCREEN = pygame.display.set_mode(width,height)
-            screen.SCREEN.fill(screen.WHITE)
+            screen.SCREEN.fill(screen.LIGHTGREY)
             DeckTbl,screen.Status_Text,screen.SCREEN = screen.fillScreen(DeckTbl,screen.Status_Text,screen.SCREEN)
     
         pygame.display.update()
@@ -857,27 +858,28 @@ class screan(pygame.sprite.Sprite):
             print(f"{ opoy//70=}")
             returnTrue, DeckTbl, CardBegx, CardBegy, CardEndx, CardEndy, self.Status_Text,self=Decl.IsValidMove(DeckTbl, popx,popy, self.Enditp,self)
             didyouwin,DeckTbl,self.SCREEN= Decl.HaveYouWon(DeckTbl,self.SCREEN)
-            if self.Status_Text=="" or self.Status_Text=="Congratulations! You Win!":         #screen.fill((30, 30, 30))                      # Render the current text.
+            if self.Status_Text=="" or self.Status_Text==self.litYouWon:         #screen.fill((30, 30, 30))                      # Render the current text.
                 #pass            #TODO: Actually move the card(s)
-                self.SCREEN.fill(self.WHITE)
+                self.SCREEN.fill(self.LIGHTGREY)
                 pygame.display.set_caption("Brice's Free Cell")
-                if didyouwin:
-                    DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
-                    self.Status_Text = "Congratulations! You Win!"
-                    self.txt_surface = self.font.render(self.Status_Text, True, self.RED)                 # Resize the box if the text is too long.
-                    tsWidth = max(200, self.txt_surface.get_width()+10)
-                    self.input_box.w = tsWidth                                                 # Blit the text.
-                    self.input_box.y += 890
-                    self.SCREEN.blit(self.txt_surface, (XPOS[0] + 32, 908 ))       #self.input_box.y+5 Blit the input_box rect.
-                    pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)
+                if not didyouwin:                        DeckTbl = Decl.CheckDiscard(DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
+                DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
+                if didyouwin:    self.Status_Text = self.litYouWon
+                self.txt_surface = self.font.render(self.Status_Text, True, self.RED)                 # Resize the box if the text is too long.
+                tsWidth = max(200, self.txt_surface.get_width()+10)
+                self.input_box.w = tsWidth                                                 # Blit the text.
+                self.input_box.y += 600
+                self.SCREEN.blit(self.txt_surface, (XPOS[0] + 32, 608 ))       #self.input_box.y+5 Blit the input_box rect.
+                pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)
+                if didyouwin:                    
                     lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(0)}.png"
                     PenguinImage = pygame.image.load(lit1).convert()                 
                     for lous in range(8):
                         self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[1]))
                     bogo.cleanUpdb()
                 else:
-                    DeckTbl = Decl.CheckDiscard(DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
-                    DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
+                    #DeckTbl = Decl.CheckDiscard(DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
+                    #DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
                     self.StowReverseDeck(DeckTbl,bogo)    
                     for dede in reverseforward.ReverseDecc:
                         ReverseHistory.append(dede)        
@@ -905,7 +907,7 @@ running=True;   pygame.init(); j=-1; InitGame=False
 while running:
     if not InitGame:
         InitGame=True       #SCREEN = pygame.display.set_mode(width,height)
-        screen.SCREEN.fill(screen.WHITE)
+        screen.SCREEN.fill(screen.LIGHTGREY)
         DeckTbl,screen.Status_Text,screen.SCREEN = screen.fillScreen(Decl.DeckTbl,screen.Status_Text,screen.SCREEN)
         DeckTbl=Decl.DeckTbl
     pygame.display.update()
