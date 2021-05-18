@@ -40,21 +40,22 @@ DeckTable=[]#[7, 34, 41, 40, 42, 33, 8], [38, 20, 28, 24, 17, 49, 37], [44, 47, 
 class sqlite4code:
     def __init__(self,DeckTbl):
         self.DeckTbl=DeckTbl
+        self.mouseUpHappened=False
         self.sqlpath=f"C:/Users/Brice/source/Resources/Python/freecell.db"
         self.connection = sqlite3.connect(self.sqlpath)        #You can also supply the special name :memory: to create a database in RAM.
         #Once you have a Connection, you can create a Cursor object and call its execute() method to perform SQL commands:
         self.deckNum=random.randrange(99999999999)
         self.cursor = self.connection.cursor()
-        self.dbtableName='deck'# Create table
+        self.dbtableName='tbldeck'# Create table
         self.rowNum=0
         #get the count of tables with the name
-        self.cursor.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='deck' ''')
+        self.cursor.execute(f"SELECT count(name) FROM sqlite_master WHERE type='table' AND name='{self.dbtableName}' ")
 
         #if the count is 1, then table exists
         if self.cursor.fetchone()[0]==1 : 
         	print(f'Table {self.dbtableName} exists. KEY={self.deckNum}')        
         else:
-            self.strexec=f'CREATE TABLE {self.dbtableName} (deckNum int, rowNum int, col0 text, col1 text, col2 text, col3 text, col4 text, col5 text, col6 text, col7 text)'
+            self.strexec=f'CREATE TABLE {self.dbtableName} (deckNum int, rowNum int, sflag text, col0 text, col1 text, col2 text, col3 text, col4 text, col5 text, col6 text, col7 text)'
             self.cursor.execute(self.strexec)
         
     def savedb(self):
@@ -66,6 +67,7 @@ class sqlite4code:
 
     def storedb(self,DeckTbl):        # Insert a row of data
         self.strdeck=""
+        self.sflag=f"' '"
         self.PreviousCount=1
         self.CurrentRow=0
         self.listdeck=[]
@@ -81,16 +83,21 @@ class sqlite4code:
             self.strdeck+=f"'{self.listdeck[echo]}',"
         else:
             self.strdeck+=f"'{self.listdeck[XCardSlots-1]}'"    
-        self.strInsert=f'INSERT INTO {self.dbtableName} VALUES ({self.deckNum},{self.rowNum},{self.strdeck})'
+        self.strInsert=f'INSERT INTO {self.dbtableName} VALUES ({self.deckNum},{self.rowNum},{self.sflag},{self.strdeck})'
         self.cursor.execute(self.strInsert)
         self.rowNum+=1
     def getPreviousDT(self):
         if self.rowNum > 0:
             try:
-                self.strDelete1=f"DELETE FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum = {self.rowNum}; "
+                if self.mouseUpHappened:
+                    self.strDelete1=f"DELETE FROM {self.dbtableName} WHERE deckNum={self.deckNum} AND rowNum = {self.rowNum}; "
+                    self.cursor.execute(self.strDelete1)
+                    self.rowNum -= 1    
+                self.mouseUpHappened=False    
+                self.strDelete1=f"DELETE FROM {self.dbtableName} WHERE deckNum={self.deckNum} AND rowNum = {self.rowNum}; "
                 self.cursor.execute(self.strDelete1)
                 self.rowNum -= 1    
-                self.strSelect=f"SELECT * FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum = {self.rowNum}; "
+                self.strSelect=f"SELECT * FROM {self.dbtableName} WHERE deckNum={self.deckNum} AND rowNum = {self.rowNum}; "
                 self.cursor.execute(self.strSelect)
                 self.result = self.cursor.fetchone()
                 #if self.rowNum - self.PreviousCount > 0:
@@ -98,18 +105,23 @@ class sqlite4code:
                 #    self.strSelect=f"SELECT * FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum = {self.CurrentRow}; "
                 self.PreviousCount += 1
                 self.DeckTblReversed=self.makeDT(self.result)
-                #print(f"{self.result=}")
-                #for deco,echo in enumerate(self.result):
-                #    if deco > 1:                
-                #        jj=[];                  #chunk size                        
-                #        chunks = [echo[i:i+lenofint] for i in range(0, len(echo), lenofint)]#print(chunks)
-                #        for feco in chunks:    jj.append(int(feco))    
-                #        else:   print(f"jj={jj}"); self.DeckTblReversed.append(jj)
+                #print(f"{self.result=}")                #for deco,echo in enumerate(self.result):                #    if deco > 1:                                #        jj=[];                  #chunk size                        
+                #        chunks = [echo[i:i+lenofint] for i in range(0, len(echo), lenofint)]#print(chunks)       #        for feco in chunks:    jj.append(int(feco))      #        else:   print(f"jj={jj}"); self.DeckTblReversed.append(jj)
                 #        #self.DeckTblReversed.append(int(echo[i:i+lenofint]) for i in range(0, len(self.result[deco]), lenofint))            
 
             except sqlite3.Error as ex:
                 print(f"{ex=}")
         return self.DeckTblReversed
+    def updateWon(self,sflag="W"):
+        try:
+            self.sflag=sflag
+            self.strUpdate=f"UPDATE {self.dbtableName} SET sflag = '{self.sflag}' WHERE deckNum={self.deckNum} AND rowNum = 0 "
+            self.cursor.execute(self.strUpdate)
+            self.result = self.cursor.fetchone()
+            PrintMoves.append(f"{self.result=}")
+        except sqlite3.Error as ex:
+            print(f"{ex=}")
+                
     def cleanUpdb(self):
         #for dele in range(self.rowNum,2,-1):
         self.strDelete=f"DELETE FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum > 1 "
@@ -125,24 +137,17 @@ class sqlite4code:
         self.DeckTblReversed=self.makeDT(self.result)
         return self.DeckTblReversed
     def makeDT(self,result):
-        #try:
-            #self.result = self.cursor.fetchone()
-            #if self.rowNum - self.PreviousCount > 0:
-            #    self.CurrentRow=self.rowNum - self.PreviousCount
-            #    self.strSelect=f"SELECT * FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum = {self.CurrentRow}; "
-            #self.PreviousCount += 1
+        #try:            #self.result = self.cursor.fetchone()            #if self.rowNum - self.PreviousCount > 0:            #    self.CurrentRow=self.rowNum - self.PreviousCount            #    self.strSelect=f"SELECT * FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum = {self.CurrentRow}; "            #self.PreviousCount += 1
         self.DeckTblReversed=[]; lenofint=2
         self.result=result
         print(f"{self.result=}")
         for deco,echo in enumerate(self.result):
-            if deco > 1:                
+            if deco > 2:             #self.deckNum,self.rowNum,self.sflag::0, 1, 2   
                 jj=[];                  #chunk size                        
                 chunks = [echo[i:i+lenofint] for i in range(0, len(echo), lenofint)]#print(chunks)
                 for feco in chunks:    jj.append(int(feco))    
-                else:   print(f"jj={jj}"); self.DeckTblReversed.append(jj)
-                #self.DeckTblReversed.append(int(echo[i:i+lenofint]) for i in range(0, len(self.result[deco]), lenofint))            
-        #except sqlite3.Error as ex:
-        #    print(f"{ex=}")
+                else:   print(f"{jj=}"); self.DeckTblReversed.append(jj)
+                #self.DeckTblReversed.append(int(echo[i:i+lenofint]) for i in range(0, len(self.result[deco]), lenofint))                    #except sqlite3.Error as ex:        #    print(f"{ex=}")
         return self.DeckTblReversed
 
 class back2theFuture:
@@ -638,7 +643,7 @@ class screan(pygame.sprite.Sprite):
         self.timerA=timerA
         self.rd=[]
         self.fd=[]
-        self.loaditnow='A6'
+        self.loaditnow='A8'
         # Declaring namedtuple()   
         self.OrigDeck=DeckTbl
         self.Begpos = namedtuple('BeginPos',['beginx','beginy'])   
@@ -852,6 +857,7 @@ class screan(pygame.sprite.Sprite):
         self.Enditp=(opox,opoy)
         countofAcesSkipped=0
         CurrentBick=0
+        bogo.mouseUpHappened=True
         if but1==1:
             print(f'mous up   @ {self.Enditp[0]},{self.Enditp[1]}')
             Status_Text=""
@@ -876,7 +882,7 @@ class screan(pygame.sprite.Sprite):
                     PenguinImage = pygame.image.load(lit1).convert()                 
                     for lous in range(8):
                         self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[1]))
-                    bogo.cleanUpdb()
+                    bogo.updateWon();bogo.cleanUpdb()
                 else:
                     #DeckTbl = Decl.CheckDiscard(DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
                     #DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
