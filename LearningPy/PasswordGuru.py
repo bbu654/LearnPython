@@ -492,7 +492,34 @@ if __name__ == "__main__":
     dispatch_dict('mul', 2, 8)      #16
     dispatch_if('unknown', 2, 8)    #None
     dispatch_dict('unknown', 2, 8)  #None
-    
+    import itertools
+    for p in itertools.permutations('ABCD'):
+        print(p)
+    """
+    ('A', 'B', 'C', 'D')
+    ('A', 'B', 'D', 'C')
+    ('A', 'C', 'B', 'D')
+    ('A', 'C', 'D', 'B')
+    ('A', 'D', 'B', 'C')
+    ('A', 'D', 'C', 'B')
+    ('B', 'A', 'C', 'D')
+    ('B', 'A', 'D', 'C')
+    ('B', 'C', 'A', 'D')
+    ('B', 'C', 'D', 'A')
+    ('B', 'D', 'A', 'C')
+    ('B', 'D', 'C', 'A')
+    ('C', 'A', 'B', 'D')
+    ('C', 'A', 'D', 'B')
+    ('C', 'B', 'A', 'D')
+    ('C', 'B', 'D', 'A')
+    ('C', 'D', 'A', 'B')
+    ('C', 'D', 'B', 'A')
+    ('D', 'A', 'B', 'C')
+    ('D', 'A', 'C', 'B')
+    ('D', 'B', 'A', 'C')
+    ('D', 'B', 'C', 'A')
+    ('D', 'C', 'A', 'B')
+    ('D', 'C', 'B', 'A')    """
     # python program to check if all  values in the list are greater than val using all() function
     # driver code 
     list1 =[10, 20, 30, 40, 50, 60]
