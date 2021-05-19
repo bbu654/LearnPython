@@ -127,7 +127,7 @@ class sqlite4code:
         self.strDelete=f"DELETE FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum > 1 "
         self.cursor.execute(self.strDelete)
         self.savedb()
-        self.closedb()
+        #self.closedb()
     def getWdekNo(self,dekNo):
         self.deckNum=dekNo
         self.rowNum=0
@@ -739,7 +739,7 @@ class screan(pygame.sprite.Sprite):
         scrnX,scrnY=max(pygame.display.list_modes())
         xxx, yyy = self.scrn.get_size()
         return xxx,yyy,scrnX,scrnY,SCREEN
-    def handleEvent(self,DeckTbl,running,InitGame,reverseforward,bogo):
+    def handleEvent(self,DeckTbl,running,InitGame,reverseforward,bogo,Decl):
         #self.Double
         if not InitGame:
             InitGame=True       #SCREEN = pygame.display.set_mode(width,height)
@@ -776,7 +776,15 @@ class screan(pygame.sprite.Sprite):
                     print('right stop;')
                 if event.key == pygame.K_UP or event.key == ord('w'):                    
                     DeckTbl=reverseforward.handleUpArrow(DeckTbl,self,bogo);      print('jump stop;')
-
+                if event.key == ord('r'):
+                    PrintMoves.append(f"exec another game")
+                    #DeclTbl=[]
+                    Decl=deck(DeckTable)
+                    bogo=sqlite4code(Decl.DeckTbl)
+                    screen=screan(Decl.DeckTbl)
+                    screen.OriginalDeck=Decl.DeckTbl
+                    reverseforward=back2theFuture(Decl.DeckTbl,screen.loaditnow)
+                    screen.INITGAME(Decl)
                 if event.key == ord('q'):
                     print(PrintMoves)
                     running = False  
@@ -890,26 +898,38 @@ class screan(pygame.sprite.Sprite):
                     for dede in reverseforward.ReverseDecc:
                         ReverseHistory.append(dede)        
                     reverseforward.ReverseDecc=reverseforward.AppendDeck(DeckTbl,reverseforward.ReverseDecc,self.loaditnow)
-#Deck=deck(DeckTable,Discard,SCREEN)
-DeclTbl=[]
+    def INITGAME(self,Decl):    #Deck=deck(DeckTable,Discard,SCREEN)
+
+        DeclTbl=[]
+        #Decl=deck(DeckTable)
+        #bogo=sqlite4code(Decl.DeckTbl)
+        #screen=screan(Decl.DeckTbl)
+        #screen.OriginalDeck=Decl.DeckTbl
+        #reverseforward=back2theFuture(Decl.DeckTbl,screen.loaditnow)
+
+        ReverseHistory=reverseforward.ReverseDecc
+        ForwardHistory=reverseforward.ForwardDecc
+
+        print(f"{type(screen)=}, {DeckTable=}, {Decl.DeckTbl=}, {col0=}")
+        DeclTbl.append(col0);       DeclTbl.append(col1)
+        DeclTbl.append(col2);       DeclTbl.append(col3)
+        DeclTbl.append(col4);       DeclTbl.append(col5)
+        DeclTbl.append(col6);       DeclTbl.append(col7);       print(f"{DeclTbl=}")
+        print(f"col0=>7{col0}{col1}{col2}{col3}{col4}{col5}{col6}{col7}")
+        print(f"DeclTbl==Decl.DeckTbl={DeclTbl==Decl.DeckTbl}")
+        #gameLoop
+        running=True;   pygame.init(); j=-1; InitGame=False
+        bogo.storedb(Decl.DeckTbl)
+#DeclTbl=[]
 Decl=deck(DeckTable)
 bogo=sqlite4code(Decl.DeckTbl)
 screen=screan(Decl.DeckTbl)
 screen.OriginalDeck=Decl.DeckTbl
 reverseforward=back2theFuture(Decl.DeckTbl,screen.loaditnow)
-
+screen.INITGAME(Decl)
 ReverseHistory=reverseforward.ReverseDecc
 ForwardHistory=reverseforward.ForwardDecc
-        
-print(f"{type(screen)=}, {DeckTable=}, {Decl.DeckTbl=}, {col0=}")
-DeclTbl.append(col0);       DeclTbl.append(col1)
-DeclTbl.append(col2);       DeclTbl.append(col3)
-DeclTbl.append(col4);       DeclTbl.append(col5)
-DeclTbl.append(col6);       DeclTbl.append(col7);       print(f"{DeclTbl=}")
-print(f"col0=>7{col0}{col1}{col2}{col3}{col4}{col5}{col6}{col7}")
-print(f"DeclTbl==Decl.DeckTbl={DeclTbl==Decl.DeckTbl}")
-#gameLoop
-running=True;   pygame.init(); j=-1; InitGame=False
+running=True;    pygame.init();    j=-1;    InitGame=False
 while running:
     if not InitGame:
         InitGame=True       #SCREEN = pygame.display.set_mode(width,height)
@@ -918,7 +938,7 @@ while running:
         DeckTbl=Decl.DeckTbl
     pygame.display.update()
    #ForwardDeck,ReverseDeck,DeckTbl,running,InitGame=screen.handleEvent(ForwardDeck,ReverseDeck,DeckTbl,running,InitGame)
-    DeckTbl,running,InitGame,reverseforward=screen.handleEvent(DeckTbl,running,InitGame,reverseforward,bogo)
+    DeckTbl,running,InitGame,reverseforward=screen.handleEvent(DeckTbl,running,InitGame,reverseforward,bogo,Decl)
     screen.FramePerSec.tick(screen.FPS)
                 #TODO: put Discard at top of page b) merge Discard into DeckTbl
 pathout=f"C:/Users/Brice/source/Resources/Python/fclassedv00012ou{screen.loaditnow}.txt"
