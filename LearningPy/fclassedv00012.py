@@ -127,7 +127,7 @@ class sqlite4code:
         self.strDelete=f"DELETE FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum > 1 "
         self.cursor.execute(self.strDelete)
         self.savedb()
-        self.closedb()
+        #self.closedb()
     def getWdekNo(self,dekNo):
         self.deckNum=dekNo
         self.rowNum=0
@@ -193,9 +193,10 @@ class deck:
     def __init__(self, cards):
         self.cards = cards
         self.col=[[0],[0],[0],[0],[0],[0],[0],[0]]
+        self.initcol()
         # TODO:      EveryWhere there is a Discard we need a workaround!!!!!
         col0=[0];    col1=[0];    col2=[0];    col3=[0];    col4=[0];    col5=[0];    col6=[0];    col7=[0]
-        self.DeckTbl=[]
+        self.DeckTbl=[];DeckTbl=[]
         if len(self.cards) > 0:
             for ick in range(XCardSlots): #0-7
                 for pop,card in enumerate(self.cards[ick]):
@@ -213,9 +214,13 @@ class deck:
             #for card in cards:
             #    self.DeckTbl.append(card)
         self.Tbl=self.DeckTbl
-        
+    def initcol(self):
+        self.col0=[0];    self.col1=[0];    self.col2=[0];    self.col3=[0]
+        self.col4=[0];    self.col5=[0];    self.col6=[0];    self.col7=[0]
+
     def IsSolvable(self,cards):
-        self.cards = cards
+        self.cards = cards;    TableB=[[0] * n for i in range(m)]; self.initcol()
+        col0=[0];    col1=[0];     col2=[0];     col3=[0];    col4=[0]; col5=[0]; col6=[0]; col7=[0]
         for o,p in enumerate(self.cards):
             y_modifier= (o//(XCardSlots)) #+1    #if i==horCardSlots+1 or y_modifier==0:         y_modifier=y_modifier+1             #y_modifier=y_modifier+1    
             x_modifier=(o%(XCardSlots))       #shorty.append(y_modifier) #!    newx=(x*x_modifier) + x#initial_left_width    newx=newx+(card_width*(x_modifier))    #shorty.append(YPOS[y_modifier-1])
@@ -229,26 +234,26 @@ class deck:
         return True
 
     def fillDeckTbl(self,DeckTbl):
-        self.DeckTbl.append(col0);          self.DeckTbl.append(col1)
-        self.DeckTbl.append(col2);          self.DeckTbl.append(col3)
-        self.DeckTbl.append(col4);          self.DeckTbl.append(col5)
-        self.DeckTbl.append(col6);          self.DeckTbl.append(col7)
-        DeckTbl.append(col0);               DeckTbl.append(col1)
-        DeckTbl.append(col2);               DeckTbl.append(col3)
-        DeckTbl.append(col4);               DeckTbl.append(col5)
-        DeckTbl.append(col6);               DeckTbl.append(col7)
+        self.DeckTbl.append(self.col0);          self.DeckTbl.append(self.col1)
+        self.DeckTbl.append(self.col2);          self.DeckTbl.append(self.col3)
+        self.DeckTbl.append(self.col4);          self.DeckTbl.append(self.col5)
+        self.DeckTbl.append(self.col6);          self.DeckTbl.append(self.col7)
+        DeckTbl.append(self.col0);               DeckTbl.append(self.col1)
+        DeckTbl.append(self.col2);               DeckTbl.append(self.col3)
+        DeckTbl.append(self.col4);               DeckTbl.append(self.col5)
+        DeckTbl.append(self.col6);               DeckTbl.append(self.col7)
     #def add_trick(self, trick):
     #    self.tricks.append(trick)
     def fillColx(self,xMod,xVal):
         self.col[xMod].append(xVal);PopTbl[xMod].append(xVal)
-        if xMod==0 and not xVal in col0:    col0.append(xVal)
-        if xMod==1 and not xVal in col1:    col1.append(xVal)
-        if xMod==2 and not xVal in col2:    col2.append(xVal)
-        if xMod==3 and not xVal in col3:    col3.append(xVal)
-        if xMod==4 and not xVal in col4:    col4.append(xVal)
-        if xMod==5 and not xVal in col5:    col5.append(xVal)
-        if xMod==6 and not xVal in col6:    col6.append(xVal)
-        if xMod==7 and not xVal in col7:    col7.append(xVal)
+        if xMod==0 and not xVal in self.col0:    self.col0.append(xVal)
+        if xMod==1 and not xVal in self.col1:    self.col1.append(xVal)
+        if xMod==2 and not xVal in self.col2:    self.col2.append(xVal)
+        if xMod==3 and not xVal in self.col3:    self.col3.append(xVal)
+        if xMod==4 and not xVal in self.col4:    self.col4.append(xVal)
+        if xMod==5 and not xVal in self.col5:    self.col5.append(xVal)
+        if xMod==6 and not xVal in self.col6:    self.col6.append(xVal)
+        if xMod==7 and not xVal in self.col7:    self.col7.append(xVal)
     def HaveYouWon(self,DeckTbl,SCREEN):
         won=True
         Discard,DeckTbl=self.CreatDiscard(DeckTbl)        #for pin in range(XCardSlots):        #    Discard.append(DeckTbl[pin][0])
@@ -643,7 +648,7 @@ class screan(pygame.sprite.Sprite):
         self.timerA=timerA
         self.rd=[]
         self.fd=[]
-        self.loaditnow='A8'
+        self.loaditnow='A9'
         # Declaring namedtuple()   
         self.OrigDeck=DeckTbl
         self.Begpos = namedtuple('BeginPos',['beginx','beginy'])   
@@ -697,7 +702,10 @@ class screan(pygame.sprite.Sprite):
         pygame.display.set_caption("Brice's Free Cell")
         pygame.draw.line(self.SCREEN, self.RED, (XPOS[0],DPOS-1), (EPOS,DPOS-1))
         xxx,yyy,scrnX,scrnY,SCREEN = self.getScreenSize(SCREEN)
-        print(f"{xxx=}, {yyy=}, {scrnX=}, {scrnY=}, {SCREEN=}")    #xxx=1860, yyy=1000, SCREEN=<Surface(1860x1000x32 SW)>
+        if scrnX > xxx and scrnY > yyy:
+            print(f"{xxx=}, {yyy=}, {scrnX=}, {scrnY=}, {SCREEN=}")    #xxx=1860, yyy=1000, scrnX=1920, scrnY=1080, SCREEN=<Surface(1860x1000x32 SW)>
+        else:
+            pass    #TODO: USE SMALLER CARDS AND CHANGE THE XXX , YYY       
         #if didyouwin:    #Moved to a function            #    self.Status_Text = "Congratulations! You Win!"            #    self.txt_surface = self.font.render(self.Status_Text, True, self.BLACK)                 # Resize the box if the text is too long.            #    self.tsWidth = max(200, self.txt_surface.get_width()+10)            #    self.input_box.w = self.tsWidth                                                 # Blit the text.            #    self.SCREEN.blit(self.txt_surface, (self.input_box.x+5, self.input_box.y+5))       # Blit the input_box rect.            #    pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)            #    lit1=f"{pathrb}{str(53)}.png"            #    PenguinImage = pygame.image.load(lit1).convert()                             #    for lous in range(8):            #        self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[0]))            #else:            #    Discard,DeckTbl = self.CheckDiscard(Discard,DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)            #for g,h in enumerate(Discard):            #    lit1=f"{pathrb}{str(h)}.png";    IsThereADiscard = True;    #    PenguinImage = pygame.image.load(lit1).convert()    #    self.SCREEN.blit(PenguinImage, (XPOS[g],1))  
         for lick in range(8):
             for bick in range(len(DeckTbl[lick])):
@@ -739,7 +747,7 @@ class screan(pygame.sprite.Sprite):
         scrnX,scrnY=max(pygame.display.list_modes())
         xxx, yyy = self.scrn.get_size()
         return xxx,yyy,scrnX,scrnY,SCREEN
-    def handleEvent(self,DeckTbl,running,InitGame,reverseforward,bogo):
+    def handleEvent(self,DeckTbl,running,InitGame,reverseforward,bogo,Decl):
         #self.Double
         if not InitGame:
             InitGame=True       #SCREEN = pygame.display.set_mode(width,height)
@@ -776,7 +784,16 @@ class screan(pygame.sprite.Sprite):
                     print('right stop;')
                 if event.key == pygame.K_UP or event.key == ord('w'):                    
                     DeckTbl=reverseforward.handleUpArrow(DeckTbl,self,bogo);      print('jump stop;')
-
+                if event.key == ord('r'):
+                    PrintMoves.append(f"exec another game")
+                    col0=[0];    col1=[0];    col2=[0];    col3=[0];    col4=[0];    col5=[0];    col6=[0];    col7=[0]    #TODO:ADD 8 ZEROS to below
+                    DeckTable=[]    #DeclTbl=[]
+                    Decl=deck(DeckTable)
+                    bogo=sqlite4code(Decl.DeckTbl)
+                    screen=screan(Decl.DeckTbl)
+                    screen.OriginalDeck=Decl.DeckTbl
+                    reverseforward=back2theFuture(Decl.DeckTbl,screen.loaditnow)
+                    screen.INITGAME(Decl)
                 if event.key == ord('q'):
                     print(PrintMoves)
                     running = False  
@@ -890,26 +907,37 @@ class screan(pygame.sprite.Sprite):
                     for dede in reverseforward.ReverseDecc:
                         ReverseHistory.append(dede)        
                     reverseforward.ReverseDecc=reverseforward.AppendDeck(DeckTbl,reverseforward.ReverseDecc,self.loaditnow)
-#Deck=deck(DeckTable,Discard,SCREEN)
-DeclTbl=[]
+    def INITGAME(self,Decl):    #Deck=deck(DeckTable,Discard,SCREEN)
+
+        DeclTbl=[]
+        #Decl=deck(DeckTable)
+        #bogo=sqlite4code(Decl.DeckTbl)
+        #screen=screan(Decl.DeckTbl)
+        #screen.OriginalDeck=Decl.DeckTbl
+        #reverseforward=back2theFuture(Decl.DeckTbl,screen.loaditnow)
+
+        ReverseHistory=reverseforward.ReverseDecc
+        ForwardHistory=reverseforward.ForwardDecc
+        print(f"{type(screen)=}, {DeckTable=}, {Decl.DeckTbl=}, {col0=}")
+        DeclTbl.append(col0);       DeclTbl.append(col1)
+        DeclTbl.append(col2);       DeclTbl.append(col3)
+        DeclTbl.append(col4);       DeclTbl.append(col5)
+        DeclTbl.append(col6);       DeclTbl.append(col7);       print(f"{DeclTbl=}")
+        print(f"col0=>7{col0}{col1}{col2}{col3}{col4}{col5}{col6}{col7}")
+        print(f"DeclTbl==Decl.DeckTbl={DeclTbl==Decl.DeckTbl}")
+        #gameLoop
+        running=True;   pygame.init(); j=-1; InitGame=False
+        bogo.storedb(Decl.DeckTbl)
+#DeclTbl=[]
 Decl=deck(DeckTable)
 bogo=sqlite4code(Decl.DeckTbl)
 screen=screan(Decl.DeckTbl)
 screen.OriginalDeck=Decl.DeckTbl
 reverseforward=back2theFuture(Decl.DeckTbl,screen.loaditnow)
-
+screen.INITGAME(Decl)
 ReverseHistory=reverseforward.ReverseDecc
 ForwardHistory=reverseforward.ForwardDecc
-        
-print(f"{type(screen)=}, {DeckTable=}, {Decl.DeckTbl=}, {col0=}")
-DeclTbl.append(col0);       DeclTbl.append(col1)
-DeclTbl.append(col2);       DeclTbl.append(col3)
-DeclTbl.append(col4);       DeclTbl.append(col5)
-DeclTbl.append(col6);       DeclTbl.append(col7);       print(f"{DeclTbl=}")
-print(f"col0=>7{col0}{col1}{col2}{col3}{col4}{col5}{col6}{col7}")
-print(f"DeclTbl==Decl.DeckTbl={DeclTbl==Decl.DeckTbl}")
-#gameLoop
-running=True;   pygame.init(); j=-1; InitGame=False
+running=True;    pygame.init();    j=-1;    InitGame=False
 while running:
     if not InitGame:
         InitGame=True       #SCREEN = pygame.display.set_mode(width,height)
@@ -918,7 +946,7 @@ while running:
         DeckTbl=Decl.DeckTbl
     pygame.display.update()
    #ForwardDeck,ReverseDeck,DeckTbl,running,InitGame=screen.handleEvent(ForwardDeck,ReverseDeck,DeckTbl,running,InitGame)
-    DeckTbl,running,InitGame,reverseforward=screen.handleEvent(DeckTbl,running,InitGame,reverseforward,bogo)
+    DeckTbl,running,InitGame,reverseforward=screen.handleEvent(DeckTbl,running,InitGame,reverseforward,bogo,Decl)
     screen.FramePerSec.tick(screen.FPS)
                 #TODO: put Discard at top of page b) merge Discard into DeckTbl
 pathout=f"C:/Users/Brice/source/Resources/Python/fclassedv00012ou{screen.loaditnow}.txt"
