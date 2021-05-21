@@ -63,8 +63,8 @@ class sqlite4code:
         self.connection.commit()
     def closedb(self):
         # We can also close the connection if we are done with it.    # Just be sure any changes have been committed or they will be lost.
-        self.connection.close()				#The data you’ve saved is persistent and is available in subsequent sessions:
-
+        #self.connection.close()				#The data you’ve saved is persistent and is available in subsequent sessions:
+        pass
     def storedb(self,DeckTbl):        # Insert a row of data
         self.strdeck=""
         self.sflag=f"' '"
@@ -84,7 +84,7 @@ class sqlite4code:
         else:
             self.strdeck+=f"'{self.listdeck[XCardSlots-1]}'"    
         self.strInsert=f'INSERT INTO {self.dbtableName} VALUES ({self.deckNum},{self.rowNum},{self.sflag},{self.strdeck})'
-        self.cursor.execute(self.strInsert)
+        self.cursor.execute(self.strInsert) #TODO: Check if database is locked
         self.rowNum+=1
     def getPreviousDT(self):
         if self.rowNum > 0:
@@ -134,7 +134,8 @@ class sqlite4code:
         self.strSelectdn= f"SELECT * FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum = {self.rowNum}; "
         self.cursor.execute(self.strSelect)
         self.result = self.cursor.fetchone()                        #if self.rowNum - self.PreviousCount > 0:                #    self.CurrentRow=self.rowNum - self.PreviousCount                #    self.strSelect=f"SELECT * FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum = {self.CurrentRow}; "                #self.PreviousCount += 1
-        self.DeckTblReversed=self.makeDT(self.result)
+        if self.result:
+            self.DeckTblReversed=self.makeDT(self.result)
         return self.DeckTblReversed
     def makeDT(self,result):
         #try:            #self.result = self.cursor.fetchone()            #if self.rowNum - self.PreviousCount > 0:            #    self.CurrentRow=self.rowNum - self.PreviousCount            #    self.strSelect=f"SELECT * FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum = {self.CurrentRow}; "            #self.PreviousCount += 1
@@ -751,8 +752,8 @@ class screan(pygame.sprite.Sprite):
         #self.Double
         if not InitGame:
             InitGame=True       #SCREEN = pygame.display.set_mode(width,height)
-            screen.SCREEN.fill(screen.LIGHTGREY)
-            DeckTbl,screen.Status_Text,screen.SCREEN = screen.fillScreen(DeckTbl,screen.Status_Text,screen.SCREEN)
+            self.SCREEN.fill(self.LIGHTGREY)
+            DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
     
         pygame.display.update()
         for event in pygame.event.get():
@@ -793,7 +794,7 @@ class screan(pygame.sprite.Sprite):
                     screen=screan(Decl.DeckTbl)
                     screen.OriginalDeck=Decl.DeckTbl
                     reverseforward=back2theFuture(Decl.DeckTbl,screen.loaditnow)
-                    screen.INITGAME(Decl)
+                    screen.INITGAME(Decl,reverseforward,bogo)
                 if event.key == ord('q'):
                     print(PrintMoves)
                     running = False  
@@ -899,7 +900,7 @@ class screan(pygame.sprite.Sprite):
                     PenguinImage = pygame.image.load(lit1).convert()                 
                     for lous in range(8):
                         self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[1]))
-                    bogo.updateWon();bogo.cleanUpdb()
+                    bogo.updateWon();bogo.cleanUpdb();didyouwin=False
                 else:
                     #DeckTbl = Decl.CheckDiscard(DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
                     #DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
@@ -907,7 +908,7 @@ class screan(pygame.sprite.Sprite):
                     for dede in reverseforward.ReverseDecc:
                         ReverseHistory.append(dede)        
                     reverseforward.ReverseDecc=reverseforward.AppendDeck(DeckTbl,reverseforward.ReverseDecc,self.loaditnow)
-    def INITGAME(self,Decl):    #Deck=deck(DeckTable,Discard,SCREEN)
+    def INITGAME(self,Decl,reverseforward,bogo):    #Deck=deck(DeckTable,Discard,SCREEN)
 
         DeclTbl=[]
         #Decl=deck(DeckTable)
@@ -926,15 +927,16 @@ class screan(pygame.sprite.Sprite):
         print(f"col0=>7{col0}{col1}{col2}{col3}{col4}{col5}{col6}{col7}")
         print(f"DeclTbl==Decl.DeckTbl={DeclTbl==Decl.DeckTbl}")
         #gameLoop
-        running=True;   pygame.init(); j=-1; InitGame=False
+        running=True;   pygame.init(); j=-1; InitGame=False; bogo.mouseUpHappened=False
         bogo.storedb(Decl.DeckTbl)
+        return Decl,reverseforward,bogo
 #DeclTbl=[]
 Decl=deck(DeckTable)
 bogo=sqlite4code(Decl.DeckTbl)
 screen=screan(Decl.DeckTbl)
 screen.OriginalDeck=Decl.DeckTbl
 reverseforward=back2theFuture(Decl.DeckTbl,screen.loaditnow)
-screen.INITGAME(Decl)
+Decl,reverseforward,bogo=screen.INITGAME(Decl,reverseforward,bogo)
 ReverseHistory=reverseforward.ReverseDecc
 ForwardHistory=reverseforward.ForwardDecc
 running=True;    pygame.init();    j=-1;    InitGame=False
