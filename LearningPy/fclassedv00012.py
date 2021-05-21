@@ -42,6 +42,7 @@ class sqlite4code:
         self.DeckTbl=DeckTbl
         self.mouseUpHappened=False
         self.sqlpath=f"C:/Users/Brice/source/Resources/Python/freecell.db"
+ 
         self.connection = sqlite3.connect(self.sqlpath)        #You can also supply the special name :memory: to create a database in RAM.
         #Once you have a Connection, you can create a Cursor object and call its execute() method to perform SQL commands:
         self.deckNum=random.randrange(99999999999)
@@ -63,8 +64,8 @@ class sqlite4code:
         self.connection.commit()
     def closedb(self):
         # We can also close the connection if we are done with it.    # Just be sure any changes have been committed or they will be lost.
-        #self.connection.close()				#The data you’ve saved is persistent and is available in subsequent sessions:
-        pass
+        self.connection.close()				#The data you’ve saved is persistent and is available in subsequent sessions:
+        
     def storedb(self,DeckTbl):        # Insert a row of data
         self.strdeck=""
         self.sflag=f"' '"
@@ -104,7 +105,8 @@ class sqlite4code:
                 #    self.CurrentRow=self.rowNum - self.PreviousCount
                 #    self.strSelect=f"SELECT * FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum = {self.CurrentRow}; "
                 self.PreviousCount += 1
-                self.DeckTblReversed=self.makeDT(self.result)
+                if self.result:                self.DeckTblReversed=self.makeDT(self.result)
+                else: self.DeckTblReversed=None
                 #print(f"{self.result=}")                #for deco,echo in enumerate(self.result):                #    if deco > 1:                                #        jj=[];                  #chunk size                        
                 #        chunks = [echo[i:i+lenofint] for i in range(0, len(echo), lenofint)]#print(chunks)       #        for feco in chunks:    jj.append(int(feco))      #        else:   print(f"jj={jj}"); self.DeckTblReversed.append(jj)
                 #        #self.DeckTblReversed.append(int(echo[i:i+lenofint]) for i in range(0, len(self.result[deco]), lenofint))            
@@ -127,7 +129,7 @@ class sqlite4code:
         self.strDelete=f"DELETE FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum > 1 "
         self.cursor.execute(self.strDelete)
         self.savedb()
-        #self.closedb()
+        self.closedb()
     def getWdekNo(self,dekNo):
         self.deckNum=dekNo
         self.rowNum=0
@@ -181,7 +183,8 @@ class back2theFuture:
             rich+=1
         return self.ReverseDecc
     def ReverseOneStep(self,DeckTbl,bogo):
-        DeckTbl=bogo.getPreviousDT()
+        self.DeckTblu=bogo.getPreviousDT()
+        if self.DeckTblu: DeckTbl=self.DeckTblu
         #pathReverses=f"C:/Users/Brice/source/Resources/Python/fcReverseDeckG.txt"        #self.ReverseDecc=[]        #with open(pathReverses) as Reversefile:        #    for line in Reversefile:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"        #        self.ReverseDecc.append(line.rstrip())        #print(f"{self.ReverseDecc=}")        #while DeckTbl==self.ReverseDecc[len(self.ReverseDecc) - 1] and len(self.ReverseDecc)>1:        #    self.ForwardDecc.append(self.ReverseDecc.pop())        #else:       #0=-1   1=-2    2=-3        #    Fwdindex=(self.NumOfBackwards*-1)-1;print(f"{Fwdindex=}")        #    DeckTbl=self.ReverseDecc[Fwdindex]; self.NumOfBackwards+=1
         return DeckTbl
     def handleUpArrow(self,DeckTbl,screeny,bogo):
@@ -217,7 +220,7 @@ class deck:
         self.Tbl=self.DeckTbl
     def initcol(self):
         self.col0=[0];    self.col1=[0];    self.col2=[0];    self.col3=[0]
-        self.col4=[0];    self.col5=[0];    self.col6=[0];    self.col7=[0]
+        self.col4=[0];    self.col5=[0];    self.col6=[0];    self.col7=[0];    DeckTbl=[]
 
     def IsSolvable(self,cards):
         self.cards = cards;    TableB=[[0] * n for i in range(m)]; self.initcol()
@@ -794,7 +797,7 @@ class screan(pygame.sprite.Sprite):
                     screen=screan(Decl.DeckTbl)
                     screen.OriginalDeck=Decl.DeckTbl
                     reverseforward=back2theFuture(Decl.DeckTbl,screen.loaditnow)
-                    screen.INITGAME(Decl,reverseforward,bogo)
+                    Decl,reverseforward,bogo=screen.INITGAME(Decl,reverseforward,bogo)
                 if event.key == ord('q'):
                     print(PrintMoves)
                     running = False  
