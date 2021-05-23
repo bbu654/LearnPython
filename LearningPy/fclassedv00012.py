@@ -85,7 +85,8 @@ class sqlite4code:
         else:
             self.strdeck+=f"'{self.listdeck[XCardSlots-1]}'"    
         self.strInsert=f'INSERT INTO {self.dbtableName} VALUES ({self.deckNum},{self.rowNum},{self.sflag},{self.strdeck})'
-        self.cursor.execute(self.strInsert) #TODO: Check if database is locked
+        if self.cursor:      
+            self.cursor.execute(self.strInsert) #TODO: Check if database is locked
         self.rowNum+=1
     def getPreviousDT(self):
         if self.rowNum > 0:
@@ -127,9 +128,11 @@ class sqlite4code:
     def cleanUpdb(self):
         #for dele in range(self.rowNum,2,-1):
         self.strDelete=f"DELETE FROM {self.dbtableName} WHERE deckNum='{self.deckNum}' AND rowNum > 1 "
-        self.cursor.execute(self.strDelete)
-        self.savedb()
-        self.closedb()
+        self.result=self.cursor.execute(self.strDelete)
+        if self.result.rowcount > 0: 
+            self.rowNum=1
+            self.savedb()
+        #self.closedb()
     def getWdekNo(self,dekNo):
         self.deckNum=dekNo
         self.rowNum=0
@@ -805,6 +808,8 @@ class screan(pygame.sprite.Sprite):
                     #sys.exit()
 
         self.FramePerSec.tick(self.FPS)
+        while len(DeckTbl) > 8:
+            del DeckTbl[0]
         return DeckTbl,running,InitGame,reverseforward
            # pygame.quit()
     #def handleOneReverse(self,DeckTbl,reverseforward):
@@ -903,7 +908,9 @@ class screan(pygame.sprite.Sprite):
                     PenguinImage = pygame.image.load(lit1).convert()                 
                     for lous in range(8):
                         self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[1]))
-                    bogo.updateWon();bogo.cleanUpdb();didyouwin=False
+                    bogo.updateWon()
+                    bogo.cleanUpdb()
+                    didyouwin=False
                 else:
                     #DeckTbl = Decl.CheckDiscard(DeckTbl)   #,col0,col1,col2,col3,col4,col5,col6,col7)
                     #DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
