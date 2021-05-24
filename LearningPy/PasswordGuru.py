@@ -282,26 +282,31 @@ myfunc(**dict_vec)
 #////////////////***********Stop Writing Classes************\\\\\\\\\\\\\\\\\\\
 Talk1 = {"Title":"Stop Writing Classes","Author":"Jack Diederich","Link":"https://www.youtube.com/watch?v=o9pEzgHorH0","Summary":"Classes are great but they are also overused.  This talk will describe examples of class overuse taken from real world code and refactor the unnecessary classes, exceptions, and modules out of them."}
 #Wrong:
-import urllib#, urllib3, Requests
+import urllib,urllib.request,urllib.parse,urllib.response#, urllib3, Requests
 class API:
     def __init__(self,key):
         self.header = dict(apikey=key)
 
     def call(self,method,params):       #        requust = urllib.
-        request = urllib.request(self.url + method[0] + '/'+method[1], urllib.urlencode(params),self.header)
+        self.url=f'https://api.webservice.com/'
+        self.litrequest=f"{self.url}{method[0]}/{method[1]}"
+        self.liturlparma=f"{urllib.parse.urlencode(params)}"
+        self.liturlheada=f"{urllib.parse.urlencode(self.header)}"    #        self.paramsa=f"{urllib.parse.quote_plus(params,self.header)}"
+        self.requesta = urllib.request.urlopen(f"{self.litrequest}?{self.liturlparma}&{self.liturlheada}")
         try:
-            response = json.loads(urllib.urlopen(request).read())
+            response = json.loads(urllib.response.urlopen(self.requesta).read())
             return response
         except urllib.HTTPError as error:
             return dict(Error=str(error))
 MuffinAPI=API(key='SECRET-API-KEY')
-MuffinAPI.API(key='SECRET-API-KEY').call(('mailings','stats'),{'id':1})
+
+MuffinAPI.url='https://api.webservice.com/'
+MuffinAPI.call(('mailings','stats'),{'id':1})
 #Can be aliased like this:
 MuffinAPI.request = API(key='SECRET-API-KEY').call
 # and used in  a function like this:
 MuffinAPI.request(('mailings','stats'),{'id':1})
-
-MUFFIN_API= url='https://api.webservice.com/%s/%s'
+MUFFIN_API.url='https://api.webservice.com/%s/%s'
 MUFFIN_API_KEY = 'SECRET-API-KEY'
 class newAPI:
     def request(noun,verb,**params):
@@ -435,9 +440,6 @@ def dispatch_if(operator: str, x: int, y: int) -> int:
 def my_add(a: int, b: int) -> int:
     return a + b
 
-def check(list1, val):
-    return(all(x > val for x in list1))
-
 def dispatch_dict(operator: str, x: int, y: int) -> int:
     return {
             'add': lambda: x + y,
@@ -446,6 +448,8 @@ def dispatch_dict(operator: str, x: int, y: int) -> int:
             'div': lambda: x / y,
             }.get(operator, lambda: None)()
 
+def check(list1, val):
+    return(all(x > val for x in list1))
 
 @contextlib.contextmanager
 def file_hanlder(file_name,file_mode):
@@ -458,7 +462,7 @@ if __name__ == "__main__":
    with file_hanlder("test.txt","w") as f:
        f.write("Test")
 
-   print(f.closed)
+   print(f"{f.closed=}")
 
 # Functions are first-class citizens in Python:# They can be passed as arguments to other functions,# returned as values from other functions, and# assigned to variables and stored in data structures.
 if __name__ == "__main__":

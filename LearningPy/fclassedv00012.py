@@ -92,14 +92,15 @@ class sqlite4code:
     def getPreviousDT(self):
         if self.rowNum > 0:
             try:
-                if self.mouseUpHappened:
+                if self.mouseUpHappened and self.rowNum >1:
                     self.strDelete1=f"DELETE FROM {self.dbtableName} WHERE deckNum={self.deckNum} AND rowNum = {self.rowNum}; "
                     self.cursor.execute(self.strDelete1)
                     self.rowNum -= 1    
-                self.mouseUpHappened=False    
+                #elif self.rowNum > 0:
                 self.strDelete1=f"DELETE FROM {self.dbtableName} WHERE deckNum={self.deckNum} AND rowNum = {self.rowNum}; "
                 self.cursor.execute(self.strDelete1)
                 self.rowNum -= 1    
+                self.mouseUpHappened=False    
                 self.strSelect=f"SELECT * FROM {self.dbtableName} WHERE deckNum={self.deckNum} AND rowNum = {self.rowNum}; "
                 self.cursor.execute(self.strSelect)
                 self.result = self.cursor.fetchone()
