@@ -85,7 +85,8 @@ class sqlite4code:
         else:
             self.strdeck+=f"'{self.listdeck[XCardSlots-1]}'"    
         self.strInsert=f'INSERT INTO {self.dbtableName} VALUES ({self.deckNum},{self.rowNum},{self.sflag},{self.strdeck})'
-        if self.cursor:      
+        if self.cursor:   
+            print(f"{self.strInsert=}")   
             self.cursor.execute(self.strInsert) #TODO: Check if database is locked
         self.rowNum+=1
     def getPreviousDT(self):
