@@ -657,7 +657,7 @@ class screan(pygame.sprite.Sprite):
         self.timerA=timerA
         self.rd=[]
         self.fd=[]
-        self.loaditnow='A9'
+        self.loaditnow='Aa'
         # Declaring namedtuple()   
         self.OrigDeck=DeckTbl
         self.Begpos = namedtuple('BeginPos',['beginx','beginy'])   
