@@ -108,8 +108,7 @@ class Animal:
         Raises
         ------
         NotImplementedError
-            If no sound is set for the animal or passed in as a
-            parameter.
+            If no sound is set for the animal or passed in as a parameter.
         """
 
         if self.sound is None and sound is None:
@@ -282,32 +281,33 @@ myfunc(**dict_vec)
 #////////////////***********Stop Writing Classes************\\\\\\\\\\\\\\\\\\\
 Talk1 = {"Title":"Stop Writing Classes","Author":"Jack Diederich","Link":"https://www.youtube.com/watch?v=o9pEzgHorH0","Summary":"Classes are great but they are also overused.  This talk will describe examples of class overuse taken from real world code and refactor the unnecessary classes, exceptions, and modules out of them."}
 #Wrong:
-import urllib,urllib.request,urllib.parse,urllib.response#, urllib3, Requests
+import urllib,urllib.request,urllib.parse,urllib.response,urllib.error#, urllib3, Requests
 class API:
     def __init__(self,key):
         self.header = dict(apikey=key)
 
     def call(self,method,params):       #        requust = urllib.
-        self.url=f'https://api.webservice.com/'
+        self.url=f'https://www.example.com/'
         self.litrequest=f"{self.url}{method[0]}/{method[1]}"
         self.liturlparma=f"{urllib.parse.urlencode(params)}"
         self.liturlheada=f"{urllib.parse.urlencode(self.header)}"    #        self.paramsa=f"{urllib.parse.quote_plus(params,self.header)}"
-        self.requesta = urllib.request.urlopen(f"{self.litrequest}?{self.liturlparma}&{self.liturlheada}")
+        self.litfinal=f"{self.litrequest}?{self.liturlparma}&{self.liturlheada}"
         try:
-            response = json.loads(urllib.response.urlopen(self.requesta).read())
+            self.requesta = urllib.request.urlopen(self.litfinal)        
+            response = json.loads(urllib.request.urlopen(self.requesta).read())
             return response
-        except urllib.HTTPError as error:
+        except urllib.error.HTTPError as error:
             return dict(Error=str(error))
 MuffinAPI=API(key='SECRET-API-KEY')
 
-MuffinAPI.url='https://api.webservice.com/'
+MuffinAPI.url='https://api.webservice.com'
 MuffinAPI.call(('mailings','stats'),{'id':1})
 #Can be aliased like this:
 MuffinAPI.request = API(key='SECRET-API-KEY').call
 # and used in  a function like this:
 MuffinAPI.request(('mailings','stats'),{'id':1})
-MUFFIN_API.url='https://api.webservice.com/%s/%s'
-MUFFIN_API_KEY = 'SECRET-API-KEY'
+#MUFFIN_API.url='https://www.example.com%s/%s'
+#MUFFIN_API_KEY = 'SECRET-API-KEY'
 class newAPI:
     def request(noun,verb,**params):
         try:        #get_article()
@@ -365,7 +365,7 @@ class Board(object):
                 cell.next = False
 class GameOfLife():
     #////////////////////******************Connors game of life implementaion
-    def neighbors(point):
+    def neighbors(self,point):
         x , y = point
         yield x + 1, y    
         yield x - 1, y    
@@ -375,20 +375,23 @@ class GameOfLife():
         yield x + 1, y - 1
         yield x - 1, y + 1
         yield x - 1, y - 1
-    def advance(board):
+    def advance(self,board):
         #pointa= 
         #neighbors1 = neighbors(pointa)
+        #gol=GameOfLife()
+        self.board=board
         newstate = set()
-        recalc = board | set(itertools.chain(*map(GameOfLife.neighbors, board)))    
+        recalc = self.board | set(itertools.chain(*map(self.neighbors, self.board)))    
         for point in recalc:
-            count = sum((neigh in board) for neigh in GameOfLife.neighbors(point))
-            if count == 3 or (count==2 and point in GameOfLife.neighbors):
+            count = sum((neigh in board) for neigh in self.neighbors(point))
+            if count == 3 or (count==2 and point in self.neighbors):
                 newstate.add(point)
         return newstate
-    glider = set([(0 , 0), (1 , 0), (2 , 0), (0 , 1), (1 , 2)])
-    for i in range(1000):
-        glider = advance(glider)
-    print(glider)
+    #gol=GameOfLife()
+    #glider = set([(0 , 0), (1 , 0), (2 , 0), (0 , 1), (1 , 2)])
+    #for i in range(1000):
+    #    glider = self.advance(glider)
+    #print(glider)
         
 import timeit
 class ThetimeitmoduleA:
@@ -451,6 +454,9 @@ def dispatch_dict(operator: str, x: int, y: int) -> int:
 def check(list1, val):
     return(all(x > val for x in list1))
 
+def greet(name):
+        return f"Hello, {name}!"
+
 @contextlib.contextmanager
 def file_hanlder(file_name,file_mode):
     file = open(file_name,file_mode)
@@ -459,13 +465,13 @@ def file_hanlder(file_name,file_mode):
 
 if __name__ == "__main__":
 
-   with file_hanlder("test.txt","w") as f:
+    with file_hanlder("test.txt","w") as f:
        f.write("Test")
 
-   print(f"{f.closed=}")
+    print(f"{f.closed=}")
 
 # Functions are first-class citizens in Python:# They can be passed as arguments to other functions,# returned as values from other functions, and# assigned to variables and stored in data structures.
-if __name__ == "__main__":
+#if __name__ == "__main__":
     funcs = [myfunc]
     funcs[0]
     #<function myfunc at 0x107012230>
@@ -482,6 +488,7 @@ if __name__ == "__main__":
     collection=range(10)
     condition=not x % 2
     vals = [expression         for value in collection         if condition]
+    print(vals)
     # This is equivalent to:
     vals = []
     for value in collection:
@@ -497,8 +504,14 @@ if __name__ == "__main__":
     dispatch_if('unknown', 2, 8)    #None
     dispatch_dict('unknown', 2, 8)  #None
     import itertools
+    cnt=0
     for p in itertools.permutations('ABCD'):
-        print(p)
+        print(f"p{str(0) if cnt<10 else ''}{cnt}={p}",end="    ")
+        cnt+=1
+        if cnt >0 and cnt%6==0: print()
+        #cnt+=1
+    else:
+        print()
     """
     ('A', 'B', 'C', 'D'),    ('A', 'B', 'D', 'C'),    ('A', 'C', 'B', 'D'),    ('A', 'C', 'D', 'B'),    ('A', 'D', 'B', 'C'),    ('A', 'D', 'C', 'B')
     ('B', 'A', 'C', 'D'),    ('B', 'A', 'D', 'C'),    ('B', 'C', 'A', 'D'),    ('B', 'C', 'D', 'A'),    ('B', 'D', 'A', 'C'),    ('B', 'D', 'C', 'A')
@@ -509,31 +522,45 @@ if __name__ == "__main__":
     list1 =[10, 20, 30, 40, 50, 60]
     val = 5
     if(check(list1, val)):
-        print("Yes")
+        print(f"check(list1={list1}, val={val})=Yes")
     else:
-        print("No")
+        print(f"check(list1={list1}, val={val})=No")
     
     val = 20 
     if (check(list1, val)):
-        print("Yes")
+        print(f"check(list1={list1}, val={val})=Yes")
     else:
-        print("No")
+        print(f"check(list1={list1}, val={val})=No")
     # Python 3.5+ supports 'type annotations' that can be
     # used with tools like Mypy to write statically typed Python:
     # collections.Counter lets you find the most common elements in an iterable:
     c = collections.Counter('helloworld')
-    print(c)                    #Counter({'l': 3, 'o': 2, 'e': 1, 'd': 1, 'h': 1, 'r': 1, 'w': 1})
-    print(c.most_common(3))     #[('l', 3), ('o', 2), ('e', 1)]
+    print(f"{c=}    c.most_common(3)={c.most_common(3)}")                    #Counter({'l': 3, 'o': 2, 'e': 1, 'd': 1, 'h': 1, 'r': 1, 'w': 1})    print(c.most_common(3))     #[('l', 3), ('o', 2), ('e', 1)]
     # When To Use __repr__ vs __str__?
     # Emulate what the std lib does:
     import datetime
     today = datetime.date.today()
 
     # Result of __str__ should be readable:
-    print(str(today))    #    '2017-02-02'
-
+    print(f"str(today)={str(today)}    repr(today)={repr(today)}    {today=}")    #    '2017-02-02'
     # Result of __repr__ should be unambiguous:
-    print(repr(today))          #    'datetime.date(2017, 2, 2)'
-
+    #print(repr(today))          #    'datetime.date(2017, 2, 2)'
     # Python interpreter sessions use __repr__ to inspect objects:
-    print(today)        #    datetime.date(2017, 2, 2)
+    #print(f"{today=}")        #    datetime.date(2017, 2, 2)
+
+
+    # You can use Python's built-in "dis"
+# module to disassemble functions and
+# inspect their CPython VM bytecode:
+
+    
+    print(greet('Dan'))        #'Hello, Dan!'
+
+    import dis
+    dis.dis(greet)
+    #2   0 LOAD_CONST     1 ('Hello, ')
+    #    2 LOAD_FAST      0 (name)
+    #    4 BINARY_ADD
+    #    6 LOAD_CONST     2 ('!')
+    #    8 BINARY_ADD
+    #   10 RETURN_VALUE
