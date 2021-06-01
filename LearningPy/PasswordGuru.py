@@ -311,6 +311,8 @@ MuffinAPI.request(('mailings','stats'),{'id':1})
 class newAPI:
     def request(noun,verb,**params):
         try:        #get_article()
+            MUFFIN_API_KEY = 'SECRET-API-KEY'
+            MUFFIN_API='https://www.example.com%s/%s'
             headers = {'apikey':MUFFIN_API_KEY}
             request = urllib.Request((MUFFIN_API % (noun,verb)), urllib.urlencode(params), headers)
             raise LookupError()
