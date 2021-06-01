@@ -65,7 +65,16 @@ class sqlite4code:
     def closedb(self):
         # We can also close the connection if we are done with it.    # Just be sure any changes have been committed or they will be lost.
         self.connection.close()				#The data you’ve saved is persistent and is available in subsequent sessions:
-        
+
+    def writedb2file(self,loaditnow):
+        self.loaditnow=loaditnow
+        self.strGetAll=f"SELECT * FROM {self.dbtableName} WHERE deckNum={self.deckNum};"
+        self.cursor.execute(self.strGetAll)
+        self.result = self.cursor.fetchall()
+        self.pathPutAll=f"C:/Users/Brice/source/Resources/Python/fcPutAll{self.loaditnow}.txt"
+        with open(self.pathPutAll, 'a') as PutAllfile:      #for line in screen.rd:    #                            var1, var2 = line.split(",");        pine=f"{line}\n"
+            PutAllfile.writelines(f"{str(self.result)};\n")
+
     def storedb(self,DeckTbl):        # Insert a row of data
         self.strdeck=""
         self.sflag=f"' '"
@@ -657,7 +666,7 @@ class screan(pygame.sprite.Sprite):
         self.timerA=timerA
         self.rd=[]
         self.fd=[]
-        self.loaditnow='Aa'
+        self.loaditnow='Ae'
         # Declaring namedtuple()   
         self.OrigDeck=DeckTbl
         self.Begpos = namedtuple('BeginPos',['beginx','beginy'])   
@@ -789,6 +798,8 @@ class screan(pygame.sprite.Sprite):
                     DeckTbl=reverseforward.ReverseOneStep(DeckTbl,bogo);   
                     DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)        
                     print('left stop;')
+                if event.key == ord('e'):
+                    bogo.writedb2file(self.loaditnow)
                 if event.key == pygame.K_RIGHT or event.key == ord('d'):                 
                     print('right stop;')
                 if event.key == pygame.K_UP or event.key == ord('w'):                    
@@ -911,6 +922,7 @@ class screan(pygame.sprite.Sprite):
                     for lous in range(8):
                         self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[1]))
                     bogo.updateWon()
+                    bogo.writedb2file(self.loaditnow)
                     bogo.cleanUpdb()
                     didyouwin=False
                 else:
