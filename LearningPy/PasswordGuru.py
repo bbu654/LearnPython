@@ -127,6 +127,34 @@ class Animal:
         :returns: a list of strings representing the header columns
         :rtype: list
         """
+# @classmethod vs @staticmethod vs "plain" methods What's the difference?
+
+class MyClass:
+    def method(self):
+        """
+        Instance methods need a class instance and
+        can access the instance through `self`.
+        """
+        return 'instance method called', self
+
+    @classmethod
+    def classmethod(cls):
+        """
+        Class methods don't need a class instance.
+        They can't access the instance (self) but
+        they have access to the class itself via `cls`.
+        """
+        return 'class method called', cls
+
+    @staticmethod
+    def staticmethod():
+        """
+        Static methods don't have access to `cls` or `self`.
+        They work like regular functions but belong to
+        the class's namespace.
+        """
+        return 'static method called'
+
 class rest1:
     
     def test_multiple_flags_at_once():    # Different ways to test multiple # flags at once in Python
@@ -442,6 +470,9 @@ def dispatch_if(operator: str, x: int, y: int) -> int:
     elif operator == 'div':  return x / y
     else:                    return None
 
+def checkValLTList(list1, val):
+    return(all(x > val for x in list1))
+
 def my_add(a: int, b: int) -> int:
     return a + b
 
@@ -458,7 +489,6 @@ def check(list1, val):
 
 def greet(name):
         return f"Hello, {name}!"
-
 @contextlib.contextmanager
 def file_hanlder(file_name,file_mode):
     file = open(file_name,file_mode)
@@ -552,8 +582,8 @@ if __name__ == "__main__":
 
 
     # You can use Python's built-in "dis"
-# module to disassemble functions and
-# inspect their CPython VM bytecode:
+    # module to disassemble functions and
+    # inspect their CPython VM bytecode:
 
     
     print(greet('Dan'))        #'Hello, Dan!'
@@ -566,3 +596,17 @@ if __name__ == "__main__":
     #    6 LOAD_CONST     2 ('!')
     #    8 BINARY_ADD
     #   10 RETURN_VALUE
+
+    # All methods types can be called on a class instance:
+    obj = MyClass()
+    print(f"{obj.method()=},   {obj.classmethod()=},    {obj.staticmethod()=}")
+    #obj.method()        #('instance method called', <MyClass instance at 0x1019381b8>)
+    #obj.classmethod()   #('class method called', <class MyClass at 0x101a2f4c8>)
+    #obj.staticmethod()   #'static method called'
+
+    # Calling instance methods fails if we only have the class object:
+    print(f"{MyClass.classmethod()=},    {MyClass.staticmethod()=},    {MyClass.method(obj)=}, MyClass.method() gives a TypeEX #TypeError:    unbound method method() must be called with MyClass instance as first argument (got nothing instead)")
+    #MyClass.classmethod()    ('class method called', <class MyClass at 0x101a2f4c8>)
+    #MyClass.staticmethod()    'static method called'
+    #MyClass.method()    #TypeError:     #    "unbound method method() must be called with MyClass "    #    "instance as first argument (got nothing instead)"
+  
