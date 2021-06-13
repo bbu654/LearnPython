@@ -1,4 +1,4 @@
-from sqlite3.dbapi2 import Connection, connect
+from sqlite3.dbapi2 import Connection, InternalError, connect
 import pygame, sys, random, sqlite3,statistics, os
 from pygame.joystick import get_count
 from pygame.locals import *
@@ -58,7 +58,9 @@ class sqlite4code:
         else:
             self.strexec=f'CREATE TABLE {self.dbtableName} (deckNum int, rowNum int, sflag text, col0 text, col1 text, col2 text, col3 text, col4 text, col5 text, col6 text, col7 text)'
             self.cursor.execute(self.strexec)
-        
+    def ijk(self, a: int, b: int) -> int: 
+        return a + b
+
     def savedb(self):
         # Save (commit) the changes
         self.connection.commit()
@@ -666,7 +668,7 @@ class screan(pygame.sprite.Sprite):
         self.timerA=timerA
         self.rd=[]
         self.fd=[]
-        self.loaditnow='Ai'
+        self.loaditnow='Al'
         # Declaring namedtuple()   
         self.OrigDeck=DeckTbl
         self.Begpos = namedtuple('BeginPos',['beginx','beginy'])   
@@ -695,6 +697,11 @@ class screan(pygame.sprite.Sprite):
         self.active = False
         self.text = ''
         self.done = False
+        self.PrevEvent=pygame.MOUSEWHEEL
+        self.mouseBeingMoved = False
+        self.mouseBeingMovedx=0
+        self.mouseBeingMovedy=0
+        self.cardBeingMoved = 0
         self.card_width =212
         self.card_height=292
         self.width = 1860
@@ -729,7 +736,7 @@ class screan(pygame.sprite.Sprite):
             for bick in range(len(DeckTbl[lick])):
                 #if DeckTbl[lick][bick] == 0:                    #    lit1=f"{pathrb}{str(53)}.png"                    #else:
                 lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(DeckTbl[lick][bick])}.png"
-                PenguinImage = pygame.image.load(lit1).convert()                 
+                PenguinImage = pygame.image.load(lit1).convert_alpha()                 
                 #if bick ==len(DeckTbl[lick]) - 1 and DeckTbl[lick][bick]  in aces:                    #    countofAcesSkipped +=1                    #else:                        #CurrentBick=bick       
                 LastYPOS=len(YPOS)-1
                 if bick > LastYPOS:
@@ -746,6 +753,10 @@ class screan(pygame.sprite.Sprite):
         self.input_box.w = tsWidth                                                 # Blit the text.
         self.SCREEN.blit(self.txt_surface, (self.input_box.x+5, self.input_box.y+5))       # Blit the input_box rect.
         pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)
+        if self.mouseBeingMoved:
+            Newlit=f"{self.pathrb}{str(self.cardBeingMoved)}.png"
+            NewImage= pygame.image.load(Newlit).convert_alpha()
+            self.SCREEN.blit(NewImage,(self.mouseBeingMovedx, self.mouseBeingMovedy-20))
         pygame.display.flip() # paint screen one time        
         return DeckTbl,self.Status_Text,self.SCREEN 
 
@@ -784,7 +795,7 @@ class screan(pygame.sprite.Sprite):
             elif event.type == MOUSEBUTTONUP:
                 self.handleMouseUp(DeckTbl,self.shit,self.ship,event,Decl,reverseforward,bogo)                #        InitGame=True;     
             elif event.type == MOUSEMOTION:
-                qopx,qopy=event.pos     #            popy=event.y                #print(f'mouseMove @ {popx},{popy}')
+                self.handleMouseMove(DeckTbl, event, Decl, reverseforward, bogo)    # get cardNum and use qopx,qopy to move it
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT or event.key == ord('a'):   
                     print('left;')
@@ -832,7 +843,12 @@ class screan(pygame.sprite.Sprite):
     #    else:
     #        DeckTbl=self.ReverseDeck.pop()
     #    return DeckTbl
-
+    def handleMouseMove(self, DeckTbl, event, Decl, reverseforward, bogo):
+        qopx,qopy=event.pos     #            popy=event.y                #print(f'mouseMove @ {popx},{popy}')
+        if self.PrevEvent  == MOUSEBUTTONDOWN:
+            self.cardBeingMoved,DeckTbl= self.WhichCard(DeckTbl,self.BeginPos[0],self.BeginPos[1],Decl,reverseforward,bogo)
+            self.mouseBeingMoved=True
+            self.mouseBeingMovedx=qopx;self.mouseBeingMovedy=qopy-30
     def handleDoubleClick(self,DeckTbl,event,Decl,reverseforward,bogo):
         ropx,ropy=event.pos
         self.BeginPos = (ropx,ropy)
@@ -867,13 +883,22 @@ class screan(pygame.sprite.Sprite):
             reverseforward.ReverseDecc=reverseforward.AppendDeck(DeckTbl,reverseforward.ReverseDecc,self.loaditnow)
             return self.Status_Text, Decl.DestryDiscard(Discard,DeckTbl)
         #if CardBegy       
+    def WhichCard(self,DeckTbl,popx,popy,Decl,reverseforward,bogo):
+        Discard=[] 
+        Discard,DeckTbl=Decl.CreatDiscard(DeckTbl)          #       for pin in range(XCardSlots):            Discard.append(DeckTbl[pin][0])
+        CardBegx1, CardBegy1, CardEndx, CardEndy, MultipleCards = Decl.getCardXY(DeckTbl, popx, popy, 0)
+        DeckTbl =  Decl.DestryDiscard(Discard,DeckTbl)
+        return DeckTbl[CardBegx1][CardBegy1],DeckTbl
+
     def handleMouseDown(self,DeckTbl,event,Decl,reverseforward,bogo):#,DeckTbl,shit,ship,Decl):
         popx,popy=event.pos
+        self.PrevEvent=str(event.type)
         self.BeginPos = (popx,popy)
         self.shit=popx
         self.ship=popy        #        poopy = DeckTbl[0][0]
         self.Status_Text="";        print(f"mous down @ {popx},{popy}")
         timersetA=False
+        self.cardBeingMoved, DeckTbl = self.WhichCard(DeckTbl,popx,popy,Decl,reverseforward,bogo)
         #TODO: check if there is a place to move card(s) and enough
         #isv alidmove(Move=False)
         if self.timerA == 0:
@@ -892,6 +917,7 @@ class screan(pygame.sprite.Sprite):
             return
     def handleMouseUp(self,DeckTbl,popx,popy,event,Decl,reverseforward,bogo):
         opox,opoy = event.pos
+        self.PrevEvent=str(event.type)
         but1=event.button        #shit=Begpos[0]        #ship=Begpos[1]        #self.oop=(shit,ship)
         self.Enditp=(opox,opoy)
         countofAcesSkipped=0
@@ -918,7 +944,7 @@ class screan(pygame.sprite.Sprite):
                 pygame.draw.rect(self.SCREEN, self.color, self.input_box, 2)
                 if didyouwin:                    
                     lit1=f"C:/Users/Brice/source/repos/LearningPy/LearningPy/cardimagesRB/{str(0)}.png"
-                    PenguinImage = pygame.image.load(lit1).convert()                 
+                    PenguinImage = pygame.image.load(lit1).convert_alpha()                 
                     for lous in range(8):
                         self.SCREEN.blit(PenguinImage, (XPOS[lous],YPOS[1]))
                     bogo.updateWon()
@@ -932,6 +958,9 @@ class screan(pygame.sprite.Sprite):
                     for dede in reverseforward.ReverseDecc:
                         ReverseHistory.append(dede)        
                     reverseforward.ReverseDecc=reverseforward.AppendDeck(DeckTbl,reverseforward.ReverseDecc,self.loaditnow)
+            else:
+                if self.Status_Text != "":
+                    print(self.Status_Text)
     def INITGAME(self,Decl,reverseforward,bogo):    #Deck=deck(DeckTable,Discard,SCREEN)
 
         DeclTbl=[]
