@@ -484,6 +484,9 @@ def dispatch_dict(operator: str, x: int, y: int) -> int:
             'div': lambda: x / y,
             }.get(operator, lambda: None)()
 
+def addit(x, y):
+    return x + y
+    
 def check(list1, val):
     return(all(x > val for x in list1))
 
@@ -609,4 +612,21 @@ if __name__ == "__main__":
     #MyClass.classmethod()    ('class method called', <class MyClass at 0x101a2f4c8>)
     #MyClass.staticmethod()    'static method called'
     #MyClass.method()    #TypeError:     #    "unbound method method() must be called with MyClass "    #    "instance as first argument (got nothing instead)"
-  
+    #LAMBDAs# The lambda keyword in Python provides a shortcut for declaring small and anonymous functions:
+
+    add = lambda x, y: x + y
+    add(5, 3)    #    8
+
+    # You could declare the same add()     # function with the def keyword:
+
+    addit(5, 3)    #    8
+
+    # So what's the big fuss about?
+    # Lambdas are *function expressions*:
+    (lambda x, y: x + y)(5, 3)    #    8
+
+    # • Lambda functions are single-expression functions that are not necessarily bound
+    # to a name (they can be anonymous).
+
+    # • Lambda functions can't use regular Python statements and always include an
+    # implicit `return` statement.
