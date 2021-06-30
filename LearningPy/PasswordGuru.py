@@ -1,9 +1,10 @@
 from collections import namedtuple, Counter
-import itertools
-import json, collections
+import itertools, json, collections, math, timeit, heapq, contextlib
+import datetime, ipaddress, urllib
 from os import X_OK
 from typing import Collection
-
+#import urllib,urllib.request,urllib.parse,urllib.response,urllib.error#, urllib3, Requests
+from urllib import request, parse, response, error
 from pygame import key
 
 """     https://realpython.com/documenting-python-code/
@@ -128,6 +129,11 @@ class Animal:
         :rtype: list
         """
 # @classmethod vs @staticmethod vs "plain" methods What's the difference?
+
+class MyClassA: pass
+class ABaseClass: pass
+class ASubClass(ABaseClass): pass
+class Spin̈alTap: pass
 
 class MyClass:
     def method(self):
@@ -309,7 +315,7 @@ myfunc(**dict_vec)
 #////////////////***********Stop Writing Classes************\\\\\\\\\\\\\\\\\\\
 Talk1 = {"Title":"Stop Writing Classes","Author":"Jack Diederich","Link":"https://www.youtube.com/watch?v=o9pEzgHorH0","Summary":"Classes are great but they are also overused.  This talk will describe examples of class overuse taken from real world code and refactor the unnecessary classes, exceptions, and modules out of them."}
 #Wrong:
-import urllib,urllib.request,urllib.parse,urllib.response,urllib.error#, urllib3, Requests
+#im port urllib, urllib.request, urllib.parse, urllib.response, urllib.error#, urllib3, Requests
 class API:
     def __init__(self,key):
         self.header = dict(apikey=key)
@@ -348,7 +354,7 @@ class newAPI:
             #services.crawler.crawlerexceptions.ArticleNotFoundException
         except SyntaxError:#ArticleNotFound
             pass
-import heapq
+
 class Heap(object):
     def __init__(self,data=None,key=lambda x:None):
         self.heap = data or []
@@ -423,7 +429,6 @@ class GameOfLife():
     #    glider = self.advance(glider)
     #print(glider)
         
-import timeit
 class ThetimeitmoduleA:
     def Thetimeitmodule():
         strTimeit=f" The 'timeit' module lets you measure the execution time of small bits of Python code."
@@ -458,7 +463,6 @@ class ThetimeitmoduleA:
     # • "is" expressions evaluate to True if two #   variables point to the same object
 
     # • "==" evaluates to True if the objects #   referred to by the variables are equal
-import contextlib
 
 def myfunc(a: int, b:int) -> int:
     return a + b
@@ -483,6 +487,11 @@ def dispatch_dict(operator: str, x: int, y: int) -> int:
             'mul': lambda: x * y,
             'div': lambda: x / y,
             }.get(operator, lambda: None)()
+
+# Functions have a similar feature:
+def myfuncA(): pass
+
+
 
 def addit(x, y):
     return x + y
@@ -538,7 +547,7 @@ if __name__ == "__main__":
     dispatch_dict('mul', 2, 8)      #16
     dispatch_if('unknown', 2, 8)    #None
     dispatch_dict('unknown', 2, 8)  #None
-    import itertools
+
     cnt=0
     for p in itertools.permutations('ABCD'):
         print(f"p{str(0) if cnt<10 else ''}{cnt}={p}",end="    ")
@@ -573,7 +582,7 @@ if __name__ == "__main__":
     print(f"{c=}    c.most_common(3)={c.most_common(3)}")                    #Counter({'l': 3, 'o': 2, 'e': 1, 'd': 1, 'h': 1, 'r': 1, 'w': 1})    print(c.most_common(3))     #[('l', 3), ('o', 2), ('e', 1)]
     # When To Use __repr__ vs __str__?
     # Emulate what the std lib does:
-    import datetime
+    
     today = datetime.date.today()
 
     # Result of __str__ should be readable:
@@ -630,3 +639,72 @@ if __name__ == "__main__":
 
     # • Lambda functions can't use regular Python statements and always include an
     # implicit `return` statement.
+
+
+    # Python 3 has a std lib module for working with IP addresses:
+    #im port ipaddress
+    obj = MyClassA()
+    # Learn more here: https://docs.python.org/3/library/ipaddress.html
+    print(f"{ipaddress.ip_address('192.168.1.2')=}")     #IPv4Address('192.168.1.2')
+    print(f"{ipaddress.ip_address('2001:af3::')=}")      #IPv6Address('2001:af3::')
+    # You can get the name of an object's class as a string:
+    print(f"{(obj.__class__.__name__)=}, {(myfuncA.__name__)=}")
+    #obj.__class__.__name__          #'MyClass'
+    #myfuncA.__name__                 #'myfunc'
+    
+    # You can check for class inheritance relationships with the "issubclass()" built-in:
+
+    print(f"issubclass(SubClass, BaseClass)={issubclass(ASubClass, ABaseClass)}",end=",  ")     #True
+    print(f"issubclass(SubClass, object)={issubclass(ASubClass, object)}",end=",  ")           #True
+    print(f"issubclass(BaseClass, SubClass)={issubclass(ABaseClass, ASubClass)}")     #False
+
+    my_dict = {"a": 1, "b": 2, "c": 3}
+        #for key in my_dict:
+	    #print(key)abc💡 Tip: you can assign any valid name to the loop variable.
+        #To iterate over the values, we use:    for <var> in <dictionary_variable>.values():    <code>
+        #For example: my_dict = {"a": 1, "b": 2, "c": 3}       
+        #for value in my_dict.values():	print(value)    #	123
+        #To iterate over the key-value pairs, we use:    for <key>, <value> in <dictionary_variable>.items():    <code>
+        #💡 Tip: we are defining two loop variables because we want to assign the key and the value to variables that we can use in the loop.    my_dict = {"a": 1, "b": 2, "c": 3}
+    for key, value in my_dict.items():    #
+	    print(f"{key=}, {value=}, {(key,value)=}", end=";    ")
+    else:
+        print()
+        #a 1,b 2,c 3
+        #If we define only one loop variable, this variable will contain a tuple with the key-value pair:
+        #>>> my_dict = {"a": 1, "b": 2, "c": 3}    #for pair in my_dict.items():	print(pair)
+        #('a', 1),('b', 2),('c', 3)
+    
+    color = "Blue"
+    if color == "Blue":
+        print(f"This is my favorite {color=}", end="    ")
+
+    word = "Hello"
+    for i, char in enumerate(word, 2):
+        if i == 6:
+            print (f"{i},{char}    <tuple_variable>[start:stop:step]")
+        else:
+    	    print(i, char, end=",  ")    #2 H, 3 e, 4 l, 5 l, 6 o
+    sample_data = [
+        {"id": 1, "name": "Amol", "project": False},
+        {"id": 2, "name": "Kiku", "project": False},
+        {"id": 3, "name": None, "project": False},
+        {"id": 4, "name": "Lini", "project": True},
+        {"id": 4, "name": None, "project": True},    ]
+    
+    print("With Python 3.8 Walrus Operator    ------------------------    ", end="    ") 
+    for entry in sample_data: 
+        if name := entry.get("name"):
+            print(f'Found Person: {name}', end=", ")
+
+    print("\nWithout         Walrus Operator    ------------------------    ", end=", ") 
+    for entry in sample_data:
+        name = entry.get("name")
+        if name:
+            print(f'Found Person: {name}', end=", ")
+    #im port math
+    # Python 3 allows unicode variable names:
+    π = math.pi
+    Spin̈alTap()     #<Spin̈alTap object at 0x10e58d908>
+    # Only letter-like characters work, however:
+    #🍺 = "beer"   #SyntaxError:"invalid character in identifier"
