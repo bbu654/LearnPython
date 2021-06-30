@@ -668,7 +668,7 @@ class screan(pygame.sprite.Sprite):
         self.timerA=timerA
         self.rd=[]
         self.fd=[]
-        self.loaditnow='Al'
+        self.loaditnow='Am'
         # Declaring namedtuple()   
         self.OrigDeck=DeckTbl
         self.Begpos = namedtuple('BeginPos',['beginx','beginy'])   
@@ -845,10 +845,12 @@ class screan(pygame.sprite.Sprite):
     #    return DeckTbl
     def handleMouseMove(self, DeckTbl, event, Decl, reverseforward, bogo):
         qopx,qopy=event.pos     #            popy=event.y                #print(f'mouseMove @ {popx},{popy}')
-        if self.PrevEvent  == MOUSEBUTTONDOWN:
+        if self.PrevEvent  == str(pygame.MOUSEBUTTONDOWN):
             self.cardBeingMoved,DeckTbl= self.WhichCard(DeckTbl,self.BeginPos[0],self.BeginPos[1],Decl,reverseforward,bogo)
-            self.mouseBeingMoved=True
-            self.mouseBeingMovedx=qopx;self.mouseBeingMovedy=qopy-30
+            self.mouseBeingMoved=True;    self.mouseBeingMovedx=qopx;    self.mouseBeingMovedy=qopy-30
+            DeckTbl,self.Status_Text,self.SCREEN = self.fillScreen(DeckTbl,self.Status_Text,self.SCREEN)
+        else:
+            print(f"{self.PrevEvent=}, {pygame.MOUSEBUTTONDOWN=}")
     def handleDoubleClick(self,DeckTbl,event,Decl,reverseforward,bogo):
         ropx,ropy=event.pos
         self.BeginPos = (ropx,ropy)
