@@ -886,10 +886,10 @@ class screan(pygame.sprite.Sprite):
             return self.Status_Text, Decl.DestryDiscard(Discard,DeckTbl)
         #if CardBegy       
     def WhichCard(self,DeckTbl,popx,popy,Decl,reverseforward,bogo):
-        Discard=[] 
-        Discard,DeckTbl=Decl.CreatDiscard(DeckTbl)          #       for pin in range(XCardSlots):            Discard.append(DeckTbl[pin][0])
+        #Discard=[] 
+        #Discard,DeckTbl=Decl.CreatDiscard(DeckTbl)          #       for pin in range(XCardSlots):            Discard.append(DeckTbl[pin][0])
         CardBegx1, CardBegy1, CardEndx, CardEndy, MultipleCards = Decl.getCardXY(DeckTbl, popx, popy, 0)
-        DeckTbl =  Decl.DestryDiscard(Discard,DeckTbl)
+        #DeckTbl =  Decl.DestryDiscard(Discard,DeckTbl)
         return DeckTbl[CardBegx1][CardBegy1],DeckTbl
 
     def handleMouseDown(self,DeckTbl,event,Decl,reverseforward,bogo):#,DeckTbl,shit,ship,Decl):
