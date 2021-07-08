@@ -1,6 +1,7 @@
 from collections import namedtuple, Counter
 import itertools, json, collections, math, timeit, heapq, contextlib
-import datetime, ipaddress, urllib
+from sqlite3.dbapi2 import version
+import datetime, ipaddress, urllib, sys
 from os import X_OK
 from typing import Collection
 #import urllib,urllib.request,urllib.parse,urllib.response,urllib.error#, urllib3, Requests
@@ -54,6 +55,8 @@ Let’s take a simple example of a data class that represents an Animal.
     This class will contain a few class properties, 
     instance properties, a __init__, and a single instance method:
 """
+global pybrice
+pybrice="pyBrice"
 class Animal:
     """
     A class used to represent an Animal
@@ -697,14 +700,22 @@ if __name__ == "__main__":
         if name := entry.get("name"):
             print(f'Found Person: {name}', end=", ")
 
-    print("\nWithout         Walrus Operator    ------------------------    ", end=", ") 
+    print("\nWithout         Walrus Operator    ------------------------    ", end="    ") 
     for entry in sample_data:
         name = entry.get("name")
         if name:
             print(f'Found Person: {name}', end=", ")
     #im port math
     # Python 3 allows unicode variable names:
-    π = math.pi
-    Spin̈alTap()     #<Spin̈alTap object at 0x10e58d908>
+    π = math.pi    #    Spin̈alTap()     #<Spin̈alTap object at 0x10e58d908>
     # Only letter-like characters work, however:
     #🍺 = "beer"   #SyntaxError:"invalid character in identifier"
+    print(f"\n{(π)=}, {(Spin̈alTap())=}. Let me count the ways ==> PYTHON!!!\n")
+    # "globals()" / "locals()" returns a dict with all global/local
+    # variables in the current scope:
+    print(f" locals()={locals()}");print;print
+    #print(f"globals()={globals()}")
+    i=0;j=0
+    for i,j in globals().items():
+        print(f"{i}={j}")
+    print(sys.version)

@@ -222,7 +222,7 @@ class deck:
                 for pop,card in enumerate(self.cards[ick]):
                     self.fillColx(ick,cards[ick][pop])
                     #self.DeckTbl[ick].append(card)
-            self.fillDeckTbl(DeckTbl)
+                self.fillDeckTbl(DeckTbl)
             print(f"self.DeckTbl={self.DeckTbl}")
         else:
             cards = list(range(1,53)) 
@@ -274,6 +274,14 @@ class deck:
         if xMod==5 and not xVal in self.col5:    self.col5.append(xVal)
         if xMod==6 and not xVal in self.col6:    self.col6.append(xVal)
         if xMod==7 and not xVal in self.col7:    self.col7.append(xVal)
+    def hint(self,DeckTbl,SCREEN):
+        # create a list of valid moves 
+        # execute each move
+        # wait 2 secs go to b
+        #      first do the single card moves
+        #      then, the two card moves, three card moves
+        #
+        return None
     def HaveYouWon(self,DeckTbl,SCREEN):
         won=True
         Discard,DeckTbl=self.CreatDiscard(DeckTbl)        #for pin in range(XCardSlots):        #    Discard.append(DeckTbl[pin][0])
