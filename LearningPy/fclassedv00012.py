@@ -279,7 +279,7 @@ class deck:
         # execute each move
         # wait 2 secs go to b
         #      first do the single card moves
-        #      then, the two card moves, three card moves
+        #      then, the two card moves, three card moves   
         #
         return None
     def HaveYouWon(self,DeckTbl,SCREEN):
@@ -676,7 +676,7 @@ class screan(pygame.sprite.Sprite):
         self.timerA=timerA
         self.rd=[]
         self.fd=[]
-        self.loaditnow='An'
+        self.loaditnow='Ao'
         # Declaring namedtuple()   
         self.OrigDeck=DeckTbl
         self.Begpos = namedtuple('BeginPos',['beginx','beginy'])   

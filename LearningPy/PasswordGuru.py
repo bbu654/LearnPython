@@ -1,7 +1,7 @@
 from collections import namedtuple, Counter
 import itertools, json, collections, math, timeit, heapq, contextlib
 from sqlite3.dbapi2 import version
-import datetime, ipaddress, urllib, sys
+import datetime, ipaddress, urllib, sys, faulthandler
 from os import X_OK
 from typing import Collection
 #import urllib,urllib.request,urllib.parse,urllib.response,urllib.error#, urllib3, Requests
@@ -494,6 +494,30 @@ def dispatch_dict(operator: str, x: int, y: int) -> int:
 # Functions have a similar feature:
 def myfuncA(): pass
 
+    # Python's `for` and `while` loops support an `else` clause 
+    # that executes only if the loops terminates without hitting 
+    # a `break` statement.
+
+
+def contains(haystack, needle):
+    """     Throw a ValueError if `needle` not in `haystack`.     """
+    for item in haystack:
+        if item == needle:
+            print('needle found')
+            break
+    else:
+        # The `else` here is a "completion clause" that runs only
+        # if the loop ran to completion without hitting a `break` statement.
+        print('Needle not found')
+
+
+# Personally, I'm not a fan of the `else` "completion clause" in
+# loops because I find it confusing. I'd rather do something like this:
+def better_contains(haystack, needle):
+    for item in haystack:
+        if item == needle:
+            return
+    raise ValueError('Needle not found')
 
 
 def addit(x, y):
@@ -511,7 +535,11 @@ def file_hanlder(file_name,file_mode):
     file.close()
 
 if __name__ == "__main__":
-
+    # Python 3.3+ has a std lib module for displaying tracebacks
+    # # even when Python "dies", e.g with a segfault:
+    #import faulthandler
+    faulthandler.enable()    # Can also be enabled with "python -X faulthandler"
+    # from the command line. # Learn things: https://docs.python.org/3/library/faulthandler.html
     with file_hanlder("test.txt","w") as f:
        f.write("Test")
 
@@ -718,4 +746,53 @@ if __name__ == "__main__":
     i=0;j=0
     for i,j in globals().items():
         print(f"{i}={j}")
-    print(sys.version)
+    # Virtual Environments ("virtualenvs")  #keep# your project 
+    # dependencies separated. They help you avoid version conflicts
+    # between packages and different versions of the Python runtime.
+    # Before creating & activating a virtualenv:
+    # `python` and `pip` map to the system version of the Python 
+    # interpreter (e.g. Python 2.7)
+    print(f"which python,     /usr/local/bin/python")    #$ which python
+    # Let's create a fresh virtualenv using another version of Python (Python 3):
+    print( "$ python3 -m venv ./venv")
+    # A virtualenv is just a "Python environment in a folder":
+    print("$ ls ./venv,    bin      include    lib      pyvenv.cfg")
+    # Activating a virtualenv configures the# current shell session 
+    # #to use the python (and pip) commands from the virtualenv
+    # folder instead of the global environment:
+    print("$ source ./venv/bin/activate")
+    # Note how activating a virtualenv modifies your shell prompt 
+    # #with a little note showing the name of the virtualenv folder:
+    print('(venv) $ echo "wee!"')
+    # With an active virtualenv, the `python`# command maps to the 
+    # #interpreter binary *inside the active virtualenv*:
+    print("(venv) $ which python,    /Users/dan/my-project/venv/bin/python3")
+    # Installing new libraries and frameworks# with `pip` now installs
+    # them *into the virtualenv sandbox*, leaving your global
+    # environment (and any other virtualenvs) completely unmodified:
+    print("(venv) $ pip install requests")
+    # To get back to the global Python environment, run the following command:
+    print("(venv) $ deactivate")
+    # (See how the prompt changed back to "normal" again?)
+    print('$ echo "yay!"')
+    # Deactivating the virtualenv flipped the# `python` and `pip`
+    # commands back to the global environment:
+    print("$ which python,    /usr/local/bin/python")
+
+    # Python's `for` and `while` loops support an `else` clause 
+    # that executes only if the loops terminates without hitting 
+    # a `break` statement.
+    needle='needle'
+    haystack=[23, 'needle', 0xbadc0ffee]
+    contains(haystack,needle)
+    hayst=[23, 42, 0xbadc0ffee]
+    contains([23, 'needle', 0xbadc0ffee], 'needle')    #None
+    contains(hayst,needle)
+    contains([23, 42, 0xbadc0ffee], 'needle')           #ValueError: "Needle not found"
+
+    # Note: Typically you'd write something like this 
+    # to do a membership test, which is much more Pythonic:
+    if needle not in haystack:
+        raise ValueError('Needle not found')
+    print(f"{sys.version=}")
+
