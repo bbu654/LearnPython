@@ -503,7 +503,7 @@ def contains(haystack, needle):
     """     Throw a ValueError if `needle` not in `haystack`.     """
     for item in haystack:
         if item == needle:
-            print('needle found')
+            print(f'{item=}=={needle=}={item == needle}')
             break
     else:
         # The `else` here is a "completion clause" that runs only
@@ -794,5 +794,43 @@ if __name__ == "__main__":
     # to do a membership test, which is much more Pythonic:
     if needle not in haystack:
         raise ValueError('Needle not found')
+    # Pythonic ways of checking if all items in a list are equal:
+    
+    # I ordered those from "most Pythonic" to "least Pythonic" 
+    # and  "least efficient" to "most efficient". 
+    # The len(set()) solution is idiomatic,  but constructing 
+    # a set is less efficient memory and speed-wise.
+    lst = ['a', 'a', 'a']
+
+    #len(set(lst)) == 1                      #True
+    print(f"len(set(lst)) == 1= {len(set(lst)) == 1}", end="   ")
+    #all(x == lst[0] for x in lst)           #True
+    print(f"all(x == lst[0] for x in lst)= {all(x == lst[0] for x in lst)}", end="    ")
+    #lst.count(lst[0]) == len(lst)           #True
+    print(f"lst.count(lst[0]) == len(lst)= {lst.count(lst[0]) == len(lst)}")
+
+    # In Python 3.4+ you can use contextlib.suppress() to selectively
+    # ignore specific exceptions:
+
+    # contextlib.suppress docstring: 
+    #
+    # "Return a context manager that suppresses any     exceptions 
+    #  if they occur in the body of a with statement 
+    #  and then resumes execution with the first statement following 
+    #  the end of the with statement."
+    import contextlib, os
+
+    with contextlib.suppress(FileNotFoundError):
+        os.remove('somefile.tmp')
+
+    # This is equivalent to:
+
+    try:
+        os.remove('somefile.tmp')
+    except FileNotFoundError:
+        pass
+
+
+
     print(f"{sys.version=}")
 
