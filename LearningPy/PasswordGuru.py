@@ -510,6 +510,15 @@ def contains(haystack, needle):
         # if the loop ran to completion without hitting a `break` statement.
         print('Needle not found')
 
+# In Python 3 you can use a bare "*" asterisk in
+# function parameter lists to force the caller to 
+# use keyword arguments for certain parameters:
+
+def f_hello(a, b, *, c='x', d='y', e='z'):
+    ftemp2= a + b
+
+    return f'Hello: {c=}, {d=}, {e=}, {ftemp2=}'
+
 
 # Personally, I'm not a fan of the `else` "completion clause" in
 # loops because I find it confusing. I'd rather do something like this:
@@ -830,7 +839,15 @@ if __name__ == "__main__":
     except FileNotFoundError:
         pass
 
+    # In Python 3 you can use a bare "*" asterisk in
+    # function parameter lists to force the caller to 
+    # use keyword arguments for certain parameters:
 
+    # To pass the value for c, d, and e you will need to 
+    # explicitly pass it as "key=value" named arguments:
+    ########### f(1, 2, 'p', 'q', 'v')         #TypeError: "f() takes 2 positional arguments but 5 were given"
+    #f(1, 2)
+        #'Hello'
 
-    print(f"{sys.version=}")
+    print(f"{f_hello(1, 2, c='p', d='q',e='v')}, {sys.version=}")
 
