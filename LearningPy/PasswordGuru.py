@@ -519,6 +519,11 @@ def f_hello(a, b, *, c='x', d='y', e='z'):
 
     return f'Hello: {c=}, {d=}, {e=}, {ftemp2=}'
 
+# Python 3.5+ allows passing multiple sets of keyword arguments 
+# ("kwargs") to a function within a single call, using the "**" syntax:
+def process_data(a, b, c, d):
+       return(a, b, c, d)
+
 
 # Personally, I'm not a fan of the `else` "completion clause" in
 # loops because I find it confusing. I'd rather do something like this:
@@ -849,5 +854,14 @@ if __name__ == "__main__":
     #f(1, 2)
         #'Hello'
 
-    print(f"{f_hello(1, 2, c='p', d='q',e='v')}, {sys.version=}")
+    # Python 3.5+ allows passing multiple sets of keyword arguments 
+    # ("kwargs") to a function within a single call, using the "**" syntax:
+    
+    x = {'a': 1, 'b': 2}
+    y = {'c': 3, 'd': 4}
 
+    #process_data(**x, **y)           #    1 2 3 4
+
+    print(f"process_data={process_data(**x, **y)}, {process_data(**x, c=23, d=42)}")    #    1 2 23 42
+    print(f"{f_hello(1, 2, c='p', d='q',e='v')}, {sys.version=}")
+    
