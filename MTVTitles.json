@@ -1,0 +1,694 @@
+{
+    "Pops": [
+        {
+            "Title": "4400 The",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "A Good Day To Die Hard",
+            "DiscType": "Both",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Adventures in Babysitting",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Amazing Spiderman 2 The",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "American Pie Reunion",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "American Pie Trilogy",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "American Sniper",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Terminator Sarah Connor Chronicles S1",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Aquaman",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Ark of Truth StarGate",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Avengers",
+            "DiscType": "3DBoth",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Avengers Age of Ultron",
+            "DiscType": "3DBoth",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Avengers Infinity War",
+            "DiscType": "Bluray",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Back to the Future I",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Back to the Future II",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Back to the Future III",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Batman Vs Superman Dawn of Justice",
+            "DiscType": "Bluray",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Beauty & the Beast",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Big",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Big Hero 6",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Black Panther",
+            "DiscType": "Bluray",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Broken Arrow",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Captain America First Avenger The",
+            "DiscType": "3DBoth",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Captain America Winter Solder The",
+            "DiscType": "Bluray",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Captain America Civil War",
+            "DiscType": "Bluray",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Captain Marvel",
+            "DiscType": "Bluray",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Chain Reaction",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Chuck",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Coco",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Commando",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Day of the Doctor Who The",
+            "DiscType": "3DBoth",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "DeadPool 1",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Death Wish 2 3 4 Crackdown Bronson",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "DeepWater Horizon",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Die Hard",
+            "DiscType": "Both",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Die Harder2",
+            "DiscType": "Both",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Die Hard w a Vengeance",
+            "DiscType": "Both",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Divergent",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Eagle Eye",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Elementary Season 1",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Elementary Season 2",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Elementary Season 3",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Fantastic Beasts",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Fifth Element The",
+            "DiscType": "Bluray",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Finding Dory",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Firefly",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Frequency",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Fringe",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Frozen",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Fun with Dick and Jane",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Godzillla",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Gran Torino",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Green Hornet",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Guardians of the Galaxy",
+            "DiscType": "3DBoth",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "History of Violence A",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Hot Fuzz",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "HTTY Dragon 1",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "HTTY Dragon 3 Hidden World",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Interstellar",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Iron Man",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Iron Man 2",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Iron Man 3",
+            "DiscType": "3DBoth",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Italian Job The",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Jack Ryan Shadow Recruit",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "John Wayne 25 Films",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Jurassic World",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Kingsmen Golden Circle",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Lego Movie The",
+            "DiscType": "Bluray",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Live Free or Die Hard",
+            "DiscType": "Both",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Live Die Repeat",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Logan",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Malificent",
+            "DiscType": "Both",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Man of Steel",
+            "DiscType": "Bluray",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "MazeRunner2 Scorch Trials",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "MazeRunner3 Death Cure",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Merlin 1-5 All",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "MI5 Rogue Nation",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Mr Mrs Smith",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Now You See Me",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Once Upon a Time S4",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Percy Jackson Sea of Monsters",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Pokemon The First",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Pokemon 2000",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Pokemon The Third",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Ready Player One",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Revolution Complete Series",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Robocop 1987",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Rockford Files",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Roswell",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Saved",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Serenity",
+            "DiscType": "Both",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "SG-1",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Shaun of the Dead",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Shazam!",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Snow White Huntsman",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Speed",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Spiderman Homecoming",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Spiderman Far From Home",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "ST0 Captains Summit",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "ST1 Motion Picture",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "ST2 Wrath of Khan The",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "ST3 Search For Spock",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "ST4 Voyage Home",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "ST5 Final Frontier",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "ST6 Undiscovered Country",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "ST12 Into Darkness",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Strain The",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "SW Rogue One",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "SW Empire Strikes Back",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "SW The Force Awakens",
+            "DiscType": "Both",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "SW Return of the Jedi",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "SW A New Hope",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Taken 2",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Teen Wolf",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Terminator The",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Thor",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Titan A.E.",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Touch",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Transformers Revenge of Fallen",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Transformers Age Extinction",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Transformers Dark of Moon",
+            "DiscType": "3DBoth",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Transporter The",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Tron Legacy",
+            "DiscType": "3DBoth",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "True Blood S1",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Velarian City of 1000 Planets",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Veronica Mars",
+            "DiscType": "Bluray",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Warehouse 13",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Worlds End The",
+            "DiscType": "DVD",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "World War Z",
+            "DiscType": "Both",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Wolverine The",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "XMen",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "XMen United X2",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "XMen Last Stand",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "XMen Origins Wolverine",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "XMen First Class",
+            "DiscType": "Bluray",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Xmen Apocalypse",
+            "DiscType": "Both",
+            "DigitalCopy": "False"
+        },
+        {
+            "Title": "Xmen Days of Future Past",
+            "DiscType": "Bluray",
+            "DigitalCopy": "True"
+        },
+        {
+            "Title": "Xmen Days of Future Past Rogue Cut",
+            "DiscType": "DVD",
+            "DigitalCopy": "True"
+        }
+    ]
+}
