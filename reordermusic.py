@@ -8,8 +8,8 @@ trackname = ""
 albumTitl = ""
 artis = ""
 tracknam = ""
-
-
+playlisttime = 0
+numlines = 0
 # PYTHON: file read and write loop recipe cookbook
 Path = "C:/Users/Brice/source/Resources/spotifyLedBeatleTracks2023-04-06.txt"
 nameString = '"name":'
@@ -52,6 +52,7 @@ with open("C:/Users/Brice/source/Resources/newfile.txt", "w") as g:
                 # 234567890123456
                 durationA = literal.strip()
                 duration = durationA.replace('"duration_ms": ', "")
+                playlisttime += int(duration)
             if 'is_playable": true' in literal:
                 playable = "Playable"
 
@@ -61,5 +62,9 @@ with open("C:/Users/Brice/source/Resources/newfile.txt", "w") as g:
         if len(newline) > 4:
             # Write the line to the new file
             # g.write(oldline)
-            lineseparator = os.linesep
+            lineseparator = "\n"  # os.linesep
+            numlines += 1
             g.write(f"{newline}{lineseparator}")
+    g.write(
+        f"h:m:s={(int(playlisttime/(1000*60*60))%24)}:{int((playlisttime/(1000*60))%60)}:{int((playlisttime/1000)%60)}={playlisttime}, in millisec. {numlines=}"
+    )
